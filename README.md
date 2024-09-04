@@ -26,3 +26,5 @@ These notebooks are detailed recreations of lessons from [Andrej Karpathy](https
 These notebooks are standalone experiments or explorations of various AI/ML concepts.
 
 - **[Linear Classifier - Logistic Regression Model](https://colab.research.google.com/github/tsilva/aiml-notebooks/blob/main/misc/000-linear-classifier-logistic-regression.ipynb)**: Builds a linear classifier for binary classification using logistic regression (using PyTorch). The dataset consists of 2D points clustered into two regions that can be separated by a linear model. 
+
+- In progress...
