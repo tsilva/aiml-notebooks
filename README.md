@@ -22,6 +22,10 @@ These notebooks are detailed recreations of lessons from [Andrej Karpathy](https
 
 5. **Optimizing Neural Networks: Initializations, Activations, and Gradient Flow - Part 2**: In progress...
 
+6. **Becoming a Backprop Ninja**: In progress...
+
+7. **WaveNet Character-Level Language Model**: In progress..
+
 ---
 
 ## Miscellaneous
