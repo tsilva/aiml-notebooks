@@ -40,8 +40,6 @@ These notebooks are a summarized version of what I learned from [Hugging Face - 
 2. **Hugging Face - NLP Course - Part 2**:
    _-- Work in progress..._
 
-## Deep Reinforcement Learning
-
 ---
 
 ## Miscellaneous
