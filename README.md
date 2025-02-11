@@ -21,13 +21,13 @@ These notebooks are detailed recreations of lessons from [Andrej Karpathy](https
    _-- Based on the lesson [Building makemore Part 3: Activations & Gradients, BatchNorm](https://www.youtube.com/watch?v=P6sfmUTpUmc)._ 
 
 5. **Optimizing Neural Networks: Initializations, Activations, and Gradient Flow - Part 2**:
-   _-- Work in progress...
+   _-- Work in progress..._ 
 
 7. **Becoming a Backprop Ninja**:
-   _-- Work in progress...
+   _-- Work in progress..._ 
 
 9. **WaveNet Character-Level Language Model**:
-   _-- Work in progress...
+   _-- Work in progress..._ 
 
 ---
 
@@ -38,7 +38,7 @@ These notebooks are a summarized version of what I learned from [Hugging Face - 
 1. **[Hugging Face - NLP Course - Part 1](https://colab.research.google.com/github/tsilva/aiml-notebooks/blob/main/hugging-face-nlp-course/001-hf-nlp-course-part-1.ipynb)**: The **Hugging Face NLP Course (Chapters 1-4)** covers using **pretrained transformer models** for various NLP tasks, **fine-tuning** them on custom data, and **sharing** models via the **Hugging Face Hub**, all with minimal code. 🚀
 
 2. **Hugging Face - NLP Course - Part 2**:
-   _-- Work in progress...
+   _-- Work in progress..._
 
 ## Deep Reinforcement Learning
 
