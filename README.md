@@ -35,7 +35,8 @@ These notebooks are detailed recreations of lessons from [Andrej Karpathy](https
 
 These notebooks are a summarized version of what I learned from [Hugging Face - NLP Course](https://huggingface.co/learn/nlp-course/chapter1/1).
 
-1. **[Hugging Face - NLP Course - Part 1](https://colab.research.google.com/github/tsilva/aiml-notebooks/blob/main/hugging-face-nlp-course/001-hf-nlp-course-part-1.ipynb)**: The **Hugging Face NLP Course (Chapters 1-4)** covers using **pretrained transformer models** for various NLP tasks, **fine-tuning** them on custom data, and **sharing** models via the **Hugging Face Hub**, all with minimal code. 🚀
+1. **[Hugging Face - NLP Course - Part 1]**: 
+   _-- Work in progress..._
 
 2. **Hugging Face - NLP Course - Part 2**:
    _-- Work in progress..._
