@@ -20,28 +20,7 @@ These notebooks are detailed recreations of lessons from [Andrej Karpathy](https
 4. **[Optimizing Neural Networks: Initializations, Activations, and Gradient Flow - Part 1](https://colab.research.google.com/github/tsilva/aiml-notebooks/blob/main/karpathy-zero-to-hero/004-optimizing-neural-networks-part-1.ipynb)**: Optimizes the previously created **MLP Character-Level Language Model**. Covers **Kaiming Initialization**, gradient flow analysis, and **Batch Normalization** to improve model performance and training stability. Implements these techniques and demonstrates their impact on the model.  
    _-- Based on the lesson [Building makemore Part 3: Activations & Gradients, BatchNorm](https://www.youtube.com/watch?v=P6sfmUTpUmc)._ 
 
-5. **Optimizing Neural Networks: Initializations, Activations, and Gradient Flow - Part 2**:
-   _-- Work in progress..._ 
-
-7. **Becoming a Backprop Ninja**:
-   _-- Work in progress..._ 
-
-9. **WaveNet Character-Level Language Model**:
-   _-- Work in progress..._ 
-
----
-
-## Hugging Face - NLP Course
-
-These notebooks are a summarized version of what I learned from [Hugging Face - NLP Course](https://huggingface.co/learn/nlp-course/chapter1/1).
-
-1. **[Hugging Face - NLP Course - Part 1]**: 
-   _-- Work in progress..._
-
-2. **Hugging Face - NLP Course - Part 2**:
-   _-- Work in progress..._
-
----
+_-- More to come... work in progress..._ 
 
 ## Miscellaneous
 
