@@ -1,0 +1,12 @@
+tasks:
+  - name: standardize_indentation
+    description: "Standardize Python code indentation to 2 spaces"
+  
+  - name: fix_colab_links
+    description: "Fix 'Open in Colab' links to point to the correct GitHub repository"
+  
+  - name: clean_markdown
+    description: "Clean and make markdown cells more concise"
+  
+  - name: emojify
+    description: "Add emojis to markdown cells to improve engagement"
