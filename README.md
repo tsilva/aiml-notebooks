@@ -1,6 +1,27 @@
-# aiml-notebooks
+# 🧠 AIML Notebooks
 
-This repository contains my AI/ML experiments. Each notebook either recreates lessons I've learned or explores concepts I'm studying. I add more detail than the original lessons to solidify my understanding and create a reference for future review. My process is simple: complete a lesson, write a notebook about it, then iterate on it, cleaning up and expanding the content until I've clarified everything I don't fully understand. As a result, these notebooks often are more verbose than the original material (for better or worse).
+🔬 A collection of AI/ML experiments, detailed recreations, and concept explorations for self-learning and reference.
+
+## 📖 Overview
+
+This repository contains detailed AI/ML notebooks that recreate lessons from courses like Andrej Karpathy's "Neural Networks: Zero to Hero" and explore various machine learning concepts. Each notebook expands on original material with additional explanations to solidify understanding and serve as a comprehensive reference. The notebooks are deliberately more detailed than the source material to clarify complex concepts.
+
+## 🚀 Installation
+
+To set up the environment:
+
+```bash
+# Clone the repository
+git clone https://github.com/tsilva/aiml-notebooks.git
+cd aiml-notebooks
+
+# Set up the conda environment
+source activate-env.sh
+```
+
+## 🛠️ Usage
+
+The notebooks are organized by course or topic:
 
 ---
 
@@ -27,3 +48,9 @@ _-- More to come... work in progress..._
 These notebooks are standalone experiments or explorations of various AI/ML concepts.
 
 - **[Linear Classifier - Logistic Regression Model](https://colab.research.google.com/github/tsilva/aiml-notebooks/blob/main/misc/000-linear-classifier-logistic-regression.ipynb)**: Builds a linear classifier for binary classification using logistic regression (using PyTorch). The dataset consists of 2D points clustered into two regions that can be separated by a linear model. 
+
+You can run these notebooks locally in Jupyter or open them directly in Google Colab using the links above.
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
