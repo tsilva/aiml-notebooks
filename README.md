@@ -1,5 +1,9 @@
 # 🧠 aiml-notebooks
 
+<p align="center">
+  <img src="logo.jpg" alt="Logo" width="400"/>
+</p>
+
 🔬 A collection of AI/ML experiments, detailed recreations, and concept explorations for self-learning and reference.
 
 ## 📖 Overview
