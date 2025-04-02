@@ -1,4 +1,4 @@
-# 🧠 AIML Notebooks
+# 🧠 aiml-notebooks
 
 🔬 A collection of AI/ML experiments, detailed recreations, and concept explorations for self-learning and reference.
 
