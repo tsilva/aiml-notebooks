@@ -10,25 +10,6 @@
 
 This repository contains detailed AI/ML notebooks that recreate lessons from courses like Andrej Karpathy's "Neural Networks: Zero to Hero" and explore various machine learning concepts. Each notebook expands on original material with additional explanations to solidify understanding and serve as a comprehensive reference. The notebooks are deliberately more detailed than the source material to clarify complex concepts.
 
-## 🚀 Installation
-
-To set up the environment:
-
-```bash
-# Clone the repository
-git clone https://github.com/tsilva/aiml-notebooks.git
-cd aiml-notebooks
-
-# Set up the conda environment
-source activate-env.sh
-```
-
-## 🛠️ Usage
-
-The notebooks are organized by course or topic:
-
----
-
 ## Neural Networks: Zero to Hero
 
 These notebooks are detailed recreations of lessons from [Andrej Karpathy](https://karpathy.ai/)'s [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) course. 
