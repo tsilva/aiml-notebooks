@@ -19,6 +19,7 @@ dependencies:
   - ipython
   - ipykernel
   - graphviz
+  - imageio-ffmpeg
   - pip
   - pip:
       - python-dotenv
