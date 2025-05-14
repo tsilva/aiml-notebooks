@@ -3,3 +3,4 @@ names.txt*
 notebooks/wandb/*
 notebooks/temp/*
 notebooks/lightning_logs/*
+notebooks/data/*
