@@ -1,6 +1,6 @@
 names.txt*
 .env
-notebooks/wandb/*
-notebooks/temp/*
-notebooks/lightning_logs/*
-notebooks/data/*
+notebooks/tmp
+notebooks/lightning_logs
+notebooks/output
+notebooks/wandb
