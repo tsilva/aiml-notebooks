@@ -4,3 +4,4 @@ notebooks/tmp
 notebooks/lightning_logs
 notebooks/output
 notebooks/wandb
+notebooks/gymnasium-ppo
