@@ -1,0 +1,12 @@
+- BUG: early stopping at epoch 39 with eval mean reward 721.80 (wrong)
+- fix duplicate metric logging bug
+- add alert support to metric tracker
+- train for convergence without deterministic policy
+- add support for non subprocenv
+- make best model be saved to wandb
+- log results to huggingface?
+- TODO: make evaluation run in background and keep a mean reward window, it picks up the model params set up in it, runs N envs in sequence with N workers and 
+- Write wandb diagnostics script, use claude desktop to debug
+- run eval in background thread (always)
+- run eval in background thread (always)
+- add environment normalization support
