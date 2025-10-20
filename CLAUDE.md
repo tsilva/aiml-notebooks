@@ -77,6 +77,20 @@ This script:
 
 ### Creating New Notebooks
 
+**IMPORTANT**: When the user asks to create a new educational notebook, **ALWAYS use the `ml-notebook-educator` agent** via the Task tool. This specialized agent creates highly interactive, pedagogical notebooks with:
+- Step-by-step learning progression (50-80 cells, 10-20 parts)
+- Theory before practice for each concept
+- Progressive visualizations and comparisons
+- Reflection questions and experiments
+- Clear learning objectives and practical guidance
+
+**Standard workflow**:
+1. User requests notebook on a topic
+2. Use Task tool with `subagent_type="ml-notebook-educator"` and detailed prompt
+3. Agent creates notebook in `notebooks/` directory with appropriate naming
+4. Run `fix_notebooks.py` to ensure proper metadata and Colab links
+
+**Manual notebook creation** (only if not using agent):
 1. Place notebooks in the `notebooks/` directory
 2. Use appropriate naming prefix (`wip-` for incomplete, `zero2hero-NNN-` for course recreations)
 3. Add Colab badge at the top (markdown or HTML format)
@@ -88,6 +102,16 @@ This script:
 - Include mathematical formulas, visualizations, and step-by-step commentary
 - Use markdown cells liberally to explain concepts
 - For WIP notebooks, consider creating a `.todo.md` file to track progress
+
+### Notebook Philosophy
+
+This repository emphasizes **interactive, pedagogical notebooks** designed for learning:
+- **Granular**: 50-80 cells breaking down complex topics into digestible steps
+- **Theory-first**: Explain concepts before implementing them
+- **Visual**: Multiple visualizations showing progressive understanding
+- **Interactive**: Reflection questions, experiments, and hands-on exploration
+- **Self-contained**: Each notebook can be run independently from start to finish
+- **Progressive**: Build complexity gradually from simple foundations
 
 ### GPU Acceleration
 
