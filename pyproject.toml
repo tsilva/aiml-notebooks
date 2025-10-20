@@ -22,6 +22,9 @@ dependencies = [
     "imageio-ffmpeg",
     "python-dotenv",
     "matplotlib",
+    "seaborn",
+    "scikit-learn",
+    "pandas",
 ]
 
 [build-system]
