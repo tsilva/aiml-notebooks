@@ -13,6 +13,7 @@ dependencies = [
     "torchaudio",
     "transformers",
     "timm",
+    "lightning",
     "jupyter",
     "jupyterlab",
     "ipython",
