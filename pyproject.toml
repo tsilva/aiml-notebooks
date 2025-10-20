@@ -1,0 +1,36 @@
+[project]
+name = "aiml-notebooks"
+version = "0.1.0"
+description = "A collection of AI/ML experiments, detailed recreations, and concept explorations for self-learning and reference"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "numpy",
+    "pillow",
+    "torch>=2.0.0",
+    "torchvision",
+    "torchaudio",
+    "transformers",
+    "timm",
+    "jupyter",
+    "jupyterlab",
+    "ipython",
+    "ipykernel",
+    "graphviz",
+    "imageio-ffmpeg",
+    "python-dotenv",
+    "matplotlib",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+# This is a non-package project (notebooks only)
+package = false
+
+# Note: PyTorch on macOS uses MPS (Metal Performance Shaders) for GPU acceleration
+# CUDA is only available on Linux/Windows. For cross-platform compatibility,
+# we use the standard PyPI packages which include MPS support on macOS.

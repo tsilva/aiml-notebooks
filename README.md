@@ -10,6 +10,50 @@
 
 This repository contains detailed AI/ML notebooks that recreate lessons from courses like Andrej Karpathy's "Neural Networks: Zero to Hero" and explore various machine learning concepts. Each notebook expands on original material with additional explanations to solidify understanding and serve as a comprehensive reference. The notebooks are deliberately more detailed than the source material to clarify complex concepts.
 
+## 🚀 Setup
+
+This project uses [uv](https://docs.astral.sh/uv/) for fast, reliable Python dependency management.
+
+### Prerequisites
+
+- Python 3.11 or higher
+- [uv](https://docs.astral.sh/uv/) package manager
+
+### Installation
+
+1. Install uv (if not already installed):
+   ```bash
+   # macOS/Linux
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+
+   # Windows
+   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+   ```
+
+2. Clone this repository:
+   ```bash
+   git clone https://github.com/tsilva/aiml-notebooks.git
+   cd aiml-notebooks
+   ```
+
+3. Install dependencies:
+   ```bash
+   uv sync
+   ```
+
+### Running Jupyter
+
+Run JupyterLab directly with uv:
+```bash
+uv run jupyter lab
+```
+
+Or activate the virtual environment first:
+```bash
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+jupyter lab
+```
+
 ## Neural Networks: Zero to Hero
 
 These notebooks are detailed recreations of lessons from [Andrej Karpathy](https://karpathy.ai/)'s [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) course. 
