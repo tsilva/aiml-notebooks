@@ -34,8 +34,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.uv]
-# This is a non-package project (notebooks only)
-package = false
+# Package enabled to allow shared utilities to be imported from notebooks
+package = true
+dev-dependencies = []
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aiml_notebooks"]
 
 # Note: PyTorch on macOS uses MPS (Metal Performance Shaders) for GPU acceleration
 # CUDA is only available on Linux/Windows. For cross-platform compatibility,

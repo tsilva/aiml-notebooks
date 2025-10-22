@@ -1,0 +1,41 @@
+name: name-rnn-dropout-sweep
+method: bayes
+project: name-generation-rnn
+
+metric:
+  name: val_loss
+  goal: minimize
+
+parameters:
+  dropout:
+    min: 0.0
+    max: 0.6
+    distribution: uniform
+
+  # Keep other hyperparameters at reasonable defaults
+  embedding_dim:
+    value: 64
+
+  hidden_size:
+    value: 256
+
+  num_layers:
+    value: 2
+
+  learning_rate:
+    value: 0.001
+
+  batch_size:
+    value: 128
+
+  max_epochs:
+    value: 30
+
+  temperature:
+    value: 0.8
+
+  use_wandb:
+    value: true
+
+  wandb_project:
+    value: name-generation-rnn

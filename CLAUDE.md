@@ -8,7 +8,7 @@ This is a collection of AI/ML Jupyter notebooks for learning and experimentation
 
 ## Development Environment
 
-This project uses **uv** for fast, reliable Python dependency management (NOT conda or pip). The project is configured as a non-package project (notebooks only) in `pyproject.toml`.
+This project uses **uv** for fast, reliable Python dependency management (NOT conda or pip). The project includes a local `aiml_notebooks` package containing shared utilities (tokenizers, datasets, etc.) that are reused across multiple notebooks.
 
 ### Setup Commands
 
@@ -43,7 +43,11 @@ notebooks/          # All Jupyter notebooks
 ├── *.ipynb                  # Completed standalone notebooks
 └── *.todo.md                # Todo lists for specific WIP notebooks
 
-fix_notebooks.py    # Utility to fix Colab links and widget metadata
+src/aiml_notebooks/ # Shared library for reusable components
+├── __init__.py             # Package initialization
+├── tokenizers.py           # Character-level tokenizers (reused across notebooks)
+└── datasets.py             # PyTorch Dataset classes (reused across notebooks)
+
 pyproject.toml      # Project dependencies (uv configuration)
 uv.lock            # Locked dependencies for reproducibility
 environment.yml     # Legacy conda config (not used; use uv instead)
@@ -102,6 +106,50 @@ This script:
 - Include mathematical formulas, visualizations, and step-by-step commentary
 - Use markdown cells liberally to explain concepts
 - For WIP notebooks, consider creating a `.todo.md` file to track progress
+
+### Using the Shared Library
+
+Notebooks can import reusable components from the `aiml_notebooks` package:
+
+```python
+# Import shared utilities
+from aiml_notebooks import CharacterTokenizer, NamesDataset, collate_fn
+
+# Enable autoreload for hot reloading of library changes
+%load_ext autoreload
+%autoreload 2
+```
+
+The `%autoreload 2` magic command ensures that any changes to library code in `src/aiml_notebooks/` are automatically reloaded without needing to restart the kernel. This is essential for iterative development.
+
+**Available shared components**:
+- `CharacterTokenizer` - Character-level tokenizer for text sequences
+- `NamesDataset` - PyTorch Dataset for name generation tasks
+- `collate_fn` - Collate function for padding variable-length sequences
+- `create_dataset` - Factory function for creating datasets with automatic data loading and splitting
+
+**Dataset Factory Usage**:
+
+The `create_dataset` factory provides a clean API for creating datasets:
+
+```python
+# Create dataset with automatic data loading, tokenization, and splitting
+full_dataset, train_dataset, val_dataset = create_dataset(
+    dataset_id="names",
+    splits=[0.9, 0.1]  # 90% train, 10% validation
+)
+
+# Extract tokenizer for later use (e.g., for generation)
+tokenizer = full_dataset.tokenizer
+
+# Create data loaders
+from torch.utils.data import DataLoader
+train_loader = DataLoader(train_dataset, batch_size=32, collate_fn=collate_fn)
+val_loader = DataLoader(val_dataset, batch_size=32, collate_fn=collate_fn)
+```
+
+Supported dataset IDs:
+- `"names"` - Character-level name generation dataset (Karpathy's names.txt)
 
 ### Notebook Philosophy
 
@@ -211,8 +259,24 @@ parameters:
 
 ## Architecture Notes
 
-- This is a **non-package project** (no importable Python package, only notebooks)
-- Notebooks are self-contained; each can run independently
-- No shared library code - each notebook implements what it needs
+- This project includes a local **aiml_notebooks** package (in `src/`) with shared utilities
+- Notebooks can import from the shared library: `from aiml_notebooks import CharacterTokenizer, NamesDataset, collate_fn`
+- Use `%autoreload 2` in notebooks to enable hot reloading of library changes
+- Notebooks remain largely self-contained, but common components (tokenizers, datasets) are extracted to the library for reuse
 - Data files and outputs should go in `notebooks/tmp`, `notebooks/output`, or similar (gitignored)
 - Temporary sweep files go in `tmp/sweeps/` (gitignored)
+
+### Shared Library Components
+
+The `src/aiml_notebooks/` package contains:
+- **tokenizers.py**: Character-level tokenizers (CharacterTokenizer)
+- **datasets.py**: PyTorch Dataset classes (NamesDataset), utilities (collate_fn), and dataset factory (create_dataset)
+
+The `create_dataset` factory encapsulates the entire data preparation pipeline:
+1. Downloads/loads raw data based on dataset_id
+2. Creates appropriate tokenizer
+3. Builds the dataset
+4. Splits into train/val/test sets as specified
+5. Returns tuple: (full_dataset, *split_datasets)
+
+These components are designed to be reused across multiple notebooks for consistency and maintainability.
