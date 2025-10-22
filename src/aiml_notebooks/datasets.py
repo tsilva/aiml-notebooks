@@ -137,6 +137,33 @@ def _load_names_dataset(url: Optional[str] = None) -> List[str]:
     return names
 
 
+def _load_words_dataset(url: Optional[str] = None) -> List[str]:
+    """
+    Load an English words dataset from a URL or default source.
+
+    Args:
+        url: Optional URL to download words from. If None, uses default word list
+
+    Returns:
+        List of word strings (lowercase, stripped)
+    """
+    if url is None:
+        # Using a curated list of common English words
+        url = 'https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt'
+
+    # Download to temporary file
+    urllib.request.urlretrieve(url, 'words.txt')
+
+    # Load and process words
+    with open('words.txt', 'r') as f:
+        words = f.read().splitlines()
+
+    # Filter: only words between 3-12 characters for reasonable generation
+    words = [word.strip().lower() for word in words if word.strip()]
+    words = [word for word in words if 3 <= len(word) <= 12 and word.isalpha()]
+    return words
+
+
 def create_dataset(
     dataset_id: str,
     splits: Optional[Union[List[float], Tuple[float, ...]]] = None,
@@ -182,6 +209,7 @@ def create_dataset(
 
     Supported dataset IDs:
         - "names": Character-level name generation dataset (Karpathy's names.txt)
+        - "words": English words dataset (3-12 characters, filtered for generation)
     """
     # Validate splits if provided
     if splits is not None:
@@ -194,18 +222,31 @@ def create_dataset(
     if dataset_id == "names":
         # Load raw names data
         url = kwargs.get('url', None)
-        names = _load_names_dataset(url)
+        texts = _load_names_dataset(url)
 
         # Create tokenizer if not provided
         if tokenizer is None:
             from .tokenizers import CharacterTokenizer
-            tokenizer = CharacterTokenizer(names, special_token='.')
+            tokenizer = CharacterTokenizer(texts, special_token='.')
 
         # Create full dataset
-        full_dataset = NamesDataset(names, tokenizer)
+        full_dataset = NamesDataset(texts, tokenizer)
+
+    elif dataset_id == "words":
+        # Load raw words data
+        url = kwargs.get('url', None)
+        texts = _load_words_dataset(url)
+
+        # Create tokenizer if not provided
+        if tokenizer is None:
+            from .tokenizers import CharacterTokenizer
+            tokenizer = CharacterTokenizer(texts, special_token='.')
+
+        # Create full dataset (reusing NamesDataset - it works for any text!)
+        full_dataset = NamesDataset(texts, tokenizer)
 
     else:
-        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names'")
+        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words'")
 
     # Return full dataset if no splits requested
     if splits is None:

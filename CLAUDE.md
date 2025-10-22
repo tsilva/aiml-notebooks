@@ -136,7 +136,7 @@ The factories provide a clean API for data preparation:
 ```python
 # 1. Create dataset with automatic data loading, tokenization, and splitting
 full_dataset, train_dataset, val_dataset = create_dataset(
-    dataset_id="names",
+    dataset_id="names",  # Try "names" or "words"
     splits=[0.9, 0.1]  # 90% train, 10% validation
 )
 
@@ -155,7 +155,8 @@ original_texts = full_dataset.get_texts()  # Works for any dataset type
 ```
 
 **Supported dataset IDs**:
-- `"names"` - Character-level name generation dataset (Karpathy's names.txt)
+- `"names"` - Character-level name generation dataset (Karpathy's names.txt, ~32K names)
+- `"words"` - English words dataset (3-12 characters, filtered for generation, ~370K words)
 
 **DataLoader factory options**:
 ```python
