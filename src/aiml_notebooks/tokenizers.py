@@ -71,5 +71,50 @@ class CharacterTokenizer:
         """
         return ''.join([self.idx_to_char[i] for i in indices])
 
+    def encode_char(self, char):
+        """
+        Convert a single character to its index.
+
+        Args:
+            char: Single character to encode
+
+        Returns:
+            Integer index of the character
+        """
+        return self.char_to_idx[char]
+
+    def decode_char(self, idx):
+        """
+        Convert a single index to its character.
+
+        Args:
+            idx: Integer index to decode
+
+        Returns:
+            Character at the given index
+        """
+        return self.idx_to_char[idx]
+
+    def get_special_token_idx(self):
+        """
+        Get the index of the special token.
+
+        Returns:
+            Integer index of the special token
+        """
+        return self.char_to_idx[self.special_token]
+
+    def is_special_token(self, char):
+        """
+        Check if a character is the special token.
+
+        Args:
+            char: Character to check
+
+        Returns:
+            Boolean indicating if the character is the special token
+        """
+        return char == self.special_token
+
     def __repr__(self):
         return f"CharacterTokenizer(vocab_size={self.vocab_size}, chars={''.join(self.chars)})"
