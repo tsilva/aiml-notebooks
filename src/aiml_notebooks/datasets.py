@@ -5,13 +5,14 @@ This module provides reusable Dataset implementations for different types of dat
 - NamesDataset: Character-level sequence dataset for name generation
 - collate_fn: Utility function for padding variable-length sequences in batches
 - create_dataset: Factory function for creating datasets with automatic splits
+- create_dataloaders: Factory function for creating DataLoaders with proper configuration
 """
 
 import urllib.request
 from typing import List, Optional, Tuple, Union
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset, random_split
+from torch.utils.data import Dataset, DataLoader, random_split
 
 
 class NamesDataset(Dataset):
@@ -207,3 +208,97 @@ def create_dataset(
 
     # Return tuple: (full_dataset, *splits)
     return (full_dataset, *split_datasets)
+
+
+def create_dataloaders(
+    train_dataset: Dataset,
+    val_dataset: Optional[Dataset] = None,
+    test_dataset: Optional[Dataset] = None,
+    batch_size: int = 32,
+    num_workers: int = 0,
+    shuffle_train: bool = True,
+    **kwargs
+) -> Tuple[DataLoader, ...]:
+    """
+    Factory function to create DataLoaders from datasets.
+
+    This function provides a clean API for creating dataloaders with proper
+    collate functions and batching configurations.
+
+    Args:
+        train_dataset: Training dataset
+        val_dataset: Optional validation dataset
+        test_dataset: Optional test dataset
+        batch_size: Batch size for all dataloaders (default: 32)
+        num_workers: Number of worker processes for data loading (default: 0)
+        shuffle_train: Whether to shuffle training data (default: True)
+        **kwargs: Additional keyword arguments passed to DataLoader
+                  (e.g., pin_memory, drop_last)
+
+    Returns:
+        Tuple of DataLoaders: (train_loader, *optional_loaders)
+        - If only train_dataset: returns (train_loader,)
+        - If train + val: returns (train_loader, val_loader)
+        - If train + val + test: returns (train_loader, val_loader, test_loader)
+
+    Example:
+        >>> # Create train and val loaders
+        >>> train_loader, val_loader = create_dataloaders(
+        ...     train_dataset=train_dataset,
+        ...     val_dataset=val_dataset,
+        ...     batch_size=128
+        ... )
+
+        >>> # Create only train loader
+        >>> train_loader, = create_dataloaders(
+        ...     train_dataset=train_dataset,
+        ...     batch_size=64
+        ... )
+
+        >>> # Create all three loaders
+        >>> train_loader, val_loader, test_loader = create_dataloaders(
+        ...     train_dataset=train_dataset,
+        ...     val_dataset=val_dataset,
+        ...     test_dataset=test_dataset,
+        ...     batch_size=32,
+        ...     num_workers=4
+        ... )
+    """
+    loaders = []
+
+    # Create training loader
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=shuffle_train,
+        collate_fn=collate_fn,
+        num_workers=num_workers,
+        **kwargs
+    )
+    loaders.append(train_loader)
+
+    # Create validation loader if dataset provided
+    if val_dataset is not None:
+        val_loader = DataLoader(
+            val_dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            collate_fn=collate_fn,
+            num_workers=num_workers,
+            **kwargs
+        )
+        loaders.append(val_loader)
+
+    # Create test loader if dataset provided
+    if test_dataset is not None:
+        test_loader = DataLoader(
+            test_dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            collate_fn=collate_fn,
+            num_workers=num_workers,
+            **kwargs
+        )
+        loaders.append(test_loader)
+
+    return tuple(loaders)

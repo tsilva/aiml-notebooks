@@ -127,29 +127,45 @@ The `%autoreload 2` magic command ensures that any changes to library code in `s
 - `NamesDataset` - PyTorch Dataset for name generation tasks
 - `collate_fn` - Collate function for padding variable-length sequences
 - `create_dataset` - Factory function for creating datasets with automatic data loading and splitting
+- `create_dataloaders` - Factory function for creating DataLoaders with proper configuration
 
-**Dataset Factory Usage**:
+**Factory Usage**:
 
-The `create_dataset` factory provides a clean API for creating datasets:
+The factories provide a clean API for data preparation:
 
 ```python
-# Create dataset with automatic data loading, tokenization, and splitting
+# 1. Create dataset with automatic data loading, tokenization, and splitting
 full_dataset, train_dataset, val_dataset = create_dataset(
     dataset_id="names",
     splits=[0.9, 0.1]  # 90% train, 10% validation
 )
 
-# Extract tokenizer for later use (e.g., for generation)
+# 2. Extract tokenizer for later use (e.g., for generation)
 tokenizer = full_dataset.tokenizer
 
-# Create data loaders
-from torch.utils.data import DataLoader
-train_loader = DataLoader(train_dataset, batch_size=32, collate_fn=collate_fn)
-val_loader = DataLoader(val_dataset, batch_size=32, collate_fn=collate_fn)
+# 3. Create data loaders with the factory
+train_loader, val_loader = create_dataloaders(
+    train_dataset=train_dataset,
+    val_dataset=val_dataset,
+    batch_size=32
+)
 ```
 
-Supported dataset IDs:
+**Supported dataset IDs**:
 - `"names"` - Character-level name generation dataset (Karpathy's names.txt)
+
+**DataLoader factory options**:
+```python
+# With all options
+train_loader, val_loader, test_loader = create_dataloaders(
+    train_dataset=train_dataset,
+    val_dataset=val_dataset,
+    test_dataset=test_dataset,
+    batch_size=128,
+    num_workers=4,
+    shuffle_train=True  # default
+)
+```
 
 ### Notebook Philosophy
 
@@ -270,13 +286,10 @@ parameters:
 
 The `src/aiml_notebooks/` package contains:
 - **tokenizers.py**: Character-level tokenizers (CharacterTokenizer)
-- **datasets.py**: PyTorch Dataset classes (NamesDataset), utilities (collate_fn), and dataset factory (create_dataset)
+- **datasets.py**: PyTorch Dataset classes (NamesDataset), utilities (collate_fn), and factories (create_dataset, create_dataloaders)
 
-The `create_dataset` factory encapsulates the entire data preparation pipeline:
-1. Downloads/loads raw data based on dataset_id
-2. Creates appropriate tokenizer
-3. Builds the dataset
-4. Splits into train/val/test sets as specified
-5. Returns tuple: (full_dataset, *split_datasets)
+**Data preparation pipeline**:
+1. `create_dataset` - Downloads/loads raw data, creates tokenizer, builds dataset, and splits
+2. `create_dataloaders` - Wraps datasets in DataLoaders with proper batching and collate functions
 
-These components are designed to be reused across multiple notebooks for consistency and maintainability.
+These factories reduce boilerplate and ensure consistent data handling across all notebooks.
