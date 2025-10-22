@@ -61,14 +61,28 @@ class NamesDataset(Dataset):
             - target_tensor: Character indices for target sequence (shifted by 1)
         """
         name = self.names[idx]
-        # Add start and end tokens
-        name_with_tokens = self.tokenizer.special_token + name + self.tokenizer.special_token
+        # Add start and end tokens (using tokenizer method to get special token)
+        special_token_idx = self.tokenizer.get_special_token_idx()
+        special_token_char = self.tokenizer.decode_char(special_token_idx)
+        name_with_tokens = special_token_char + name + special_token_char
         indices = self.tokenizer.encode(name_with_tokens)
 
         # Create input (all chars except last) and target (all chars except first)
         x = torch.tensor(indices[:-1], dtype=torch.long)
         y = torch.tensor(indices[1:], dtype=torch.long)
         return x, y
+
+    def get_texts(self) -> List[str]:
+        """
+        Get the raw text data from the dataset.
+
+        This method provides a generic way to access the underlying text data
+        without exposing internal implementation details.
+
+        Returns:
+            List of text strings (names in this case)
+        """
+        return self.names
 
 
 def collate_fn(batch):

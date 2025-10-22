@@ -123,8 +123,8 @@ from aiml_notebooks import CharacterTokenizer, NamesDataset, collate_fn
 The `%autoreload 2` magic command ensures that any changes to library code in `src/aiml_notebooks/` are automatically reloaded without needing to restart the kernel. This is essential for iterative development.
 
 **Available shared components**:
-- `CharacterTokenizer` - Character-level tokenizer for text sequences
-- `NamesDataset` - PyTorch Dataset for name generation tasks
+- `CharacterTokenizer` - Character-level tokenizer for text sequences with encapsulated methods
+- `NamesDataset` - PyTorch Dataset for name generation tasks with `get_texts()` method
 - `collate_fn` - Collate function for padding variable-length sequences
 - `create_dataset` - Factory function for creating datasets with automatic data loading and splitting
 - `create_dataloaders` - Factory function for creating DataLoaders with proper configuration
@@ -149,6 +149,9 @@ train_loader, val_loader = create_dataloaders(
     val_dataset=val_dataset,
     batch_size=32
 )
+
+# 4. Access raw texts from dataset (generic interface)
+original_texts = full_dataset.get_texts()  # Works for any dataset type
 ```
 
 **Supported dataset IDs**:
