@@ -149,9 +149,70 @@ uv lock --upgrade
 uv sync
 ```
 
+### Run hyperparameter sweeps with W&B
+```bash
+# Quick test sweep (3 trials)
+uv run python sweep.py sweeps/name-rnn-test.yaml notebooks/name-generation-rnn.ipynb
+
+# Full Bayesian sweep (10 trials)
+uv run python sweep.py sweeps/name-rnn-full.yaml notebooks/name-generation-rnn.ipynb --count 10
+```
+
+## Hyperparameter Sweeps
+
+The repository includes a generic W&B sweep runner (`run_sweep.py`) for optimizing notebook hyperparameters.
+
+### Sweep Structure
+```
+sweeps/                          # Sweep configurations (YAML files, committed)
+├── name-rnn-test.yaml          # Quick test sweep
+└── name-rnn-full.yaml          # Full Bayesian optimization
+
+tmp/sweeps/                      # Temporary sweep files (gitignored)
+├── scripts/                     # Auto-converted notebooks
+└── checkpoints/                 # Model checkpoints (if any)
+
+run_sweep.py                     # Generic sweep runner
+```
+
+### Creating Sweeps
+
+1. **Create sweep config**: Copy an existing `.yaml` from `sweeps/` and modify parameters
+2. **Run sweep**: `uv run python run_sweep.py sweeps/your-config.yaml notebooks/your-notebook.ipynb`
+3. **View results**: Check the W&B dashboard URL printed by the sweep runner
+
+### Sweep Config Format
+
+```yaml
+name: my-sweep-name
+method: bayes  # or 'grid', 'random'
+project: wandb-project-name
+
+metric:
+  name: val_loss
+  goal: minimize
+
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.01
+    distribution: log_uniform_values
+
+  batch_size:
+    values: [64, 128, 256]
+
+  # ... more parameters
+```
+
+### Notes
+- Converted scripts are automatically saved to `tmp/sweeps/scripts/` (gitignored)
+- Sweeps run from the repository root
+- Multiple agents can run in parallel for faster optimization
+
 ## Architecture Notes
 
 - This is a **non-package project** (no importable Python package, only notebooks)
 - Notebooks are self-contained; each can run independently
 - No shared library code - each notebook implements what it needs
 - Data files and outputs should go in `notebooks/tmp`, `notebooks/output`, or similar (gitignored)
+- Temporary sweep files go in `tmp/sweeps/` (gitignored)

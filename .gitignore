@@ -1,5 +1,6 @@
 names.txt*
 .env
+tmp/
 notebooks/tmp
 notebooks/lightning_logs
 notebooks/output
