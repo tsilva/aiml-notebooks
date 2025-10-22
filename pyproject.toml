@@ -25,6 +25,8 @@ dependencies = [
     "seaborn",
     "scikit-learn",
     "pandas",
+    "wandb",
+    "papermill",
 ]
 
 [build-system]
