@@ -39,3 +39,5 @@ wheels/
 # Jupyter
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+
+*.ckpt
