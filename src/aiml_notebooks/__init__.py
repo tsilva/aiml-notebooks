@@ -12,6 +12,7 @@ __version__ = "0.1.0"
 
 from .tokenizers import CharacterTokenizer
 from .datasets import NamesDataset, collate_fn, create_dataset, create_dataloaders
+from .logging import log_gradients, log_model_weights, log_gradient_flow
 
 __all__ = [
     "CharacterTokenizer",
@@ -19,4 +20,7 @@ __all__ = [
     "collate_fn",
     "create_dataset",
     "create_dataloaders",
+    "log_gradients",
+    "log_model_weights",
+    "log_gradient_flow",
 ]
