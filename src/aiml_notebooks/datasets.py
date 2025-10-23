@@ -164,6 +164,51 @@ def _load_words_dataset(url: Optional[str] = None) -> List[str]:
     return words
 
 
+def _load_palindromes_dataset(min_length: int = 7, max_length: int = 15, num_samples: int = 10000) -> List[str]:
+    """
+    Generate synthetic palindromic sequences with long-range dependencies.
+
+    This dataset is designed to expose RNN limitations with long-range dependencies.
+    A palindrome requires the model to remember characters from the beginning when
+    generating the end, creating dependencies that span the entire sequence.
+
+    Format: "abcXcba" where X is optional middle character(s)
+    Examples: "abccba", "abcdcba", "racecar"
+
+    Args:
+        min_length: Minimum palindrome length (default: 7)
+        max_length: Maximum palindrome length (default: 15)
+        num_samples: Number of palindromes to generate (default: 10000)
+
+    Returns:
+        List of palindromic strings
+    """
+    import random
+    import string
+
+    palindromes = []
+    chars = string.ascii_lowercase[:15]  # Use subset for reasonable vocab size
+
+    for _ in range(num_samples):
+        # Random length for this palindrome
+        length = random.randint(min_length, max_length)
+        half_len = length // 2
+
+        # Generate first half randomly
+        first_half = ''.join(random.choices(chars, k=half_len))
+
+        # Add middle character if odd length
+        if length % 2 == 1:
+            middle = random.choice(chars)
+            palindrome = first_half + middle + first_half[::-1]
+        else:
+            palindrome = first_half + first_half[::-1]
+
+        palindromes.append(palindrome)
+
+    return palindromes
+
+
 def create_dataset(
     dataset_id: str,
     splits: Optional[Union[List[float], Tuple[float, ...]]] = None,
@@ -210,6 +255,7 @@ def create_dataset(
     Supported dataset IDs:
         - "names": Character-level name generation dataset (Karpathy's names.txt)
         - "words": English words dataset (3-12 characters, filtered for generation)
+        - "palindromes": Synthetic palindromic sequences (7-15 chars, long-range dependencies)
     """
     # Validate splits if provided
     if splits is not None:
@@ -245,8 +291,23 @@ def create_dataset(
         # Create full dataset (reusing NamesDataset - it works for any text!)
         full_dataset = NamesDataset(texts, tokenizer)
 
+    elif dataset_id == "palindromes":
+        # Generate palindromes data with long-range dependencies
+        min_length = kwargs.get('min_length', 7)
+        max_length = kwargs.get('max_length', 15)
+        num_samples = kwargs.get('num_samples', 10000)
+        texts = _load_palindromes_dataset(min_length, max_length, num_samples)
+
+        # Create tokenizer if not provided
+        if tokenizer is None:
+            from .tokenizers import CharacterTokenizer
+            tokenizer = CharacterTokenizer(texts, special_token='.')
+
+        # Create full dataset (reusing NamesDataset - it works for any text!)
+        full_dataset = NamesDataset(texts, tokenizer)
+
     else:
-        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words'")
+        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words', 'palindromes'")
 
     # Return full dataset if no splits requested
     if splits is None:
