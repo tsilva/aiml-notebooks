@@ -209,6 +209,49 @@ def _load_palindromes_dataset(min_length: int = 7, max_length: int = 15, num_sam
     return palindromes
 
 
+def _load_bitflipping_dataset(min_length: int = 5, max_length: int = 10, num_samples: int = 10000) -> List[str]:
+    """
+    Generate synthetic bit-flipping sequences for transformation learning.
+
+    This dataset tests the model's ability to learn a simple transformation:
+    given a binary sequence, flip all bits (0→1, 1→0). The format is:
+    "input_sequence>output_sequence" where output is the bitwise NOT of input.
+
+    Format: "01011>10100" (input > flipped_output)
+    Examples:
+        - "0101>1010" (4-bit flip)
+        - "11000>00111" (5-bit flip)
+        - "0110101>1001010" (7-bit flip)
+
+    Args:
+        min_length: Minimum bit sequence length (default: 5)
+        max_length: Maximum bit sequence length (default: 10)
+        num_samples: Number of sequences to generate (default: 10000)
+
+    Returns:
+        List of bitflipping strings in format "input>output"
+    """
+    import random
+
+    sequences = []
+
+    for _ in range(num_samples):
+        # Random length for this sequence
+        length = random.randint(min_length, max_length)
+
+        # Generate random binary sequence
+        input_bits = ''.join(random.choices('01', k=length))
+
+        # Flip all bits (0→1, 1→0)
+        output_bits = ''.join('1' if bit == '0' else '0' for bit in input_bits)
+
+        # Format: "input>output"
+        sequence = f"{input_bits}>{output_bits}"
+        sequences.append(sequence)
+
+    return sequences
+
+
 def create_dataset(
     dataset_id: str,
     splits: Optional[Union[List[float], Tuple[float, ...]]] = None,
@@ -256,6 +299,7 @@ def create_dataset(
         - "names": Character-level name generation dataset (Karpathy's names.txt)
         - "words": English words dataset (3-12 characters, filtered for generation)
         - "palindromes": Synthetic palindromic sequences (7-15 chars, long-range dependencies)
+        - "bitflipping": Synthetic bit-flipping sequences (5-10 bits, transformation learning)
     """
     # Validate splits if provided
     if splits is not None:
@@ -306,8 +350,23 @@ def create_dataset(
         # Create full dataset (reusing NamesDataset - it works for any text!)
         full_dataset = NamesDataset(texts, tokenizer)
 
+    elif dataset_id == "bitflipping":
+        # Generate bitflipping data for transformation learning
+        min_length = kwargs.get('min_length', 5)
+        max_length = kwargs.get('max_length', 10)
+        num_samples = kwargs.get('num_samples', 10000)
+        texts = _load_bitflipping_dataset(min_length, max_length, num_samples)
+
+        # Create tokenizer if not provided
+        if tokenizer is None:
+            from .tokenizers import CharacterTokenizer
+            tokenizer = CharacterTokenizer(texts, special_token='.')
+
+        # Create full dataset (reusing NamesDataset - it works for any text!)
+        full_dataset = NamesDataset(texts, tokenizer)
+
     else:
-        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words', 'palindromes'")
+        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words', 'palindromes', 'bitflipping'")
 
     # Return full dataset if no splits requested
     if splits is None:
