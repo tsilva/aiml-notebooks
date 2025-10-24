@@ -1,2 +1,3 @@
 - repro vanishing gradients with RNNs and detect it in wandb
 - check how far RNNs can repeat a pattern in a sequence, compare to LSTMs and GRUs
+- learn to generalize RNNs ability to generalize to longer sequences (curriculum?)
