@@ -13,6 +13,7 @@ from typing import List, Optional, Tuple, Union
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
+from torchvision import datasets, transforms
 
 
 class NamesDataset(Dataset):
@@ -209,6 +210,30 @@ def _load_palindromes_dataset(min_length: int = 7, max_length: int = 15, num_sam
     return palindromes
 
 
+def _load_mnist_dataset(root: str = './data', train: bool = True, download: bool = True) -> Dataset:
+    """
+    Load the MNIST handwritten digits dataset.
+
+    Args:
+        root: Root directory where dataset will be downloaded/stored (default: './data')
+        train: If True, load training set; if False, load test set (default: True)
+        download: If True, download dataset if not already present (default: True)
+
+    Returns:
+        MNIST dataset with standard normalization to [0, 1]
+    """
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+    ])
+
+    return datasets.MNIST(
+        root=root,
+        train=train,
+        download=download,
+        transform=transform
+    )
+
+
 def _load_bitflipping_dataset(min_length: int = 5, max_length: int = 10, num_samples: int = 10000) -> List[str]:
     """
     Generate synthetic bit-flipping sequences for transformation learning.
@@ -300,6 +325,7 @@ def create_dataset(
         - "words": English words dataset (3-12 characters, filtered for generation)
         - "palindromes": Synthetic palindromic sequences (7-15 chars, long-range dependencies)
         - "bitflipping": Synthetic bit-flipping sequences (5-10 bits, transformation learning)
+        - "mnist": MNIST handwritten digits dataset (28x28 grayscale images)
     """
     # Validate splits if provided
     if splits is not None:
@@ -365,8 +391,37 @@ def create_dataset(
         # Create full dataset (reusing NamesDataset - it works for any text!)
         full_dataset = NamesDataset(texts, tokenizer)
 
+    elif dataset_id == "mnist":
+        # Load MNIST dataset (for vision tasks)
+        root = kwargs.get('root', './data')
+        download = kwargs.get('download', True)
+
+        # For MNIST, we need to handle train/val/test splits differently
+        # Load both train and test sets
+        train_dataset = _load_mnist_dataset(root=root, train=True, download=download)
+        test_dataset = _load_mnist_dataset(root=root, train=False, download=download)
+
+        # If splits provided, split the training set into train/val
+        if splits is not None:
+            # Combine train and test first
+            from torch.utils.data import ConcatDataset
+            full_dataset = ConcatDataset([train_dataset, test_dataset])
+
+            # Create splits
+            split_sizes = [int(len(full_dataset) * split) for split in splits]
+            split_sizes[-1] = len(full_dataset) - sum(split_sizes[:-1])
+            split_datasets = random_split(full_dataset, split_sizes)
+
+            return (full_dataset, *split_datasets)
+        else:
+            # No splits requested - return train and test separately
+            # Create a pseudo "full dataset" by concatenating
+            from torch.utils.data import ConcatDataset
+            full_dataset = ConcatDataset([train_dataset, test_dataset])
+            return (full_dataset,)
+
     else:
-        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words', 'palindromes', 'bitflipping'")
+        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words', 'palindromes', 'bitflipping', 'mnist'")
 
     # Return full dataset if no splits requested
     if splits is None:
@@ -392,6 +447,7 @@ def create_dataloaders(
     batch_size: int = 32,
     num_workers: int = 0,
     shuffle_train: bool = True,
+    use_collate_fn: bool = True,
     **kwargs
 ) -> Tuple[DataLoader, ...]:
     """
@@ -407,6 +463,8 @@ def create_dataloaders(
         batch_size: Batch size for all dataloaders (default: 32)
         num_workers: Number of worker processes for data loading (default: 0)
         shuffle_train: Whether to shuffle training data (default: True)
+        use_collate_fn: Whether to use custom collate_fn for padding (default: True)
+                        Set to False for vision datasets that don't need padding
         **kwargs: Additional keyword arguments passed to DataLoader
                   (e.g., pin_memory, drop_last)
 
@@ -417,11 +475,19 @@ def create_dataloaders(
         - If train + val + test: returns (train_loader, val_loader, test_loader)
 
     Example:
-        >>> # Create train and val loaders
+        >>> # Create train and val loaders for sequence data (with padding)
         >>> train_loader, val_loader = create_dataloaders(
         ...     train_dataset=train_dataset,
         ...     val_dataset=val_dataset,
         ...     batch_size=128
+        ... )
+
+        >>> # Create loaders for vision data (no padding needed)
+        >>> train_loader, val_loader = create_dataloaders(
+        ...     train_dataset=train_dataset,
+        ...     val_dataset=val_dataset,
+        ...     batch_size=128,
+        ...     use_collate_fn=False
         ... )
 
         >>> # Create only train loader
@@ -441,12 +507,15 @@ def create_dataloaders(
     """
     loaders = []
 
+    # Determine collate_fn to use
+    collate = collate_fn if use_collate_fn else None
+
     # Create training loader
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
         shuffle=shuffle_train,
-        collate_fn=collate_fn,
+        collate_fn=collate,
         num_workers=num_workers,
         **kwargs
     )
@@ -458,7 +527,7 @@ def create_dataloaders(
             val_dataset,
             batch_size=batch_size,
             shuffle=False,
-            collate_fn=collate_fn,
+            collate_fn=collate,
             num_workers=num_workers,
             **kwargs
         )
@@ -470,7 +539,7 @@ def create_dataloaders(
             test_dataset,
             batch_size=batch_size,
             shuffle=False,
-            collate_fn=collate_fn,
+            collate_fn=collate,
             num_workers=num_workers,
             **kwargs
         )
