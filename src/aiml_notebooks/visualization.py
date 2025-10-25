@@ -19,6 +19,7 @@ def plot_image_grid(
     ncols: int = 16,
     titles: Optional[List[str]] = None,
     row_labels: Optional[List[str]] = None,
+    col_labels: Optional[List[str]] = None,
     figsize: Optional[tuple] = None,
     cmap: str = 'gray',
     title: Optional[str] = None
@@ -32,6 +33,7 @@ def plot_image_grid(
         ncols: Number of columns in grid
         titles: Optional list of titles for each image
         row_labels: Optional list of labels for each row (shown on left)
+        col_labels: Optional list of labels for each column (shown on top)
         figsize: Figure size (width, height). If None, auto-calculated
         cmap: Colormap for grayscale images
         title: Overall figure title
@@ -45,7 +47,8 @@ def plot_image_grid(
         ...     images=torch.cat([originals, reconstructions, generated]),
         ...     nrows=3,
         ...     ncols=16,
-        ...     row_labels=['Original', 'Reconstructed', 'Generated']
+        ...     row_labels=['Original', 'Reconstructed', 'Generated'],
+        ...     col_labels=[f'Sample {i}' for i in range(16)]
         ... )
         >>> plt.show()
     """
@@ -99,6 +102,10 @@ def plot_image_grid(
             if col == 0 and row_labels and row < len(row_labels):
                 ax.set_ylabel(row_labels[row], fontsize=10, rotation=0,
                             ha='right', va='center', labelpad=20)
+
+            # Add column label on first row
+            if row == 0 and col_labels and col < len(col_labels):
+                ax.set_title(col_labels[col], fontsize=8, pad=5)
 
     # Add overall title
     if title:

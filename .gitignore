@@ -44,3 +44,4 @@ wheels/
 *.ckpt
 
 wandb/
+notebooks/data/
