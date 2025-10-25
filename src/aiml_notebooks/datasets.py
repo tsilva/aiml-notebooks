@@ -234,6 +234,54 @@ def _load_mnist_dataset(root: str = './data', train: bool = True, download: bool
     )
 
 
+def _load_cifar10_dataset(root: str = './data', train: bool = True, download: bool = True) -> Dataset:
+    """
+    Load the CIFAR-10 dataset (32x32 color images, 10 classes).
+
+    Args:
+        root: Root directory where dataset will be downloaded/stored (default: './data')
+        train: If True, load training set; if False, load test set (default: True)
+        download: If True, download dataset if not already present (default: True)
+
+    Returns:
+        CIFAR-10 dataset with standard normalization to [0, 1]
+    """
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+    ])
+
+    return datasets.CIFAR10(
+        root=root,
+        train=train,
+        download=download,
+        transform=transform
+    )
+
+
+def _load_fashionmnist_dataset(root: str = './data', train: bool = True, download: bool = True) -> Dataset:
+    """
+    Load the Fashion-MNIST dataset (28x28 grayscale clothing images, 10 classes).
+
+    Args:
+        root: Root directory where dataset will be downloaded/stored (default: './data')
+        train: If True, load training set; if False, load test set (default: True)
+        download: If True, download dataset if not already present (default: True)
+
+    Returns:
+        Fashion-MNIST dataset with standard normalization to [0, 1]
+    """
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+    ])
+
+    return datasets.FashionMNIST(
+        root=root,
+        train=train,
+        download=download,
+        transform=transform
+    )
+
+
 def _load_bitflipping_dataset(min_length: int = 5, max_length: int = 10, num_samples: int = 10000) -> List[str]:
     """
     Generate synthetic bit-flipping sequences for transformation learning.
@@ -325,7 +373,9 @@ def create_dataset(
         - "words": English words dataset (3-12 characters, filtered for generation)
         - "palindromes": Synthetic palindromic sequences (7-15 chars, long-range dependencies)
         - "bitflipping": Synthetic bit-flipping sequences (5-10 bits, transformation learning)
-        - "mnist": MNIST handwritten digits dataset (28x28 grayscale images)
+        - "mnist": MNIST handwritten digits dataset (28x28 grayscale, 10 classes)
+        - "cifar10": CIFAR-10 dataset (32x32 color, 10 classes)
+        - "fashionmnist": Fashion-MNIST dataset (28x28 grayscale, 10 clothing classes)
     """
     # Validate splits if provided
     if splits is not None:
@@ -391,19 +441,25 @@ def create_dataset(
         # Create full dataset (reusing NamesDataset - it works for any text!)
         full_dataset = NamesDataset(texts, tokenizer)
 
-    elif dataset_id == "mnist":
-        # Load MNIST dataset (for vision tasks)
+    elif dataset_id in ["mnist", "cifar10", "fashionmnist"]:
+        # Load vision dataset (MNIST, CIFAR-10, Fashion-MNIST)
         root = kwargs.get('root', './data')
         download = kwargs.get('download', True)
 
-        # For MNIST, we need to handle train/val/test splits differently
-        # Load both train and test sets
-        train_dataset = _load_mnist_dataset(root=root, train=True, download=download)
-        test_dataset = _load_mnist_dataset(root=root, train=False, download=download)
+        # Map dataset_id to loader function
+        loaders = {
+            "mnist": _load_mnist_dataset,
+            "cifar10": _load_cifar10_dataset,
+            "fashionmnist": _load_fashionmnist_dataset,
+        }
+        loader_fn = loaders[dataset_id]
 
-        # If splits provided, split the training set into train/val
+        # Load both train and test sets
+        train_dataset = loader_fn(root=root, train=True, download=download)
+        test_dataset = loader_fn(root=root, train=False, download=download)
+
+        # If splits provided, combine and split
         if splits is not None:
-            # Combine train and test first
             from torch.utils.data import ConcatDataset
             full_dataset = ConcatDataset([train_dataset, test_dataset])
 
@@ -414,14 +470,13 @@ def create_dataset(
 
             return (full_dataset, *split_datasets)
         else:
-            # No splits requested - return train and test separately
-            # Create a pseudo "full dataset" by concatenating
+            # No splits requested - return concatenated dataset
             from torch.utils.data import ConcatDataset
             full_dataset = ConcatDataset([train_dataset, test_dataset])
             return (full_dataset,)
 
     else:
-        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words', 'palindromes', 'bitflipping', 'mnist'")
+        raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words', 'palindromes', 'bitflipping', 'mnist', 'cifar10', 'fashionmnist'")
 
     # Return full dataset if no splits requested
     if splits is None:
