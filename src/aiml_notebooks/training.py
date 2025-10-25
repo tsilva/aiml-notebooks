@@ -78,9 +78,16 @@ def create_trainer(
     devices: int = 1,
     enable_progress_bar: bool = True,
     logger=None,
+    wandb_project: Optional[str] = None,
+    wandb_run_name: Optional[str] = None,
+    wandb_config: Optional[Dict[str, Any]] = None,
+    wandb_log_model: bool = True,
+    model=None,
+    watch_log: str = 'all',
+    watch_log_freq: int = 100,
     **kwargs
 ) -> L.Trainer:
-    """Create a PyTorch Lightning trainer with standard defaults.
+    """Create a PyTorch Lightning trainer with standard defaults and optional W&B integration.
 
     Args:
         max_epochs: Number of training epochs
@@ -88,21 +95,50 @@ def create_trainer(
         accelerator: Device accelerator ('auto', 'gpu', 'cpu', 'mps')
         devices: Number of devices to use
         enable_progress_bar: Whether to show progress bar
-        logger: PyTorch Lightning logger (e.g., WandbLogger)
+        logger: PyTorch Lightning logger (overrides W&B logger if provided)
+        wandb_project: W&B project name (creates logger if provided)
+        wandb_run_name: Optional W&B run name (None = auto-generated)
+        wandb_config: Configuration dict to log to W&B
+        wandb_log_model: Whether to log model checkpoints to W&B
+        model: Model to watch with W&B (only if W&B logger created)
+        watch_log: What to log - 'gradients', 'parameters', 'all', or None
+        watch_log_freq: How often to log model gradients/params (in steps)
         **kwargs: Additional trainer arguments
 
     Returns:
         Configured PyTorch Lightning Trainer
 
     Example:
-        >>> wandb_logger = create_wandb_logger('my-project', config=CONFIG)
+        >>> # Simple usage with W&B integration
         >>> trainer = create_trainer(
         ...     max_epochs=100,
         ...     log_every_n_steps=20,
-        ...     logger=wandb_logger
+        ...     wandb_project='my-project',
+        ...     wandb_config=CONFIG,
+        ...     model=model
         ... )
         >>> trainer.fit(model, train_loader, val_loader)
+
+        >>> # Advanced: bring your own logger
+        >>> custom_logger = WandbLogger(project='my-project', ...)
+        >>> trainer = create_trainer(
+        ...     max_epochs=100,
+        ...     logger=custom_logger
+        ... )
     """
+    # Create W&B logger if wandb_project provided and no logger given
+    if logger is None and wandb_project is not None:
+        logger = create_wandb_logger(
+            project=wandb_project,
+            run_name=wandb_run_name,
+            config=wandb_config,
+            log_model=wandb_log_model
+        )
+
+        # Watch model if provided and logger was created
+        if logger is not None and model is not None:
+            watch_model(model, log=watch_log, log_freq=watch_log_freq)
+
     return L.Trainer(
         max_epochs=max_epochs,
         accelerator=accelerator,
