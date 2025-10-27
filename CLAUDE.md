@@ -37,11 +37,13 @@ uv run python fix_notebooks.py
 ## Repository Structure
 
 ```
-notebooks/          # All Jupyter notebooks
+notebooks/          # All Jupyter notebooks (ACTIVE - work with these)
 ├── <prefix>-NNN-*.ipynb     # Numbered course recreation notebooks (e.g., zero2hero-001-*.ipynb)
 ├── wip-*.ipynb              # Work-in-progress experiments
 ├── *.ipynb                  # Completed standalone notebooks
 └── *.todo.md                # Todo lists for specific WIP notebooks
+
+_deprecated-notebooks/  # Deprecated/archived notebooks (IGNORE - do not use)
 
 src/aiml_notebooks/ # Shared library for reusable components
 ├── __init__.py             # Package initialization
@@ -52,6 +54,8 @@ pyproject.toml      # Project dependencies (uv configuration)
 uv.lock            # Locked dependencies for reproducibility
 environment.yml     # Legacy conda config (not used; use uv instead)
 ```
+
+**IMPORTANT**: Only notebooks in the `notebooks/` directory are active and should be considered for all tasks. Any notebooks in `_deprecated-notebooks/` or other deprecated directories should be completely ignored - they are not maintained and should not be referenced, edited, or used as examples.
 
 ## Notebook Conventions
 
