@@ -24,8 +24,13 @@ CIFAR10_MEAN = (0.4914, 0.4822, 0.4465)
 CIFAR10_STD = (0.2470, 0.2435, 0.2616)
 
 MNIST_CLASSES = [str(i) for i in range(10)]
+MNIST_MEAN = (0.1307,)
+MNIST_STD = (0.3081,)
+
 FASHIONMNIST_CLASSES = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                         'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+FASHIONMNIST_MEAN = (0.2860,)
+FASHIONMNIST_STD = (0.3530,)
 
 
 class NamesDataset(Dataset):

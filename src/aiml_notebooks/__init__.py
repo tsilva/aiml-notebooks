@@ -22,7 +22,11 @@ from .datasets import (
     CIFAR10_MEAN,
     CIFAR10_STD,
     MNIST_CLASSES,
+    MNIST_MEAN,
+    MNIST_STD,
     FASHIONMNIST_CLASSES,
+    FASHIONMNIST_MEAN,
+    FASHIONMNIST_STD,
 )
 from .logging import log_gradients, log_model_weights, log_gradient_flow
 from .training import create_wandb_logger, watch_model, create_trainer, setup_papermill_params
@@ -38,7 +42,11 @@ __all__ = [
     "CIFAR10_MEAN",
     "CIFAR10_STD",
     "MNIST_CLASSES",
+    "MNIST_MEAN",
+    "MNIST_STD",
     "FASHIONMNIST_CLASSES",
+    "FASHIONMNIST_MEAN",
+    "FASHIONMNIST_STD",
     "log_gradients",
     "log_model_weights",
     "log_gradient_flow",
