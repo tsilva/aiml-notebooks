@@ -4,13 +4,17 @@ This module provides common plotting and visualization utilities:
 - Image grid plotting (for GANs, VAEs, etc.)
 - W&B logging helpers
 - Common matplotlib configurations
+- Training curves, confusion matrices, reconstructions
+- Sample predictions and model comparisons
 """
 
 import matplotlib.pyplot as plt
 import numpy as np
 import wandb
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Dict
 import torch
+import seaborn as sns
+from sklearn.metrics import confusion_matrix as sklearn_confusion_matrix
 
 
 def plot_image_grid(
@@ -180,3 +184,313 @@ def plot_training_curves(
     fig.suptitle(title)
     plt.tight_layout()
     return fig
+
+
+def plot_confusion_matrix(
+    y_true: Union[np.ndarray, List],
+    y_pred: Union[np.ndarray, List],
+    class_names: Optional[List[str]] = None,
+    normalize: bool = False,
+    figsize: tuple = (10, 8),
+    cmap: str = 'Blues',
+    title: str = 'Confusion Matrix'
+):
+    """
+    Plot confusion matrix with proper formatting.
+
+    Args:
+        y_true: True labels
+        y_pred: Predicted labels
+        class_names: List of class names for labels
+        normalize: Whether to normalize by row (true labels)
+        figsize: Figure size (width, height)
+        cmap: Color map
+        title: Plot title
+
+    Example:
+        >>> plot_confusion_matrix(
+        ...     y_true=test_labels,
+        ...     y_pred=predictions,
+        ...     class_names=['Cat', 'Dog'],
+        ...     normalize=True
+        ... )
+    """
+    # Compute confusion matrix
+    cm = sklearn_confusion_matrix(y_true, y_pred)
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        fmt = '.2%'
+        cm_display = (cm * 100).astype(int)  # For display as percentages
+    else:
+        fmt = 'd'
+        cm_display = cm
+
+    # Create plot
+    plt.figure(figsize=figsize)
+    sns.heatmap(
+        cm_display,
+        annot=True,
+        fmt=fmt if not normalize else 'd',
+        cmap=cmap,
+        xticklabels=class_names,
+        yticklabels=class_names,
+        cbar_kws={'label': 'Percentage' if normalize else 'Count'}
+    )
+    plt.xlabel('Predicted Label', fontsize=12)
+    plt.ylabel('True Label', fontsize=12)
+    plt.title(title, fontsize=14, fontweight='bold')
+    plt.tight_layout()
+    plt.show()
+
+    # Print statistics
+    print(f"\n{title} Statistics:")
+    print("=" * 50)
+    if class_names:
+        for i, name in enumerate(class_names):
+            if normalize:
+                accuracy = cm[i, i]
+                print(f"  {name:15s}: {accuracy*100:5.2f}% correct")
+            else:
+                correct = cm[i, i]
+                total = cm[i].sum()
+                print(f"  {name:15s}: {correct:5d} / {total:5d} ({100*correct/total:.2f}%)")
+    print("=" * 50)
+
+
+def visualize_reconstructions(
+    originals: torch.Tensor,
+    reconstructions: torch.Tensor,
+    n_samples: int = 10,
+    figsize: Optional[tuple] = None,
+    titles: Optional[List[str]] = None,
+    cmap: str = 'gray'
+):
+    """
+    Visualize original and reconstructed images side by side.
+
+    Args:
+        originals: Original images [batch_size, channels, height, width]
+        reconstructions: Reconstructed images [batch_size, channels, height, width]
+        n_samples: Number of samples to display
+        figsize: Figure size (None = auto)
+        titles: Optional titles for each column ['Original', 'Reconstructed']
+        cmap: Color map ('gray' for grayscale, None for RGB)
+
+    Example:
+        >>> visualize_reconstructions(
+        ...     originals=test_images,
+        ...     reconstructions=model(test_images),
+        ...     n_samples=8
+        ... )
+    """
+    if figsize is None:
+        figsize = (n_samples * 1.5, 3)
+
+    if titles is None:
+        titles = ['Original', 'Reconstructed']
+
+    # Convert to numpy and denormalize if needed
+    originals = originals.detach().cpu()
+    reconstructions = reconstructions.detach().cpu()
+
+    fig, axes = plt.subplots(2, n_samples, figsize=figsize)
+
+    for i in range(n_samples):
+        # Original
+        img_orig = originals[i]
+        if img_orig.shape[0] == 1:  # Grayscale
+            axes[0, i].imshow(img_orig.squeeze(), cmap=cmap)
+        else:  # RGB
+            axes[0, i].imshow(img_orig.permute(1, 2, 0))
+        axes[0, i].axis('off')
+        if i == 0:
+            axes[0, i].set_title(titles[0], fontsize=12, fontweight='bold', loc='left')
+
+        # Reconstruction
+        img_recon = reconstructions[i]
+        if img_recon.shape[0] == 1:  # Grayscale
+            axes[1, i].imshow(img_recon.squeeze(), cmap=cmap)
+        else:  # RGB
+            axes[1, i].imshow(img_recon.permute(1, 2, 0))
+        axes[1, i].axis('off')
+        if i == 0:
+            axes[1, i].set_title(titles[1], fontsize=12, fontweight='bold', loc='left')
+
+    plt.tight_layout()
+    plt.show()
+
+
+def visualize_sample_predictions(
+    images: torch.Tensor,
+    labels: torch.Tensor,
+    predictions: torch.Tensor,
+    class_names: Optional[List[str]] = None,
+    n_samples: int = 16,
+    figsize: Optional[tuple] = None,
+    confidences: Optional[torch.Tensor] = None,
+    cmap: str = 'gray'
+):
+    """
+    Visualize sample predictions with labels.
+
+    Correct predictions shown in green, incorrect in red.
+
+    Args:
+        images: Input images [batch_size, channels, height, width]
+        labels: True labels [batch_size]
+        predictions: Predicted labels [batch_size]
+        class_names: List of class names
+        n_samples: Number of samples to display
+        figsize: Figure size (None = auto)
+        confidences: Optional prediction confidences [batch_size]
+        cmap: Color map
+
+    Example:
+        >>> logits = model(images)
+        >>> preds = logits.argmax(dim=1)
+        >>> probs = F.softmax(logits, dim=1)
+        >>> confidences = probs.max(dim=1)[0]
+        >>> visualize_sample_predictions(
+        ...     images, labels, preds, class_names, confidences=confidences
+        ... )
+    """
+    if figsize is None:
+        rows = (n_samples + 3) // 4
+        figsize = (16, rows * 4)
+
+    images = images.detach().cpu()
+    labels = labels.detach().cpu()
+    predictions = predictions.detach().cpu()
+    if confidences is not None:
+        confidences = confidences.detach().cpu()
+
+    fig, axes = plt.subplots((n_samples + 3) // 4, 4, figsize=figsize)
+    axes = axes.flatten()
+
+    for i in range(n_samples):
+        # Get image
+        img = images[i]
+        if img.shape[0] == 1:  # Grayscale
+            axes[i].imshow(img.squeeze(), cmap=cmap)
+        else:  # RGB
+            axes[i].imshow(img.permute(1, 2, 0))
+
+        # Determine color (green=correct, red=incorrect)
+        correct = (predictions[i] == labels[i]).item()
+        color = 'green' if correct else 'red'
+
+        # Create title
+        true_label = class_names[labels[i]] if class_names else f'{labels[i]}'
+        pred_label = class_names[predictions[i]] if class_names else f'{predictions[i]}'
+
+        title = f"True: {true_label}\nPred: {pred_label}"
+        if confidences is not None:
+            title += f" ({confidences[i]*100:.1f}%)"
+
+        axes[i].set_title(title, color=color, fontsize=10)
+        axes[i].axis('off')
+
+    # Hide unused subplots
+    for i in range(n_samples, len(axes)):
+        axes[i].axis('off')
+
+    plt.suptitle('Sample Predictions (Green=Correct, Red=Incorrect)',
+                 fontsize=14, fontweight='bold', y=1.0)
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_interpolation(
+    interpolations: List[torch.Tensor],
+    start_label: Optional[str] = None,
+    end_label: Optional[str] = None,
+    figsize: Optional[tuple] = None,
+    cmap: str = 'gray',
+    title: str = "Latent Space Interpolation"
+):
+    """
+    Visualize latent space interpolation between two samples.
+
+    Args:
+        interpolations: List of interpolated images
+        start_label: Label for start image
+        end_label: Label for end image
+        figsize: Figure size (None = auto)
+        cmap: Color map
+        title: Plot title
+
+    Example:
+        >>> interpolations = interpolate_latents(model, img1, img2, n_steps=10)
+        >>> plot_interpolation(interpolations, "Cat", "Dog")
+    """
+    n_steps = len(interpolations)
+    if figsize is None:
+        figsize = (n_steps * 1.5, 2)
+
+    fig, axes = plt.subplots(1, n_steps, figsize=figsize)
+
+    for i, (ax, img) in enumerate(zip(axes, interpolations)):
+        img = img.detach().cpu()
+        if img.ndim == 3 and img.shape[0] == 1:  # Grayscale with channel dim
+            ax.imshow(img.squeeze(), cmap=cmap)
+        elif img.ndim == 2:  # Grayscale without channel dim
+            ax.imshow(img, cmap=cmap)
+        else:  # RGB
+            ax.imshow(img.permute(1, 2, 0))
+
+        ax.axis('off')
+
+        # Add labels to start and end
+        if i == 0 and start_label:
+            ax.set_title(start_label, fontsize=10)
+        elif i == n_steps - 1 and end_label:
+            ax.set_title(end_label, fontsize=10)
+
+    plt.suptitle(title, fontsize=14, fontweight='bold', y=1.05)
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_model_comparison(
+    model_names: List[str],
+    metric_values: List[float],
+    metric_name: str = "Accuracy",
+    figsize: tuple = (10, 6),
+    colors: Optional[List[str]] = None
+):
+    """
+    Compare multiple models on a single metric.
+
+    Args:
+        model_names: List of model names
+        metric_values: List of metric values (same order as model_names)
+        metric_name: Name of metric being compared
+        figsize: Figure size
+        colors: Optional list of bar colors
+
+    Example:
+        >>> plot_model_comparison(
+        ...     model_names=['Baseline', 'LSTM', 'BERT'],
+        ...     metric_values=[0.85, 0.92, 0.95],
+        ...     metric_name='Test Accuracy'
+        ... )
+    """
+    if colors is None:
+        colors = ['#3498db', '#2ecc71', '#9b59b6', '#e74c3c', '#f39c12'][:len(model_names)]
+
+    plt.figure(figsize=figsize)
+    bars = plt.bar(model_names, metric_values, color=colors, alpha=0.8, edgecolor='black')
+    plt.ylabel(metric_name, fontsize=12)
+    plt.title(f'Model Comparison: {metric_name}', fontsize=14, fontweight='bold')
+    plt.grid(axis='y', alpha=0.3)
+
+    # Add value labels on bars
+    for bar, value in zip(bars, metric_values):
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., height,
+                f'{value:.4f}',
+                ha='center', va='bottom', fontweight='bold')
+
+    plt.tight_layout()
+    plt.show()
