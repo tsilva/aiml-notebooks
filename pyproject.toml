@@ -27,6 +27,7 @@ dependencies = [
     "pandas",
     "wandb",
     "pyyaml",
+    "datasets>=4.3.0",
 ]
 
 [build-system]
