@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a collection of AI/ML Jupyter notebooks for learning and experimentation. The project contains detailed recreations of lessons from Andrej Karpathy's "Neural Networks: Zero to Hero" course, along with miscellaneous standalone experiments exploring various AI/ML concepts. Notebooks are deliberately more detailed than source material to serve as comprehensive references.
+This is a collection of AI/ML Jupyter notebooks for learning and experimentation. The project contains both course recreations and standalone experiments exploring various AI/ML concepts.
 
 ## Development Environment
 
@@ -38,7 +38,7 @@ uv run python fix_notebooks.py
 
 ```
 notebooks/          # All Jupyter notebooks
-├── zero2hero-XXX-*.ipynb    # Karpathy course recreations (numbered)
+├── <prefix>-NNN-*.ipynb     # Numbered course recreation notebooks (e.g., zero2hero-001-*.ipynb)
 ├── wip-*.ipynb              # Work-in-progress experiments
 ├── *.ipynb                  # Completed standalone notebooks
 └── *.todo.md                # Todo lists for specific WIP notebooks
@@ -57,7 +57,7 @@ environment.yml     # Legacy conda config (not used; use uv instead)
 
 ### Naming Patterns
 
-- `zero2hero-NNN-description.ipynb` - Numbered notebooks from Karpathy's course (in sequence)
+- `<prefix>-NNN-description.ipynb` - Numbered course recreation notebooks (e.g., `zero2hero-001-backprop.ipynb`)
 - `wip-description.ipynb` - Work-in-progress experiments (incomplete/draft)
 - `description.ipynb` - Completed standalone experiments
 
@@ -96,7 +96,7 @@ This script:
 
 **Manual notebook creation** (only if not using agent):
 1. Place notebooks in the `notebooks/` directory
-2. Use appropriate naming prefix (`wip-` for incomplete, `zero2hero-NNN-` for course recreations)
+2. Use appropriate naming prefix (`wip-` for incomplete, `<prefix>-NNN-` for numbered course recreations)
 3. Add Colab badge at the top (markdown or HTML format)
 4. Run `fix_notebooks.py` to ensure proper metadata and links
 
@@ -106,6 +106,33 @@ This script:
 - Include mathematical formulas, visualizations, and step-by-step commentary
 - Use markdown cells liberally to explain concepts
 - For WIP notebooks, consider creating a `.todo.md` file to track progress
+
+### Testing Notebooks
+
+**IMPORTANT**: Always test notebooks end-to-end after creation or modification.
+
+```bash
+# Test a notebook by executing all cells
+uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebook.ipynb
+
+# Or use a shorter timeout for quick testing (e.g., with 1 epoch)
+uv run jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=300 --inplace notebooks/your-notebook.ipynb
+
+# On macOS with MPS: Enable CPU fallback for unsupported operations
+PYTORCH_ENABLE_MPS_FALLBACK=1 uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebook.ipynb
+```
+
+**Important for macOS users**: If a notebook uses PyTorch Transformers (`nn.Transformer`) or other advanced operations, you MUST set `PYTORCH_ENABLE_MPS_FALLBACK=1` when testing. See [GPU Acceleration](#gpu-acceleration) section for details.
+
+**When using shared library components**:
+1. Verify the API by checking the source code in `src/aiml_notebooks/` or referring to the API documentation in CLAUDE.md
+2. Use `%autoreload 2` to enable hot reloading during development
+3. Test common operations (encode/decode, dataset access, etc.) in early notebook cells
+
+**Common mistakes to avoid**:
+- Using non-existent methods (e.g., `tokenizer.get_vocab()` doesn't exist - use `tokenizer.chars` instead)
+- Assuming APIs without checking documentation
+- Forgetting to run `fix_notebooks.py` after creating/editing notebooks
 
 ### Using the Shared Library
 
@@ -123,11 +150,94 @@ from aiml_notebooks import CharacterTokenizer, NamesDataset, collate_fn
 The `%autoreload 2` magic command ensures that any changes to library code in `src/aiml_notebooks/` are automatically reloaded without needing to restart the kernel. This is essential for iterative development.
 
 **Available shared components**:
-- `CharacterTokenizer` - Character-level tokenizer for text sequences with encapsulated methods
-- `NamesDataset` - PyTorch Dataset for name generation tasks with `get_texts()` method
-- `collate_fn` - Collate function for padding variable-length sequences
-- `create_dataset` - Factory function for creating datasets with automatic data loading and splitting
-- `create_dataloaders` - Factory function for creating DataLoaders with proper configuration
+
+#### CharacterTokenizer
+Character-level tokenizer for text sequences.
+
+**Attributes**:
+- `chars` - List of all characters in vocabulary (special token first)
+- `char_to_idx` - Dict mapping characters to indices
+- `idx_to_char` - Dict mapping indices to characters
+- `special_token` - The special start/end token character (default '.')
+- `vocab_size` - Total number of characters in vocabulary
+
+**Methods**:
+- `encode(text)` - Convert text to list of indices
+- `decode(indices)` - Convert list of indices to text
+- `encode_char(char)` - Convert single character to index
+- `decode_char(idx)` - Convert single index to character
+- `get_special_token_idx()` - Get index of special token
+- `is_special_token(char)` - Check if character is special token
+
+**Example**:
+```python
+tokenizer = full_dataset.tokenizer
+vocab_chars = ''.join(tokenizer.chars)  # Get all vocabulary characters
+encoded = tokenizer.encode('.hello.')   # [0, 8, 5, 12, 12, 15, 0]
+decoded = tokenizer.decode(encoded)     # '.hello.'
+```
+
+#### NamesDataset
+PyTorch Dataset for character-level name generation tasks.
+
+**Attributes**:
+- `names` - List of name strings
+- `tokenizer` - CharacterTokenizer instance
+- `max_length` - Maximum sequence length
+
+**Methods**:
+- `__len__()` - Returns number of names in dataset
+- `__getitem__(idx)` - Returns (input_tensor, target_tensor) for training
+- `get_texts()` - Returns raw list of names (generic interface for accessing underlying data)
+
+**Example**:
+```python
+dataset = NamesDataset(names, tokenizer)
+x, y = dataset[0]  # Get first training example
+original_names = dataset.get_texts()  # Get raw names
+```
+
+#### Device and Seed Utilities
+
+**get_device()** - Smart device detection with configurable strategy
+
+**Parameters**:
+- `verbose` (bool, default=True) - Whether to print device information
+- `prefer_cpu` (bool, default=False) - If True, avoid MPS (safe mode for Transformers)
+- `show_mps_warning` (bool, default=True) - Show fallback instructions when MPS is skipped
+
+**Returns**: `torch.device` object
+
+**Examples**:
+```python
+# Standard mode (MPS-compatible notebooks)
+device = get_device()
+
+# Safe mode (Transformer notebooks)
+device = get_device(prefer_cpu=True)
+
+# Quiet mode
+device = get_device(verbose=False)
+```
+
+**set_seed()** - Set random seeds for reproducibility
+
+**Parameters**:
+- `seed` (int, default=42) - Random seed value
+
+**Example**:
+```python
+from aiml_notebooks import set_seed
+
+set_seed(42)  # Makes all random operations deterministic
+```
+
+#### Other Components
+- `collate_fn(batch)` - Collate function for padding variable-length sequences in batches (used with DataLoader)
+- `create_dataset(dataset_id, splits)` - Factory function for creating datasets with automatic data loading and splitting
+- `create_dataloaders(train_dataset, val_dataset, ...)` - Factory function for creating DataLoaders with proper configuration
+- `count_parameters(model)` - Count trainable parameters in a PyTorch model
+- `print_model_summary(model)` - Print model architecture and parameter counts
 
 **Factory Usage**:
 
@@ -155,7 +265,7 @@ original_texts = full_dataset.get_texts()  # Works for any dataset type
 ```
 
 **Supported dataset IDs**:
-- `"names"` - Character-level name generation dataset (Karpathy's names.txt, ~32K names)
+- `"names"` - Character-level name generation dataset (~32K names)
 - `"words"` - English words dataset (3-12 characters, filtered for generation, ~370K words)
 
 **DataLoader factory options**:
@@ -183,9 +293,92 @@ This repository emphasizes **interactive, pedagogical notebooks** designed for l
 
 ### GPU Acceleration
 
+#### Device Selection in Notebooks
+
+**Recommended Pattern: Use the Shared Utility**
+
+The `aiml_notebooks` package provides a `get_device()` utility for consistent device detection across all notebooks:
+
+```python
+from aiml_notebooks import get_device
+
+# For standard notebooks (MPS-compatible)
+device = get_device()
+
+# For Transformer notebooks (safe mode, avoids MPS)
+device = get_device(prefer_cpu=True)
+
+# Quiet mode (no output)
+device = get_device(verbose=False)
+```
+
+**How it works:**
+- **Standard mode** (`prefer_cpu=False`): Prefers MPS > CUDA > CPU
+- **Safe mode** (`prefer_cpu=True`): Prefers CUDA > CPU (avoids MPS for Transformer compatibility)
+- Automatically detects available hardware
+- Provides helpful hints when MPS is available but not used
+
+**When to use each mode:**
+- **Standard mode**: For notebooks without `nn.Transformer` or nested tensor operations
+- **Safe mode**: For notebooks using `nn.Transformer`, HuggingFace Transformers, or other MPS-incompatible operations
+
+**Manual pattern (only if not using shared library):**
+
+```python
+import torch
+
+# For MPS-compatible notebooks
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
+    print("Using MPS (Metal Performance Shaders) for GPU acceleration")
+elif torch.cuda.is_available():
+    device = torch.device("cuda")
+    print("Using CUDA for GPU acceleration")
+else:
+    device = torch.device("cpu")
+    print("Using CPU")
+
+# For Transformer notebooks (safe mode)
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    print("Using CUDA for GPU acceleration")
+else:
+    device = torch.device("cpu")
+    print("Using CPU")
+    if torch.backends.mps.is_available():
+        print("Note: MPS is available but not used due to compatibility issues")
+        print("To use MPS with CPU fallback, run: PYTORCH_ENABLE_MPS_FALLBACK=1 jupyter lab")
+```
+
+#### Platform Notes
+
 - **macOS**: PyTorch uses MPS (Metal Performance Shaders) for GPU acceleration
 - **CUDA**: Only available on Linux/Windows (not macOS)
-- Check device availability in notebooks: `torch.backends.mps.is_available()` or `torch.cuda.is_available()`
+- Check device availability: `torch.backends.mps.is_available()` or `torch.cuda.is_available()`
+
+#### MPS Compatibility Issues
+
+**Known Issues:**
+- `nn.Transformer` and nested tensor operations are not fully supported on MPS
+- Some advanced PyTorch operations may fall back to CPU automatically
+
+**Solution:**
+Use the `PYTORCH_ENABLE_MPS_FALLBACK=1` environment variable to enable automatic CPU fallback for unsupported operations:
+
+```bash
+# When running Jupyter Lab
+PYTORCH_ENABLE_MPS_FALLBACK=1 uv run jupyter lab
+
+# When testing notebooks
+PYTORCH_ENABLE_MPS_FALLBACK=1 uv run jupyter nbconvert --to notebook --execute notebooks/your-notebook.ipynb
+```
+
+**Important:** The environment variable MUST be set before starting Python. Setting it inside notebook code with `os.environ` does NOT work because PyTorch initializes before that code runs.
+
+**When to Use CPU vs MPS:**
+- **Use CPU (safer)**: For notebooks with `nn.Transformer`, nested tensors, or complex operations
+- **Use MPS with fallback**: When you want best performance and don't mind occasional CPU fallbacks
+- **Use MPS directly**: For simple operations (basic tensors, simple models) that are known to work
 
 ## Git Workflow
 
@@ -197,7 +390,11 @@ This repository emphasizes **interactive, pedagogical notebooks** designed for l
 
 ### Run a notebook
 ```bash
-uv run jupyter lab notebooks/zero2hero-001-backprop-from-scratch.ipynb
+# Standard way
+uv run jupyter lab notebooks/your-notebook.ipynb
+
+# On macOS with MPS fallback enabled (for notebooks using Transformers)
+PYTORCH_ENABLE_MPS_FALLBACK=1 uv run jupyter lab notebooks/your-notebook.ipynb
 ```
 
 ### Fix all notebook metadata and Colab links
@@ -220,10 +417,10 @@ uv sync
 ### Run hyperparameter sweeps with W&B
 ```bash
 # Quick test sweep (3 trials)
-uv run python sweep.py sweeps/name-rnn-test.yaml notebooks/name-generation-rnn.ipynb
+uv run python sweep.py sweeps/your-config.yaml notebooks/your-notebook.ipynb
 
 # Full Bayesian sweep (10 trials)
-uv run python sweep.py sweeps/name-rnn-full.yaml notebooks/name-generation-rnn.ipynb --count 10
+uv run python sweep.py sweeps/your-config.yaml notebooks/your-notebook.ipynb --count 10
 ```
 
 ## Hyperparameter Sweeps
@@ -233,8 +430,7 @@ The repository includes a generic W&B sweep runner (`run_sweep.py`) for optimizi
 ### Sweep Structure
 ```
 sweeps/                          # Sweep configurations (YAML files, committed)
-├── name-rnn-test.yaml          # Quick test sweep
-└── name-rnn-full.yaml          # Full Bayesian optimization
+└── *.yaml                       # Sweep configs for various notebooks
 
 tmp/sweeps/                      # Temporary sweep files (gitignored)
 ├── scripts/                     # Auto-converted notebooks

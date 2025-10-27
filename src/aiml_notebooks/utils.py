@@ -9,27 +9,47 @@ import numpy as np
 import random
 
 
-def get_device(verbose: bool = True) -> torch.device:
+def get_device(
+    verbose: bool = True,
+    prefer_cpu: bool = False,
+    show_mps_warning: bool = True
+) -> torch.device:
     """
-    Get best available device (MPS > CUDA > CPU).
+    Get best available device with configurable strategy.
 
-    Automatically detects and selects the best available device:
-    - MPS (Metal Performance Shaders) for Apple Silicon GPUs
-    - CUDA for NVIDIA GPUs
-    - CPU as fallback
+    Supports two device selection strategies:
+    1. Standard (prefer_cpu=False): MPS > CUDA > CPU
+    2. Safe mode (prefer_cpu=True): CUDA > CPU (avoids MPS)
+
+    Safe mode is recommended for notebooks using:
+    - nn.Transformer or nested tensor operations
+    - Advanced PyTorch operations with known MPS issues
+
+    For MPS-compatible notebooks, use standard mode for best performance.
 
     Args:
         verbose: Whether to print device information
+        prefer_cpu: If True, avoid MPS even if available (safe mode for Transformers)
+        show_mps_warning: If True and MPS is available but not used, show fallback instructions
 
     Returns:
         torch.device object
 
-    Example:
+    Examples:
+        >>> # Standard usage (MPS-compatible notebooks)
         >>> device = get_device()
         Using MPS (Metal Performance Shaders) for GPU acceleration
-        >>> model.to(device)
+
+        >>> # Safe mode (Transformer notebooks)
+        >>> device = get_device(prefer_cpu=True)
+        Using CPU
+        Note: MPS is available but not used due to compatibility issues
+        To use MPS with CPU fallback, run: PYTORCH_ENABLE_MPS_FALLBACK=1 jupyter lab
+
+        >>> # Quiet mode
+        >>> device = get_device(verbose=False)
     """
-    if torch.backends.mps.is_available():
+    if not prefer_cpu and torch.backends.mps.is_available():
         device = torch.device("mps")
         if verbose:
             print("Using MPS (Metal Performance Shaders) for GPU acceleration")
@@ -41,6 +61,9 @@ def get_device(verbose: bool = True) -> torch.device:
         device = torch.device("cpu")
         if verbose:
             print("Using CPU")
+            if show_mps_warning and prefer_cpu and torch.backends.mps.is_available():
+                print("Note: MPS is available but not used due to compatibility issues")
+                print("To use MPS with CPU fallback, run: PYTORCH_ENABLE_MPS_FALLBACK=1 jupyter lab")
 
     return device
 
