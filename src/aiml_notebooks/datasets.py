@@ -16,6 +16,18 @@ from torch.utils.data import Dataset, DataLoader, random_split
 from torchvision import datasets, transforms
 
 
+# Class names for standard vision datasets
+CIFAR10_CLASSES = ['airplane', 'automobile', 'bird', 'cat', 'deer',
+                   'dog', 'frog', 'horse', 'ship', 'truck']
+
+CIFAR10_MEAN = (0.4914, 0.4822, 0.4465)
+CIFAR10_STD = (0.2470, 0.2435, 0.2616)
+
+MNIST_CLASSES = [str(i) for i in range(10)]
+FASHIONMNIST_CLASSES = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+                        'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+
+
 class NamesDataset(Dataset):
     """
     PyTorch Dataset for character-level name generation.
@@ -210,7 +222,12 @@ def _load_palindromes_dataset(min_length: int = 7, max_length: int = 15, num_sam
     return palindromes
 
 
-def _load_mnist_dataset(root: str = './data', train: bool = True, download: bool = True) -> Dataset:
+def _load_mnist_dataset(
+    root: str = './data',
+    train: bool = True,
+    download: bool = True,
+    transform: Optional[transforms.Compose] = None
+) -> Dataset:
     """
     Load the MNIST handwritten digits dataset.
 
@@ -218,13 +235,15 @@ def _load_mnist_dataset(root: str = './data', train: bool = True, download: bool
         root: Root directory where dataset will be downloaded/stored (default: './data')
         train: If True, load training set; if False, load test set (default: True)
         download: If True, download dataset if not already present (default: True)
+        transform: Optional custom transform. If None, uses ToTensor() (default: None)
 
     Returns:
-        MNIST dataset with standard normalization to [0, 1]
+        MNIST dataset with specified transforms
     """
-    transform = transforms.Compose([
-        transforms.ToTensor(),
-    ])
+    if transform is None:
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+        ])
 
     return datasets.MNIST(
         root=root,
@@ -234,7 +253,12 @@ def _load_mnist_dataset(root: str = './data', train: bool = True, download: bool
     )
 
 
-def _load_cifar10_dataset(root: str = './data', train: bool = True, download: bool = True) -> Dataset:
+def _load_cifar10_dataset(
+    root: str = './data',
+    train: bool = True,
+    download: bool = True,
+    transform: Optional[transforms.Compose] = None
+) -> Dataset:
     """
     Load the CIFAR-10 dataset (32x32 color images, 10 classes).
 
@@ -242,13 +266,15 @@ def _load_cifar10_dataset(root: str = './data', train: bool = True, download: bo
         root: Root directory where dataset will be downloaded/stored (default: './data')
         train: If True, load training set; if False, load test set (default: True)
         download: If True, download dataset if not already present (default: True)
+        transform: Optional custom transform. If None, uses ToTensor() (default: None)
 
     Returns:
-        CIFAR-10 dataset with standard normalization to [0, 1]
+        CIFAR-10 dataset with specified transforms
     """
-    transform = transforms.Compose([
-        transforms.ToTensor(),
-    ])
+    if transform is None:
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+        ])
 
     return datasets.CIFAR10(
         root=root,
@@ -258,7 +284,12 @@ def _load_cifar10_dataset(root: str = './data', train: bool = True, download: bo
     )
 
 
-def _load_fashionmnist_dataset(root: str = './data', train: bool = True, download: bool = True) -> Dataset:
+def _load_fashionmnist_dataset(
+    root: str = './data',
+    train: bool = True,
+    download: bool = True,
+    transform: Optional[transforms.Compose] = None
+) -> Dataset:
     """
     Load the Fashion-MNIST dataset (28x28 grayscale clothing images, 10 classes).
 
@@ -266,13 +297,15 @@ def _load_fashionmnist_dataset(root: str = './data', train: bool = True, downloa
         root: Root directory where dataset will be downloaded/stored (default: './data')
         train: If True, load training set; if False, load test set (default: True)
         download: If True, download dataset if not already present (default: True)
+        transform: Optional custom transform. If None, uses ToTensor() (default: None)
 
     Returns:
-        Fashion-MNIST dataset with standard normalization to [0, 1]
+        Fashion-MNIST dataset with specified transforms
     """
-    transform = transforms.Compose([
-        transforms.ToTensor(),
-    ])
+    if transform is None:
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+        ])
 
     return datasets.FashionMNIST(
         root=root,
@@ -445,6 +478,8 @@ def create_dataset(
         # Load vision dataset (MNIST, CIFAR-10, Fashion-MNIST)
         root = kwargs.get('root', './data')
         download = kwargs.get('download', True)
+        train_transform = kwargs.get('train_transform', None)
+        test_transform = kwargs.get('test_transform', None)
 
         # Map dataset_id to loader function
         loaders = {
@@ -454,12 +489,17 @@ def create_dataset(
         }
         loader_fn = loaders[dataset_id]
 
-        # Load both train and test sets
-        train_dataset = loader_fn(root=root, train=True, download=download)
-        test_dataset = loader_fn(root=root, train=False, download=download)
+        # Load both train and test sets with appropriate transforms
+        train_dataset = loader_fn(root=root, train=True, download=download, transform=train_transform)
+        test_dataset = loader_fn(root=root, train=False, download=download, transform=test_transform)
 
-        # If splits provided, combine and split
-        if splits is not None:
+        # For vision datasets, return train and test separately (not combined)
+        # This preserves the standard train/test split and allows different transforms
+        if splits is None:
+            # Return standard train/test split as tuple: (train, test)
+            return (train_dataset, test_dataset)
+        else:
+            # If custom splits requested, combine and re-split
             from torch.utils.data import ConcatDataset
             full_dataset = ConcatDataset([train_dataset, test_dataset])
 
@@ -469,11 +509,6 @@ def create_dataset(
             split_datasets = random_split(full_dataset, split_sizes)
 
             return (full_dataset, *split_datasets)
-        else:
-            # No splits requested - return concatenated dataset
-            from torch.utils.data import ConcatDataset
-            full_dataset = ConcatDataset([train_dataset, test_dataset])
-            return (full_dataset,)
 
     else:
         raise ValueError(f"Unknown dataset_id: {dataset_id}. Supported: 'names', 'words', 'palindromes', 'bitflipping', 'mnist', 'cifar10', 'fashionmnist'")

@@ -13,7 +13,17 @@ This package contains reusable components for multiple notebooks:
 __version__ = "0.1.0"
 
 from .tokenizers import CharacterTokenizer
-from .datasets import NamesDataset, collate_fn, create_dataset, create_dataloaders
+from .datasets import (
+    NamesDataset,
+    collate_fn,
+    create_dataset,
+    create_dataloaders,
+    CIFAR10_CLASSES,
+    CIFAR10_MEAN,
+    CIFAR10_STD,
+    MNIST_CLASSES,
+    FASHIONMNIST_CLASSES,
+)
 from .logging import log_gradients, log_model_weights, log_gradient_flow
 from .training import create_wandb_logger, watch_model, create_trainer, setup_papermill_params
 from .visualization import plot_image_grid, log_images_to_wandb, plot_training_curves
@@ -24,6 +34,11 @@ __all__ = [
     "collate_fn",
     "create_dataset",
     "create_dataloaders",
+    "CIFAR10_CLASSES",
+    "CIFAR10_MEAN",
+    "CIFAR10_STD",
+    "MNIST_CLASSES",
+    "FASHIONMNIST_CLASSES",
     "log_gradients",
     "log_model_weights",
     "log_gradient_flow",
