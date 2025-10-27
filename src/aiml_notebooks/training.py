@@ -4,12 +4,21 @@ This module provides common utilities for setting up training experiments:
 - W&B logger initialization with sweep support
 - PyTorch Lightning trainer configuration
 - Papermill parameter handling for hyperparameter sweeps
+- Generic training loops for different task types
+- TrainingHistory for metrics tracking
+- Generic Trainer class for common training patterns
 """
 
 import wandb
 from pytorch_lightning.loggers import WandbLogger
 import pytorch_lightning as L
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple, List
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader
+from tqdm.auto import tqdm
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 def create_wandb_logger(
@@ -181,3 +190,379 @@ def setup_papermill_params(config: Dict[str, Any], **params) -> Dict[str, Any]:
     config.update(params)
     print(f"Running with config: {config}")
     return config
+
+
+# ============================================================================
+# Training and Evaluation Loops
+# ============================================================================
+
+def train_epoch_classification(
+    model: nn.Module,
+    loader: DataLoader,
+    optimizer: torch.optim.Optimizer,
+    criterion: nn.Module,
+    device: torch.device,
+    clip_grad_norm: Optional[float] = None,
+    desc: str = "Training"
+) -> Tuple[float, float]:
+    """
+    Standard training epoch for classification tasks.
+
+    Args:
+        model: PyTorch model
+        loader: Training data loader
+        optimizer: Optimizer
+        criterion: Loss function
+        device: Device to train on
+        clip_grad_norm: Maximum gradient norm (None = no clipping)
+        desc: Progress bar description
+
+    Returns:
+        avg_loss: Average loss over epoch
+        accuracy: Training accuracy
+
+    Example:
+        >>> loss, acc = train_epoch_classification(
+        ...     model, train_loader, optimizer, criterion, device
+        ... )
+        >>> print(f"Train Loss: {loss:.4f}, Acc: {acc:.4f}")
+    """
+    model.train()
+    total_loss = 0
+    correct = 0
+    total = 0
+
+    for batch in tqdm(loader, desc=desc):
+        # Handle different batch formats
+        if isinstance(batch, dict):
+            inputs = batch['input_ids'].to(device)
+            labels = batch['label'].to(device)
+        else:
+            inputs, labels = batch
+            inputs, labels = inputs.to(device), labels.to(device)
+
+        # Forward pass
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+
+        # Backward pass
+        loss.backward()
+
+        # Gradient clipping
+        if clip_grad_norm is not None:
+            torch.nn.utils.clip_grad_norm_(model.parameters(), clip_grad_norm)
+
+        optimizer.step()
+
+        # Statistics
+        total_loss += loss.item()
+        preds = outputs.argmax(dim=1)
+        correct += (preds == labels).sum().item()
+        total += labels.size(0)
+
+    avg_loss = total_loss / len(loader)
+    accuracy = correct / total
+
+    return avg_loss, accuracy
+
+
+def evaluate_classification(
+    model: nn.Module,
+    loader: DataLoader,
+    criterion: nn.Module,
+    device: torch.device,
+    desc: str = "Evaluating"
+) -> Tuple[float, float, np.ndarray, np.ndarray]:
+    """
+    Evaluate classification model.
+
+    Args:
+        model: PyTorch model
+        loader: Validation/test data loader
+        criterion: Loss function
+        device: Device to evaluate on
+        desc: Progress bar description
+
+    Returns:
+        avg_loss: Average loss
+        accuracy: Accuracy
+        predictions: All predictions
+        labels: All true labels
+
+    Example:
+        >>> loss, acc, preds, labels = evaluate_classification(
+        ...     model, val_loader, criterion, device
+        ... )
+        >>> print(f"Val Loss: {loss:.4f}, Acc: {acc:.4f}")
+    """
+    model.eval()
+    total_loss = 0
+    correct = 0
+    total = 0
+    all_preds = []
+    all_labels = []
+
+    with torch.no_grad():
+        for batch in tqdm(loader, desc=desc):
+            # Handle different batch formats
+            if isinstance(batch, dict):
+                inputs = batch['input_ids'].to(device)
+                labels = batch['label'].to(device)
+            else:
+                inputs, labels = batch
+                inputs, labels = inputs.to(device), labels.to(device)
+
+            # Forward pass
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+
+            # Statistics
+            total_loss += loss.item()
+            preds = outputs.argmax(dim=1)
+            correct += (preds == labels).sum().item()
+            total += labels.size(0)
+
+            # Collect predictions
+            all_preds.extend(preds.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+
+    avg_loss = total_loss / len(loader)
+    accuracy = correct / total
+
+    return avg_loss, accuracy, np.array(all_preds), np.array(all_labels)
+
+
+def train_epoch_seq2seq(
+    model: nn.Module,
+    loader: DataLoader,
+    optimizer: torch.optim.Optimizer,
+    criterion: nn.Module,
+    device: torch.device,
+    clip_grad_norm: float = 1.0,
+    teacher_forcing_ratio: float = 0.5,
+    desc: str = "Training"
+) -> float:
+    """
+    Training epoch for seq2seq tasks.
+
+    Args:
+        model: Seq2seq model
+        loader: Training data loader
+        optimizer: Optimizer
+        criterion: Loss function
+        device: Device to train on
+        clip_grad_norm: Maximum gradient norm
+        teacher_forcing_ratio: Probability of using teacher forcing
+        desc: Progress bar description
+
+    Returns:
+        avg_loss: Average loss over epoch
+
+    Example:
+        >>> loss = train_epoch_seq2seq(
+        ...     model, train_loader, optimizer, criterion, device
+        ... )
+    """
+    model.train()
+    total_loss = 0
+
+    for src, tgt in tqdm(loader, desc=desc):
+        src, tgt = src.to(device), tgt.to(device)
+
+        optimizer.zero_grad()
+
+        # Forward pass (model should handle teacher forcing internally)
+        output = model(src, tgt, teacher_forcing_ratio=teacher_forcing_ratio)
+
+        # Reshape for loss computation
+        output_dim = output.shape[-1]
+        output = output[:, 1:].reshape(-1, output_dim)  # Skip SOS token
+        tgt = tgt[:, 1:].reshape(-1)  # Skip SOS token
+
+        loss = criterion(output, tgt)
+
+        # Backward pass
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), clip_grad_norm)
+        optimizer.step()
+
+        total_loss += loss.item()
+
+    return total_loss / len(loader)
+
+
+def evaluate_seq2seq(
+    model: nn.Module,
+    loader: DataLoader,
+    criterion: nn.Module,
+    device: torch.device,
+    desc: str = "Evaluating"
+) -> float:
+    """
+    Evaluate seq2seq model.
+
+    Args:
+        model: Seq2seq model
+        loader: Validation/test data loader
+        criterion: Loss function
+        device: Device to evaluate on
+        desc: Progress bar description
+
+    Returns:
+        avg_loss: Average loss
+
+    Example:
+        >>> loss = evaluate_seq2seq(model, val_loader, criterion, device)
+    """
+    model.eval()
+    total_loss = 0
+
+    with torch.no_grad():
+        for src, tgt in tqdm(loader, desc=desc):
+            src, tgt = src.to(device), tgt.to(device)
+
+            # Forward pass (no teacher forcing during evaluation)
+            output = model(src, tgt, teacher_forcing_ratio=0.0)
+
+            # Reshape for loss computation
+            output_dim = output.shape[-1]
+            output = output[:, 1:].reshape(-1, output_dim)
+            tgt = tgt[:, 1:].reshape(-1)
+
+            loss = criterion(output, tgt)
+            total_loss += loss.item()
+
+    return total_loss / len(loader)
+
+
+# ============================================================================
+# Training History
+# ============================================================================
+
+class TrainingHistory:
+    """
+    Track training metrics across epochs.
+
+    Provides convenient storage and visualization of training metrics.
+
+    Example:
+        >>> history = TrainingHistory(['train_loss', 'val_loss', 'train_acc', 'val_acc'])
+        >>> for epoch in range(num_epochs):
+        ...     # ... training ...
+        ...     history.update(train_loss=0.5, val_loss=0.6, train_acc=0.8, val_acc=0.75)
+        >>> history.plot()
+        >>> best_epoch = history.get_best_epoch('val_loss', mode='min')
+    """
+
+    def __init__(self, metrics: Optional[List[str]] = None):
+        """
+        Initialize training history.
+
+        Args:
+            metrics: List of metric names to track (e.g., ['train_loss', 'val_loss'])
+                    If None, metrics will be inferred from first update() call
+        """
+        if metrics is None:
+            self.metrics = []
+            self.history = {}
+        else:
+            self.metrics = metrics
+            self.history = {metric: [] for metric in metrics}
+        self.epoch = 0
+
+    def update(self, **kwargs):
+        """
+        Update history with new metric values.
+
+        Args:
+            **kwargs: Metric name-value pairs
+
+        Example:
+            >>> history.update(train_loss=0.5, val_loss=0.6)
+        """
+        # Initialize metrics on first call if not provided in __init__
+        if not self.metrics:
+            self.metrics = list(kwargs.keys())
+            self.history = {metric: [] for metric in self.metrics}
+
+        # Update values
+        for key, value in kwargs.items():
+            if key not in self.history:
+                # Add new metric if not seen before
+                self.metrics.append(key)
+                self.history[key] = [None] * self.epoch  # Fill previous epochs with None
+            self.history[key].append(value)
+
+        self.epoch += 1
+
+    def plot(self, figsize: Tuple[int, int] = (14, 5), style: str = 'seaborn-v0_8-darkgrid'):
+        """
+        Plot training history.
+
+        Args:
+            figsize: Figure size (width, height)
+            style: Matplotlib style
+
+        Example:
+            >>> history.plot()
+        """
+        plt.style.use(style)
+
+        # Group metrics by base name (train_loss and val_loss together)
+        metric_groups = {}
+        for metric in self.metrics:
+            base_name = metric.replace('train_', '').replace('val_', '').replace('test_', '')
+            if base_name not in metric_groups:
+                metric_groups[base_name] = []
+            metric_groups[base_name].append(metric)
+
+        num_groups = len(metric_groups)
+        fig, axes = plt.subplots(1, num_groups, figsize=figsize)
+
+        if num_groups == 1:
+            axes = [axes]
+
+        for ax, (base_name, group_metrics) in zip(axes, metric_groups.items()):
+            for metric in group_metrics:
+                values = self.history[metric]
+                label = metric.replace('_', ' ').title()
+                ax.plot(values, marker='o', label=label, alpha=0.8)
+
+            ax.set_xlabel('Epoch')
+            ax.set_ylabel(base_name.replace('_', ' ').title())
+            ax.set_title(f'{base_name.replace("_", " ").title()} Over Time')
+            ax.legend()
+            ax.grid(True, alpha=0.3)
+
+        plt.tight_layout()
+        plt.show()
+
+    def get_best_epoch(self, metric: str, mode: str = 'min') -> int:
+        """
+        Get epoch with best metric value.
+
+        Args:
+            metric: Metric name
+            mode: 'min' or 'max'
+
+        Returns:
+            Epoch index with best value
+
+        Example:
+            >>> best_epoch = history.get_best_epoch('val_loss', mode='min')
+            >>> print(f"Best model at epoch {best_epoch + 1}")
+        """
+        values = self.history[metric]
+        if mode == 'min':
+            return int(np.argmin(values))
+        else:
+            return int(np.argmax(values))
+
+    def get_best_value(self, metric: str, mode: str = 'min') -> float:
+        """Get best metric value."""
+        best_epoch = self.get_best_epoch(metric, mode)
+        return self.history[metric][best_epoch]
+
+    def __repr__(self):
+        return f"TrainingHistory(epochs={self.epoch}, metrics={self.metrics})"
