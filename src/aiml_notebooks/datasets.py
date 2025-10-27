@@ -641,3 +641,146 @@ def create_dataloaders(
         loaders.append(test_loader)
 
     return tuple(loaders)
+
+
+# ============================================================================
+# Collate Function Factories
+# ============================================================================
+
+def create_seq2seq_collate_fn(pad_idx: int = 0):
+    """
+    Create collate function for seq2seq tasks with variable-length sequences.
+
+    This factory function creates a collate_fn that pads sequences to the same
+    length within each batch, which is required for efficient batch processing.
+
+    Args:
+        pad_idx: Padding index to use (default: 0)
+
+    Returns:
+        Collate function suitable for DataLoader
+
+    Example:
+        >>> collate_fn = create_seq2seq_collate_fn(pad_idx=0)
+        >>> loader = DataLoader(dataset, batch_size=32, collate_fn=collate_fn)
+        >>> for src, tgt in loader:
+        ...     # src and tgt are padded to same length in batch
+        ...     print(src.shape, tgt.shape)
+    """
+    def collate_fn(batch):
+        """Collate function for seq2seq with padding."""
+        # Separate source and target sequences
+        src_batch, tgt_batch = zip(*batch)
+
+        # Pad sequences to max length in batch
+        src_padded = nn.utils.rnn.pad_sequence(
+            src_batch, batch_first=True, padding_value=pad_idx
+        )
+        tgt_padded = nn.utils.rnn.pad_sequence(
+            tgt_batch, batch_first=True, padding_value=pad_idx
+        )
+
+        return src_padded, tgt_padded
+
+    return collate_fn
+
+
+def create_classification_collate_fn(dict_format: bool = True):
+    """
+    Create collate function for classification tasks.
+
+    Args:
+        dict_format: If True, return dict with 'input_ids' and 'label' keys
+                    If False, return tuple of (inputs, labels)
+
+    Returns:
+        Collate function suitable for DataLoader
+
+    Example:
+        >>> # Dictionary format (default)
+        >>> collate_fn = create_classification_collate_fn(dict_format=True)
+        >>> loader = DataLoader(dataset, batch_size=32, collate_fn=collate_fn)
+        >>> for batch in loader:
+        ...     inputs = batch['input_ids']
+        ...     labels = batch['label']
+
+        >>> # Tuple format
+        >>> collate_fn = create_classification_collate_fn(dict_format=False)
+        >>> loader = DataLoader(dataset, batch_size=32, collate_fn=collate_fn)
+        >>> for inputs, labels in loader:
+        ...     pass
+    """
+    if dict_format:
+        def collate_fn(batch):
+            """Collate function returning dictionary."""
+            input_ids = torch.stack([item['input_ids'] for item in batch])
+            labels = torch.stack([item['label'] for item in batch])
+            return {'input_ids': input_ids, 'label': labels}
+    else:
+        def collate_fn(batch):
+            """Collate function returning tuple."""
+            if isinstance(batch[0], dict):
+                input_ids = torch.stack([item['input_ids'] for item in batch])
+                labels = torch.stack([item['label'] for item in batch])
+            else:
+                input_ids = torch.stack([item[0] for item in batch])
+                labels = torch.stack([item[1] for item in batch])
+            return input_ids, labels
+
+    return collate_fn
+
+
+def create_variable_length_collate_fn(
+    pad_idx: int = 0,
+    return_lengths: bool = False,
+    sort_by_length: bool = False
+):
+    """
+    Create collate function for variable-length sequences with optional features.
+
+    Args:
+        pad_idx: Padding index
+        return_lengths: If True, also return sequence lengths
+        sort_by_length: If True, sort batch by sequence length (descending)
+                       Useful for packed sequences in RNNs
+
+    Returns:
+        Collate function suitable for DataLoader
+
+    Example:
+        >>> collate_fn = create_variable_length_collate_fn(
+        ...     pad_idx=0, return_lengths=True, sort_by_length=True
+        ... )
+        >>> loader = DataLoader(dataset, batch_size=32, collate_fn=collate_fn)
+        >>> for batch in loader:
+        ...     sequences, labels, lengths = batch
+        ...     # Use lengths for packed sequences
+        ...     packed = nn.utils.rnn.pack_padded_sequence(
+        ...         sequences, lengths, batch_first=True
+        ...     )
+    """
+    def collate_fn(batch):
+        """Collate variable-length sequences."""
+        sequences, labels = zip(*batch)
+
+        # Get original lengths
+        lengths = torch.tensor([len(seq) for seq in sequences])
+
+        # Sort by length if requested
+        if sort_by_length:
+            lengths, sort_idx = lengths.sort(descending=True)
+            sequences = [sequences[i] for i in sort_idx]
+            labels = [labels[i] for i in sort_idx]
+
+        # Pad sequences
+        sequences_padded = nn.utils.rnn.pad_sequence(
+            sequences, batch_first=True, padding_value=pad_idx
+        )
+        labels_tensor = torch.tensor(labels)
+
+        if return_lengths:
+            return sequences_padded, labels_tensor, lengths
+        else:
+            return sequences_padded, labels_tensor
+
+    return collate_fn
