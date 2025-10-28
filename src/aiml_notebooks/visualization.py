@@ -11,10 +11,191 @@ This module provides common plotting and visualization utilities:
 import matplotlib.pyplot as plt
 import numpy as np
 import wandb
-from typing import Optional, List, Union, Dict
+from typing import Optional, List, Union, Dict, Tuple
 import torch
 import seaborn as sns
 from sklearn.metrics import confusion_matrix as sklearn_confusion_matrix
+
+
+def imshow_normalized(
+    ax: plt.Axes,
+    img_tensor: Union[torch.Tensor, np.ndarray],
+    mean: Union[float, Tuple[float, ...], List[float]],
+    std: Union[float, Tuple[float, ...], List[float]],
+    title: Optional[str] = None,
+    **kwargs
+):
+    """
+    Display a normalized image tensor on a matplotlib axis.
+
+    Args:
+        ax: Matplotlib axis
+        img_tensor: Image tensor in CHW format
+        mean: Normalization mean (single value for grayscale, tuple/list for RGB)
+        std: Normalization std (single value for grayscale, tuple/list for RGB)
+        title: Optional title for the image
+        **kwargs: Additional arguments passed to ax.imshow()
+
+    Example:
+        >>> fig, ax = plt.subplots()
+        >>> imshow_normalized(
+        ...     ax, normalized_img,
+        ...     mean=(0.1307,), std=(0.3081,),
+        ...     title='Digit 5'
+        ... )
+        >>> plt.show()
+    """
+    from .image_utils import prepare_for_visualization
+
+    # Convert to torch tensor if numpy
+    if isinstance(img_tensor, np.ndarray):
+        img_tensor = torch.from_numpy(img_tensor)
+
+    # Prepare for visualization (denormalize and convert to HW or HWC format)
+    img = prepare_for_visualization(img_tensor, mean, std, denormalize=True)
+
+    # Auto-detect grayscale
+    cmap = 'gray' if len(img.shape) == 2 else None
+
+    ax.imshow(img, cmap=cmap, **kwargs)
+    if title:
+        ax.set_title(title)
+    ax.axis('off')
+
+
+def show_image_grid_normalized(
+    images: Union[torch.Tensor, np.ndarray],
+    mean: Union[float, Tuple[float, ...], List[float]],
+    std: Union[float, Tuple[float, ...], List[float]],
+    labels: Optional[Union[torch.Tensor, np.ndarray, List]] = None,
+    class_names: Optional[List[str]] = None,
+    predictions: Optional[Union[torch.Tensor, np.ndarray, List]] = None,
+    confidences: Optional[Union[torch.Tensor, np.ndarray, List]] = None,
+    nrows: int = 2,
+    ncols: int = 4,
+    figsize: Optional[Tuple[int, int]] = None,
+    title: Optional[str] = None
+) -> plt.Figure:
+    """
+    Display a grid of normalized images with optional labels and predictions.
+
+    This is a high-level convenience function that combines denormalization
+    with grid display. Supports both dataset samples and prediction visualization.
+
+    Args:
+        images: Batch of normalized images in NCHW format
+        mean: Normalization mean (single value for grayscale, tuple/list for RGB)
+        std: Normalization std (single value for grayscale, tuple/list for RGB)
+        labels: Optional true labels for each image
+        class_names: Optional list of class names (used with labels/predictions)
+        predictions: Optional predicted labels (enables color-coded display)
+        confidences: Optional prediction confidences (shown as percentages)
+        nrows: Number of rows in grid
+        ncols: Number of columns in grid
+        figsize: Figure size (width, height). If None, auto-calculated
+        title: Optional overall figure title
+
+    Returns:
+        Matplotlib figure object
+
+    Example:
+        >>> # Display dataset samples with labels
+        >>> show_image_grid_normalized(
+        ...     images=batch_images,
+        ...     mean=(0.1307,), std=(0.3081,),
+        ...     labels=batch_labels,
+        ...     class_names=['0', '1', '2', ...],
+        ...     nrows=2, ncols=4
+        ... )
+
+        >>> # Display predictions (green=correct, red=incorrect)
+        >>> show_image_grid_normalized(
+        ...     images=test_images,
+        ...     mean=(0.4914, 0.4822, 0.4465),
+        ...     std=(0.2470, 0.2435, 0.2616),
+        ...     labels=true_labels,
+        ...     predictions=pred_labels,
+        ...     confidences=pred_confidences,
+        ...     class_names=CIFAR10_CLASSES,
+        ...     nrows=4, ncols=4
+        ... )
+    """
+    # Convert tensors to numpy/lists
+    if isinstance(images, torch.Tensor):
+        images = images.detach().cpu()
+    if isinstance(labels, torch.Tensor):
+        labels = labels.detach().cpu().numpy()
+    if isinstance(predictions, torch.Tensor):
+        predictions = predictions.detach().cpu().numpy()
+    if isinstance(confidences, torch.Tensor):
+        confidences = confidences.detach().cpu().numpy()
+
+    # Auto-calculate figsize
+    if figsize is None:
+        figsize = (ncols * 3, nrows * 3)
+
+    # Create subplots
+    fig, axes = plt.subplots(nrows, ncols, figsize=figsize)
+    if nrows == 1 and ncols == 1:
+        axes = np.array([[axes]])
+    elif nrows == 1:
+        axes = axes.reshape(1, -1)
+    elif ncols == 1:
+        axes = axes.reshape(-1, 1)
+
+    # Plot each image
+    for i, ax in enumerate(axes.flat):
+        if i >= len(images):
+            ax.axis('off')
+            continue
+
+        # Build title
+        img_title = None
+        title_color = None
+
+        if predictions is not None:
+            # Prediction mode: show true vs predicted with color coding
+            correct = (predictions[i] == labels[i]) if labels is not None else False
+            title_color = 'green' if correct else 'red'
+
+            if labels is not None and class_names:
+                img_title = f"True: {class_names[labels[i]]}\n"
+            elif labels is not None:
+                img_title = f"True: {labels[i]}\n"
+            else:
+                img_title = ""
+
+            if class_names:
+                img_title += f"Pred: {class_names[predictions[i]]}"
+            else:
+                img_title += f"Pred: {predictions[i]}"
+
+            if confidences is not None:
+                img_title += f" ({confidences[i]*100:.1f}%)"
+
+        elif labels is not None:
+            # Label mode: show just the true label
+            if class_names:
+                img_title = class_names[labels[i]]
+            else:
+                img_title = str(labels[i])
+
+        # Display image with denormalization
+        imshow_normalized(ax, images[i], mean, std, title=img_title)
+
+        # Apply color to title if needed
+        if title_color is not None and img_title:
+            ax.set_title(img_title, color=title_color, fontsize=10)
+
+    # Add overall title
+    if title:
+        fig.suptitle(title, fontsize=14, fontweight='bold')
+    elif predictions is not None:
+        fig.suptitle('Predictions (Green=Correct, Red=Incorrect)',
+                    fontsize=14, fontweight='bold')
+
+    plt.tight_layout()
+    return fig
 
 
 def plot_image_grid(

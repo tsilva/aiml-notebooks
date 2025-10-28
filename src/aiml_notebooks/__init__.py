@@ -64,6 +64,8 @@ from .training import (
 
 # Visualization
 from .visualization import (
+    imshow_normalized,
+    show_image_grid_normalized,
     plot_image_grid,
     log_images_to_wandb,
     plot_training_curves,
@@ -213,6 +215,8 @@ __all__ = [
     "evaluate_seq2seq",
     "TrainingHistory",
     # Visualization
+    "imshow_normalized",
+    "show_image_grid_normalized",
     "plot_image_grid",
     "log_images_to_wandb",
     "plot_training_curves",
