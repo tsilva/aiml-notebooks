@@ -43,6 +43,15 @@ from .datasets import (
     FASHIONMNIST_STD,
 )
 
+# DataLoader benchmarking
+from .dataloader_benchmark import (
+    DataLoaderConfig,
+    BenchmarkResult,
+    benchmark_dataloader,
+    find_optimal_dataloader_config,
+    quick_benchmark_dataloader,
+)
+
 # Tokenizers
 from .tokenizers import CharacterTokenizer, WordTokenizer
 
@@ -201,6 +210,12 @@ __all__ = [
     "FASHIONMNIST_CLASSES",
     "FASHIONMNIST_MEAN",
     "FASHIONMNIST_STD",
+    # DataLoader benchmarking
+    "DataLoaderConfig",
+    "BenchmarkResult",
+    "benchmark_dataloader",
+    "find_optimal_dataloader_config",
+    "quick_benchmark_dataloader",
     # Tokenizers
     "CharacterTokenizer",
     "WordTokenizer",
