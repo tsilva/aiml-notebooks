@@ -461,8 +461,14 @@ def create_dataset(
                 Example: [0.9, 0.1] for 90% train, 10% val
                 If None, returns only the full dataset
         tokenizer: Optional pre-built tokenizer. If None, creates one from the data
-        **kwargs: Additional keyword arguments passed to the dataset constructor
-                  or data loader (e.g., url for custom data source)
+        **kwargs: Additional keyword arguments:
+                  - For vision datasets:
+                    - train_transform: Custom training transform (default: dataset-specific augmentation)
+                    - test_transform: Custom test transform (default: ToTensor + Normalize)
+                    - root: Data directory (default: './data')
+                    - download: Auto-download if missing (default: True)
+                  - For text datasets:
+                    - url: Custom data source URL
 
     Returns:
         Tuple of datasets: (full_dataset, *split_datasets)
@@ -490,6 +496,31 @@ def create_dataset(
         - "mnist": MNIST handwritten digits dataset (28x28 grayscale, 10 classes)
         - "cifar10": CIFAR-10 dataset (32x32 color, 10 classes)
         - "fashionmnist": Fashion-MNIST dataset (28x28 grayscale, 10 clothing classes)
+
+    Default Data Augmentations (Vision Datasets):
+        CIFAR-10 (training):
+            - RandomHorizontalFlip()
+            - RandomCrop(32, padding=4)
+            - ToTensor() + Normalize()
+
+        MNIST/Fashion-MNIST (training):
+            - RandomRotation(10)
+            - ToTensor() + Normalize()
+
+        All datasets (testing):
+            - ToTensor() + Normalize()
+
+        To use custom augmentations, pass train_transform and/or test_transform:
+            >>> custom_transform = transforms.Compose([
+            ...     transforms.RandomRotation(45),
+            ...     transforms.ColorJitter(),
+            ...     transforms.ToTensor(),
+            ...     transforms.Normalize(mean, std)
+            ... ])
+            >>> train_dataset, test_dataset = create_dataset(
+            ...     dataset_id="cifar10",
+            ...     train_transform=custom_transform
+            ... )
     """
     # Validate splits if provided
     if splits is not None:
@@ -561,6 +592,34 @@ def create_dataset(
         download = kwargs.get('download', True)
         train_transform = kwargs.get('train_transform', None)
         test_transform = kwargs.get('test_transform', None)
+
+        # Get dataset configuration for normalization stats
+        dataset_config = get_dataset_config(dataset_id)
+
+        # Create default transforms if not provided
+        if train_transform is None:
+            if dataset_id == 'cifar10':
+                # CIFAR-10 specific augmentation (color images)
+                train_transform = transforms.Compose([
+                    transforms.RandomHorizontalFlip(),
+                    transforms.RandomCrop(dataset_config['image_size'], padding=4),
+                    transforms.ToTensor(),
+                    transforms.Normalize(dataset_config['mean'], dataset_config['std'])
+                ])
+            elif dataset_id in ['mnist', 'fashionmnist']:
+                # MNIST/Fashion-MNIST specific augmentation (grayscale images)
+                train_transform = transforms.Compose([
+                    transforms.RandomRotation(10),
+                    transforms.ToTensor(),
+                    transforms.Normalize(dataset_config['mean'], dataset_config['std'])
+                ])
+
+        if test_transform is None:
+            # Test transforms (no augmentation)
+            test_transform = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize(dataset_config['mean'], dataset_config['std'])
+            ])
 
         # Map dataset_id to loader function
         loaders = {
