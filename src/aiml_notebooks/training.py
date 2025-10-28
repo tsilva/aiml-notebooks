@@ -11,6 +11,7 @@ This module provides common utilities for setting up training experiments:
 
 import wandb
 from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.callbacks import ModelCheckpoint
 import pytorch_lightning as L
 from typing import Optional, Dict, Any, Tuple, List
 import torch
@@ -94,6 +95,9 @@ def create_trainer(
     model=None,
     watch_log: str = 'all',
     watch_log_freq: int = 100,
+    enable_checkpointing: bool = True,
+    checkpoint_monitor: str = 'val_loss',
+    checkpoint_mode: str = 'min',
     **kwargs
 ) -> L.Trainer:
     """Create a PyTorch Lightning trainer with standard defaults and optional W&B integration.
@@ -112,6 +116,9 @@ def create_trainer(
         model: Model to watch with W&B (only if W&B logger created)
         watch_log: What to log - 'gradients', 'parameters', 'all', or None
         watch_log_freq: How often to log model gradients/params (in steps)
+        enable_checkpointing: Whether to enable model checkpointing (default: True)
+        checkpoint_monitor: Metric to monitor for checkpointing (default: 'val_loss')
+        checkpoint_mode: 'min' or 'max' for the monitored metric (default: 'min')
         **kwargs: Additional trainer arguments
 
     Returns:
@@ -148,6 +155,21 @@ def create_trainer(
         if logger is not None and model is not None:
             watch_model(model, log=watch_log, log_freq=watch_log_freq)
 
+    # Setup callbacks
+    callbacks = kwargs.pop('callbacks', [])
+
+    # Add ModelCheckpoint callback if checkpointing is enabled
+    if enable_checkpointing:
+        checkpoint_callback = ModelCheckpoint(
+            monitor=checkpoint_monitor,
+            mode=checkpoint_mode,
+            save_top_k=1,
+            save_last=False,
+            verbose=False,
+            filename=f'best-{{epoch:02d}}-{{{checkpoint_monitor}:.4f}}'
+        )
+        callbacks.append(checkpoint_callback)
+
     return L.Trainer(
         max_epochs=max_epochs,
         accelerator=accelerator,
@@ -155,6 +177,8 @@ def create_trainer(
         enable_progress_bar=enable_progress_bar,
         log_every_n_steps=log_every_n_steps,
         logger=logger,
+        callbacks=callbacks,
+        enable_checkpointing=enable_checkpointing,
         **kwargs
     )
 

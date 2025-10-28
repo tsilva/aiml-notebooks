@@ -18,9 +18,6 @@ uv sync
 
 # Run Jupyter Lab
 uv run jupyter lab
-
-# Run Python scripts (e.g., fix_notebooks.py)
-uv run python fix_notebooks.py
 ```
 
 **Important**: Always use `uv run` to execute commands in the project's virtual environment. Do not manually activate the venv unless specifically requested.
@@ -65,22 +62,6 @@ environment.yml     # Legacy conda config (not used; use uv instead)
 - `wip-description.ipynb` - Work-in-progress experiments (incomplete/draft)
 - `description.ipynb` - Completed standalone experiments
 
-### Colab Integration
-
-All notebooks include a "Open In Colab" badge/link at the top pointing to:
-`https://colab.research.google.com/github/tsilva/aiml-notebooks/blob/main/notebooks/filename.ipynb`
-
-Use `fix_notebooks.py` to automatically update Colab links and fix widget metadata issues across all notebooks:
-
-```bash
-uv run python fix_notebooks.py
-```
-
-This script:
-1. Fixes widget metadata structure (adds empty state if missing)
-2. Updates Colab badge links to match correct repository paths
-3. Processes all `.ipynb` files recursively (skips `.ipynb_checkpoints`)
-
 ## Working with Notebooks
 
 ### Creating New Notebooks
@@ -96,13 +77,10 @@ This script:
 1. User requests notebook on a topic
 2. Use Task tool with `subagent_type="ml-notebook-educator"` and detailed prompt
 3. Agent creates notebook in `notebooks/` directory with appropriate naming
-4. Run `fix_notebooks.py` to ensure proper metadata and Colab links
 
 **Manual notebook creation** (only if not using agent):
 1. Place notebooks in the `notebooks/` directory
 2. Use appropriate naming prefix (`wip-` for incomplete, `<prefix>-NNN-` for numbered course recreations)
-3. Add Colab badge at the top (markdown or HTML format)
-4. Run `fix_notebooks.py` to ensure proper metadata and links
 
 ### Editing Notebooks
 
@@ -136,7 +114,6 @@ PYTORCH_ENABLE_MPS_FALLBACK=1 uv run jupyter nbconvert --to notebook --execute -
 **Common mistakes to avoid**:
 - Using non-existent methods (e.g., `tokenizer.get_vocab()` doesn't exist - use `tokenizer.chars` instead)
 - Assuming APIs without checking documentation
-- Forgetting to run `fix_notebooks.py` after creating/editing notebooks
 
 ### Using the Shared Library
 
@@ -399,11 +376,6 @@ uv run jupyter lab notebooks/your-notebook.ipynb
 
 # On macOS with MPS fallback enabled (for notebooks using Transformers)
 PYTORCH_ENABLE_MPS_FALLBACK=1 uv run jupyter lab notebooks/your-notebook.ipynb
-```
-
-### Fix all notebook metadata and Colab links
-```bash
-uv run python fix_notebooks.py
 ```
 
 ### Add a new dependency
