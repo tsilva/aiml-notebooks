@@ -3,6 +3,7 @@ Common model architectures and building blocks.
 
 This module provides reusable neural network components:
 - Encoders and decoders (MLP, CNN, RNN)
+- Image classifiers (CNN, MLP)
 - Attention mechanisms
 - Vector quantization layers
 - Common architectural patterns
@@ -11,6 +12,12 @@ This module provides reusable neural network components:
 from .encoders import MLPEncoder, ConvEncoder, RNNEncoder
 from .decoders import MLPDecoder, ConvDecoder, RNNDecoder
 from .vector_quantizer import VectorQuantizer
+from .image_classifiers import (
+    ImageClassifier,
+    CNNArchitecture,
+    MLPArchitecture,
+    create_image_classifier,
+)
 
 __all__ = [
     'MLPEncoder',
@@ -20,4 +27,8 @@ __all__ = [
     'ConvDecoder',
     'RNNDecoder',
     'VectorQuantizer',
+    'ImageClassifier',
+    'CNNArchitecture',
+    'MLPArchitecture',
+    'create_image_classifier',
 ]

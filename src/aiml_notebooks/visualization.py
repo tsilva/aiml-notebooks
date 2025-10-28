@@ -441,20 +441,6 @@ def plot_confusion_matrix(
     if show:
         plt.show()
 
-    # Print statistics
-    print(f"\n{title} Statistics:")
-    print("=" * 50)
-    if class_names:
-        for i, name in enumerate(class_names):
-            if normalize:
-                accuracy = cm[i, i]
-                print(f"  {name:15s}: {accuracy*100:5.2f}% correct")
-            else:
-                correct = cm[i, i]
-                total = cm[i].sum()
-                print(f"  {name:15s}: {correct:5d} / {total:5d} ({100*correct/total:.2f}%)")
-    print("=" * 50)
-
     return fig
 
 

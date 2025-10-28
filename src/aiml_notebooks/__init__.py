@@ -143,6 +143,10 @@ from .models import (
     ConvDecoder,
     RNNDecoder,
     VectorQuantizer,
+    ImageClassifier,
+    CNNArchitecture,
+    MLPArchitecture,
+    create_image_classifier,
 )
 
 # Augmentation
@@ -277,6 +281,10 @@ __all__ = [
     "ConvDecoder",
     "RNNDecoder",
     "VectorQuantizer",
+    "ImageClassifier",
+    "CNNArchitecture",
+    "MLPArchitecture",
+    "create_image_classifier",
     # Augmentation
     "TextNoiser",
     "ImageNoiser",

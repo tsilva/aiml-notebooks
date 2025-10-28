@@ -676,7 +676,14 @@ def create_dataloaders(
         ...     num_workers=4
         ... )
     """
+    import torch
+
     loaders = []
+
+    # Disable pin_memory on MPS (not supported)
+    if 'pin_memory' in kwargs and kwargs['pin_memory']:
+        if torch.backends.mps.is_available() and torch.backends.mps.is_built():
+            kwargs['pin_memory'] = False
 
     # Determine collate_fn to use
     collate = collate_fn if use_collate_fn else None
