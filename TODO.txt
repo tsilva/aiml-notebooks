@@ -1,3 +1,15 @@
+# classification-image
+
+- Softcode wandb project
+- Ensure metrics are making their way up to the wandb project
+- Get MNIST classifier up to >99.9% accuracy
+- Check accuracy on the other datasets
+- Add interactive classifier in the end of the notebook, integrate gradio?
+- Make models hotswappable
+- Remove model params
+- Ability to load pre-trained models
+- Ability to run sweep
+
 - repro vanishing gradients with RNNs and detect it in wandb
 - check how far RNNs can repeat a pattern in a sequence, compare to LSTMs and GRUs
 - learn to generalize RNNs ability to generalize to longer sequences (curriculum?)
