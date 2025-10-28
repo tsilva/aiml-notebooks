@@ -75,6 +75,8 @@ from .visualization import (
     visualize_sample_predictions,
     plot_interpolation,
     plot_model_comparison,
+    log_confusion_matrix_callback,
+    log_prediction_grid_callback,
 )
 
 # Loss functions

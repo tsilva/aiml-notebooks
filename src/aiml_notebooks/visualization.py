@@ -694,3 +694,151 @@ def plot_model_comparison(
 
     plt.tight_layout()
     plt.show()
+
+
+# Lightning Callback Helpers
+# These methods are designed to be called from PyTorch Lightning callbacks
+
+def log_confusion_matrix_callback(
+    predictions: List,
+    labels: List,
+    class_names: Optional[List[str]] = None,
+    epoch: int = 0,
+    log_to_wandb: bool = True,
+    wandb_key: str = 'val_confusion_matrix',
+    figsize: tuple = (8, 7),
+    cmap: str = 'Blues'
+) -> Optional[plt.Figure]:
+    """
+    Create and optionally log confusion matrix to W&B (designed for Lightning callbacks).
+
+    This is a callback-friendly wrapper around plot_confusion_matrix that's designed
+    to be called from PyTorch Lightning's on_validation_epoch_end or similar callbacks.
+
+    Args:
+        predictions: List of predicted labels (accumulated during validation)
+        labels: List of true labels (accumulated during validation)
+        class_names: List of class names for labels
+        epoch: Current epoch number (included in title)
+        log_to_wandb: If True, log figure to W&B
+        wandb_key: Key to use for W&B logging
+        figsize: Figure size (width, height)
+        cmap: Color map
+
+    Returns:
+        Matplotlib figure object (or None if no predictions)
+
+    Example:
+        >>> # In PyTorch Lightning module
+        >>> def on_validation_epoch_end(self):
+        ...     log_confusion_matrix_callback(
+        ...         predictions=self.val_predictions,
+        ...         labels=self.val_labels,
+        ...         class_names=self.hparams.class_names,
+        ...         epoch=self.current_epoch,
+        ...         log_to_wandb=True
+        ...     )
+    """
+    if len(predictions) == 0:
+        print("Warning: No validation predictions available for confusion matrix")
+        return None
+
+    fig = plot_confusion_matrix(
+        y_true=labels,
+        y_pred=predictions,
+        class_names=class_names,
+        figsize=figsize,
+        cmap=cmap,
+        title=f'Confusion Matrix (Epoch {epoch})',
+        show=False
+    )
+
+    if log_to_wandb and wandb.run is not None:
+        wandb.log({wandb_key: wandb.Image(fig), 'epoch': epoch})
+
+    plt.close(fig)
+    return fig
+
+
+def log_prediction_grid_callback(
+    images: List[torch.Tensor],
+    logits: List[torch.Tensor],
+    labels: List[int],
+    class_names: Optional[List[str]] = None,
+    dataset_mean: Union[float, Tuple[float, ...], List[float]] = (0.5,),
+    dataset_std: Union[float, Tuple[float, ...], List[float]] = (0.5,),
+    num_samples: int = 16,
+    epoch: int = 0,
+    log_to_wandb: bool = True,
+    wandb_key: str = 'val_predictions',
+    figsize: tuple = (10, 10)
+) -> Optional[plt.Figure]:
+    """
+    Create and optionally log prediction grid to W&B (designed for Lightning callbacks).
+
+    This is a callback-friendly wrapper that creates a grid of predictions with
+    color-coded correctness (green=correct, red=incorrect).
+
+    Args:
+        images: List of image tensors (accumulated during validation)
+        logits: List of logit tensors (accumulated during validation)
+        labels: List of true labels (accumulated during validation)
+        class_names: List of class names for labels
+        dataset_mean: Mean for denormalization
+        dataset_std: Std for denormalization
+        num_samples: Number of samples to show (max)
+        epoch: Current epoch number
+        log_to_wandb: If True, log figure to W&B
+        wandb_key: Key to use for W&B logging
+        figsize: Figure size (width, height)
+
+    Returns:
+        Matplotlib figure object (or None if no images)
+
+    Example:
+        >>> # In PyTorch Lightning module
+        >>> def on_validation_epoch_end(self):
+        ...     log_prediction_grid_callback(
+        ...         images=self.val_images,
+        ...         logits=self.val_logits,
+        ...         labels=self.val_labels,
+        ...         class_names=self.hparams.class_names,
+        ...         dataset_mean=self.hparams.dataset_mean,
+        ...         dataset_std=self.hparams.dataset_std,
+        ...         epoch=self.current_epoch,
+        ...         log_to_wandb=True
+        ...     )
+    """
+    if len(images) == 0:
+        print("Warning: No validation images available for prediction grid")
+        return None
+
+    num_samples = min(num_samples, len(images))
+    images_batch = torch.stack(images[:num_samples])
+    logits_batch = torch.stack(logits[:num_samples])
+    labels_batch = torch.tensor(labels[:num_samples])
+
+    # Calculate predictions and confidences
+    preds = torch.argmax(logits_batch, dim=1)
+    probs = torch.nn.functional.softmax(logits_batch, dim=1)
+    confidences = probs.max(dim=1)[0]
+
+    # Create figure
+    fig = show_image_grid_normalized(
+        images=images_batch,
+        mean=dataset_mean,
+        std=dataset_std,
+        labels=labels_batch,
+        predictions=preds,
+        confidences=confidences,
+        class_names=class_names,
+        nrows=4,
+        ncols=4,
+        figsize=figsize
+    )
+
+    if log_to_wandb and wandb.run is not None:
+        wandb.log({wandb_key: wandb.Image(fig), 'epoch': epoch})
+
+    plt.close(fig)
+    return fig
