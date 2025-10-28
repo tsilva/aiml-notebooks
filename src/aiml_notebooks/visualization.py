@@ -374,8 +374,9 @@ def plot_confusion_matrix(
     normalize: bool = False,
     figsize: tuple = (10, 8),
     cmap: str = 'Blues',
-    title: str = 'Confusion Matrix'
-):
+    title: str = 'Confusion Matrix',
+    show: bool = True
+) -> plt.Figure:
     """
     Plot confusion matrix with proper formatting.
 
@@ -387,14 +388,28 @@ def plot_confusion_matrix(
         figsize: Figure size (width, height)
         cmap: Color map
         title: Plot title
+        show: Whether to call plt.show() (set to False for W&B logging)
+
+    Returns:
+        Matplotlib figure object
 
     Example:
+        >>> # Simple usage
         >>> plot_confusion_matrix(
         ...     y_true=test_labels,
         ...     y_pred=predictions,
         ...     class_names=['Cat', 'Dog'],
         ...     normalize=True
         ... )
+
+        >>> # With W&B logging
+        >>> fig = plot_confusion_matrix(
+        ...     y_true=test_labels,
+        ...     y_pred=predictions,
+        ...     class_names=['Cat', 'Dog'],
+        ...     show=False
+        ... )
+        >>> wandb.log({'confusion_matrix': wandb.Image(fig)})
     """
     # Compute confusion matrix
     cm = sklearn_confusion_matrix(y_true, y_pred)
@@ -408,7 +423,7 @@ def plot_confusion_matrix(
         cm_display = cm
 
     # Create plot
-    plt.figure(figsize=figsize)
+    fig = plt.figure(figsize=figsize)
     sns.heatmap(
         cm_display,
         annot=True,
@@ -422,7 +437,9 @@ def plot_confusion_matrix(
     plt.ylabel('True Label', fontsize=12)
     plt.title(title, fontsize=14, fontweight='bold')
     plt.tight_layout()
-    plt.show()
+
+    if show:
+        plt.show()
 
     # Print statistics
     print(f"\n{title} Statistics:")
@@ -437,6 +454,8 @@ def plot_confusion_matrix(
                 total = cm[i].sum()
                 print(f"  {name:15s}: {correct:5d} / {total:5d} ({100*correct/total:.2f}%)")
     print("=" * 50)
+
+    return fig
 
 
 def visualize_reconstructions(
