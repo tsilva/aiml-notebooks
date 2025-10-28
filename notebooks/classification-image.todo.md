@@ -1,5 +1,10 @@
 🧭 PyTorch Lightning Image Classification Learning Roadmap
 
+
+- Overfit batch, ask best way to do this
+- Run MLP dimension sweep: `uv run python sweep.py sweeps/classification-image-mlp.yaml notebooks/classification-image.ipynb`
+- Print model architecture before starting
+
 1️⃣ Lightning Warm-Up
 
 Dataset: MNIST

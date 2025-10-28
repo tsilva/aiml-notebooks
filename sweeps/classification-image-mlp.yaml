@@ -1,0 +1,54 @@
+name: classification-image-mlp-architectures
+method: grid
+project: classification-image
+
+metric:
+  name: val_loss
+  goal: minimize
+
+parameters:
+  # Test different MLP hidden layer architectures
+  mlp_hidden_sizes:
+    values:
+      - [128, 64]           # Small - 2 layers
+      - [256, 128]          # Medium - 2 layers
+      - [512, 256]          # Large - 2 layers
+      - [512, 256, 128]     # Large - 3 layers (default)
+      - [1024, 512, 256]    # Extra Large - 3 layers
+      - [512, 512, 256]     # Deep - 3 layers, wider
+      - [1024, 512]         # Wide - 2 layers
+
+  # Keep classifier type as MLP
+  classifier_type:
+    value: mlp
+
+  # Keep other hyperparameters at defaults for fair comparison
+  dataset:
+    value: mnist
+
+  batch_size:
+    value: 128
+
+  learning_rate:
+    value: 0.001
+
+  dropout:
+    value: 0.5
+
+  max_epochs:
+    value: 5
+
+  num_workers:
+    value: 4
+
+  persistent_workers:
+    value: true
+
+  pin_memory:
+    value: true
+
+  log_every_n_steps:
+    value: 20
+
+  wandb_project:
+    value: classification-image
