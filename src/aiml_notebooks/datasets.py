@@ -33,6 +33,82 @@ FASHIONMNIST_MEAN = (0.2860,)
 FASHIONMNIST_STD = (0.3530,)
 
 
+def get_dataset_config(dataset_id: str) -> dict:
+    """
+    Get configuration metadata for a vision dataset.
+
+    Returns a dictionary with dataset metadata including:
+    - name: Human-readable dataset name
+    - classes: List of class names
+    - mean: Normalization mean for each channel
+    - std: Normalization std for each channel
+    - num_channels: Number of image channels (1 for grayscale, 3 for RGB)
+    - image_size: Height/width of images (assumes square images)
+
+    Args:
+        dataset_id: Dataset identifier ('cifar10', 'mnist', 'fashionmnist')
+
+    Returns:
+        Dictionary with dataset configuration
+
+    Raises:
+        ValueError: If dataset_id is not recognized
+
+    Example:
+        >>> config = get_dataset_config('mnist')
+        >>> print(config['name'])
+        'MNIST'
+        >>> print(config['num_channels'])
+        1
+        >>> print(config['image_size'])
+        28
+
+        >>> # Use in training
+        >>> config = get_dataset_config('cifar10')
+        >>> model = CNN(
+        ...     num_classes=len(config['classes']),
+        ...     in_channels=config['num_channels'],
+        ...     input_size=config['image_size']
+        ... )
+    """
+    configs = {
+        'mnist': {
+            'name': 'MNIST',
+            'classes': MNIST_CLASSES,
+            'mean': MNIST_MEAN,
+            'std': MNIST_STD,
+            'num_channels': 1,
+            'image_size': 28,
+        },
+        'fashionmnist': {
+            'name': 'Fashion-MNIST',
+            'classes': FASHIONMNIST_CLASSES,
+            'mean': FASHIONMNIST_MEAN,
+            'std': FASHIONMNIST_STD,
+            'num_channels': 1,
+            'image_size': 28,
+        },
+        'cifar10': {
+            'name': 'CIFAR-10',
+            'classes': CIFAR10_CLASSES,
+            'mean': CIFAR10_MEAN,
+            'std': CIFAR10_STD,
+            'num_channels': 3,
+            'image_size': 32,
+        },
+    }
+
+    dataset_id = dataset_id.lower()
+    if dataset_id not in configs:
+        available = ', '.join(configs.keys())
+        raise ValueError(
+            f"Unknown dataset: {dataset_id}. "
+            f"Available datasets: {available}"
+        )
+
+    return configs[dataset_id]
+
+
 class NamesDataset(Dataset):
     """
     PyTorch Dataset for character-level name generation.
