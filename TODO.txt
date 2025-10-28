@@ -9,6 +9,7 @@
 - Remove model params
 - Ability to load pre-trained models
 - Ability to run sweep
+- Plot classifications using encoder
 
 - repro vanishing gradients with RNNs and detect it in wandb
 - check how far RNNs can repeat a pattern in a sequence, compare to LSTMs and GRUs
