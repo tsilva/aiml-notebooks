@@ -39,10 +39,10 @@ parameters:
     value: 5
 
   num_workers:
-    value: 4
+    value: 0
 
   persistent_workers:
-    value: true
+    value: false
 
   pin_memory:
     value: true

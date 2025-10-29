@@ -67,8 +67,112 @@ def convert_notebook_to_script(notebook_path: Path, output_path: Path = None) ->
     if double_ext_path.exists():
         double_ext_path.rename(output_path)
 
+    # Post-process the script to guard IPython-specific commands
+    _guard_ipython_commands(output_path)
+
     print(f"✓ Conversion successful: {output_path.name}\n")
     return output_path
+
+
+def _guard_ipython_commands(script_path: Path):
+    """Guard IPython-specific commands and wrap execution in if __name__ == '__main__'.
+
+    This function:
+    1. Wraps get_ipython() calls in try-except blocks
+    2. Adds if __name__ == '__main__': guard to prevent code execution during imports
+    """
+    with open(script_path, 'r') as f:
+        content = f.read()
+        lines = content.splitlines(keepends=True)
+
+    # First pass: guard IPython commands
+    modified_lines = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+
+        # Check if this line contains a get_ipython() call
+        if 'get_ipython()' in line and not line.strip().startswith('#'):
+            # Add a try-except wrapper
+            indent = len(line) - len(line.lstrip())
+            indent_str = ' ' * indent
+
+            modified_lines.append(f"{indent_str}try:\n")
+            # Add extra indentation to the original line
+            modified_lines.append(f"{indent_str}    {line.lstrip()}")
+            modified_lines.append(f"{indent_str}except NameError:\n")
+            modified_lines.append(f"{indent_str}    pass  # Not in IPython environment\n")
+        else:
+            modified_lines.append(line)
+
+        i += 1
+
+    # Second pass: Find where executable code starts (after imports and function definitions)
+    # Look for the first line that's not an import, comment, blank line, or function/class definition
+    execution_start_idx = None
+    in_multiline_string = False
+    in_multiline_statement = False  # Track parentheses for multi-line statements
+    paren_depth = 0
+
+    for i, line in enumerate(modified_lines):
+        stripped = line.strip()
+
+        # Track multiline strings
+        if '"""' in stripped or "'''" in stripped:
+            in_multiline_string = not in_multiline_string
+            continue
+
+        if in_multiline_string:
+            continue
+
+        # Track parentheses depth for multi-line statements
+        paren_depth += stripped.count('(') - stripped.count(')')
+        if paren_depth > 0:
+            in_multiline_statement = True
+            continue
+        elif in_multiline_statement:
+            # Just finished a multi-line statement
+            in_multiline_statement = False
+            continue
+
+        # Skip empty lines, comments, imports, function/class definitions
+        if (not stripped or
+            stripped.startswith('#') or
+            stripped.startswith('import ') or
+            stripped.startswith('from ') or
+            stripped.startswith('def ') or
+            stripped.startswith('class ') or
+            stripped.startswith('@')):
+            continue
+
+        # Found first executable code
+        execution_start_idx = i
+        break
+
+    # If we found executable code, wrap it in if __name__ == '__main__':
+    if execution_start_idx is not None:
+        # Split into imports/definitions and executable code
+        header = modified_lines[:execution_start_idx]
+        executable = modified_lines[execution_start_idx:]
+
+        # Indent all executable code
+        indented_executable = []
+        for line in executable:
+            if line.strip():  # Don't indent empty lines at start
+                indented_executable.append('    ' + line)
+            else:
+                indented_executable.append(line)
+
+        # Combine with if __name__ guard
+        modified_lines = (
+            header +
+            ['if __name__ == \'__main__\':\n'] +
+            indented_executable
+        )
+
+    # Write the modified content back
+    with open(script_path, 'w') as f:
+        f.writelines(modified_lines)
 
 
 def load_sweep_config(config_path: Path) -> dict:
