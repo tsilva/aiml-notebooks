@@ -1,3 +1,8 @@
+# Learn
+
+- Read confidence intervals notebook
+- Read tensor ops notebook
+
 # classification-image
 
 - Softcode wandb project
