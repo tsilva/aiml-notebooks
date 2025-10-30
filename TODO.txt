@@ -22,6 +22,7 @@
 
 ---
 
+- hinton's forward forward from scratch
 🔴 Critical Basics
   ~1. basics-linear-regression - Linear regression from scratch (MSE loss, gradient descent, analytical solution)
   ~2. basics-loss-functions - Compare MSE, MAE, Cross-Entropy, Hinge Loss with visualizations
