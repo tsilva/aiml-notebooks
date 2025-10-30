@@ -18,4 +18,65 @@
 
 - repro vanishing gradients with RNNs and detect it in wandb
 - check how far RNNs can repeat a pattern in a sequence, compare to LSTMs and GRUs
-- learn to generalize RNNs ability to generalize to longer sequences (curriculum?)
+- learn to generalize RNNs ability to generalize to longer sequences (curriculum?)\
+
+---
+
+🔴 Critical Basics
+  ~1. basics-linear-regression - Linear regression from scratch (MSE loss, gradient descent, analytical solution)
+  ~2. basics-loss-functions - Compare MSE, MAE, Cross-Entropy, Hinge Loss with visualizations
+  ~3. basics-optimizers - SGD, Momentum, Adam, RMSprop side-by-side comparison
+  4. basics-learning-rate-schedules - Step decay, exponential decay, cosine annealing, warmup
+  5. basics-regularization - L1/L2 regularization, dropout, early stopping, weight decay
+  6. basics-data-augmentation - Image augmentation techniques (rotation, flip, crop, color jitter)
+
+  🟡 Important Fundamentals
+
+  7. basics-embeddings - Word embeddings, character embeddings, positional encodings
+  8. basics-attention-mechanism - Scaled dot-product attention, multi-head attention visualization
+  9. basics-cross-validation - K-fold, stratified k-fold, time-series splits
+  10. basics-feature-engineering - Normalization, standardization, one-hot encoding, binning
+  11. basics-overfitting-underfitting - Visualization with polynomial regression and model capacity
+
+  🟢 Architecture Fundamentals
+
+  12. cnn-from-scratch - Build CNN layer-by-layer (conv, pool, flatten, fc)
+  13. lstm-from-scratch - LSTM cell implementation with gate visualizations
+  14. gru-from-scratch - GRU cell implementation, compare to LSTM
+  15. autoencoder-basics - Simple autoencoder for dimensionality reduction
+  16. vae-from-scratch - Variational autoencoder with latent space visualization
+  17. gan-from-scratch - Simple GAN for generating simple images (MNIST)
+
+  🔵 Training & Evaluation Basics
+
+  18. basics-train-val-test-split - Proper data splitting, stratification, distribution shifts
+  19. basics-evaluation-metrics - Precision, recall, F1, ROC-AUC, confusion matrix
+  20. basics-hyperparameter-tuning - Grid search, random search, Bayesian optimization
+  21. basics-model-checkpointing - Saving/loading models, early stopping, best model selection
+  22. basics-transfer-learning - Fine-tuning pre-trained models (ResNet, BERT)
+
+  🟣 Advanced But Missing Fundamentals
+
+  23. seq2seq-from-scratch - Encoder-decoder architecture for translation
+  24. attention-visualization - Visualize attention weights in transformers
+  25. model-interpretability - Grad-CAM, SHAP, feature importance
+  26. basics-time-series - Forecasting, ARIMA, seasonal decomposition
+  27. basics-graph-neural-networks - Simple GNN on graph classification
+
+  ---
+  Prioritized Top 10 for Learning Basics
+
+  If you want to focus on the most foundational topics first:
+
+  1. basics-linear-regression ⭐⭐⭐
+  2. basics-loss-functions ⭐⭐⭐
+  3. basics-optimizers ⭐⭐⭐
+  4. basics-regularization ⭐⭐⭐
+  5. basics-overfitting-underfitting ⭐⭐⭐
+  6. basics-train-val-test-split ⭐⭐⭐
+  7. basics-evaluation-metrics ⭐⭐
+  8. cnn-from-scratch ⭐⭐
+  9. lstm-from-scratch ⭐⭐
+  10. basics-embeddings ⭐⭐
+
+  These would fill critical gaps in understanding core ML/DL concepts before diving into more advanced architectures.
