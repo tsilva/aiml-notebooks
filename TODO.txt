@@ -32,11 +32,11 @@
 
   🟡 Important Fundamentals
 
-  7. basics-embeddings - Word embeddings, character embeddings, positional encodings
-  8. basics-attention-mechanism - Scaled dot-product attention, multi-head attention visualization
-  9. basics-cross-validation - K-fold, stratified k-fold, time-series splits
-  10. basics-feature-engineering - Normalization, standardization, one-hot encoding, binning
-  11. basics-overfitting-underfitting - Visualization with polynomial regression and model capacity
+  ~7. basics-embeddings - Word embeddings, character embeddings, positional encodings
+  ~8. basics-attention-mechanism - Scaled dot-product attention, multi-head attention visualization
+  ~9. basics-cross-validation - K-fold, stratified k-fold, time-series splits
+  ~10. basics-feature-engineering - Normalization, standardization, one-hot encoding, binning
+  ~11. basics-overfitting-underfitting - Visualization with polynomial regression and model capacity
 
   🟢 Architecture Fundamentals
 

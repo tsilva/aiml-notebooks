@@ -55,13 +55,14 @@ uv.lock                 # Locked dependencies
 
 ### Creating/Editing
 
+**IMPORTANT**: When the user requests to "create a notebook" or "build a notebook", this ALWAYS means creating an educational notebook following these rules:
+
 **Critical rules**:
 1. **Always** place markdown cell before each code cell (even if just one explanatory line)
 2. Each cell should have a clear purpose in the learning progression
 3. Build intuition through small, incremental steps (not large code dumps)
 4. Include visualizations after introducing new concepts
 5. Use formulas, diagrams, and examples liberally
-6. For WIP notebooks, use `.todo.md` for tracking
 
 Place notebooks in `notebooks/` with appropriate naming.
 
