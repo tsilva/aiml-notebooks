@@ -27,6 +27,9 @@ notebooks/              # Active notebooks (work with these)
 
 _deprecated-notebooks/  # IGNORE - archived notebooks
 
+skills/                 # Task-specific instructions
+└── *.skill.md          # Markdown files with step-by-step guides
+
 src/aiml_notebooks/     # Shared library
 ├── tokenizers.py       # CharacterTokenizer
 └── datasets.py         # Datasets, factories, utilities
@@ -36,6 +39,15 @@ uv.lock                 # Locked dependencies
 ```
 
 **IMPORTANT**: Only work with notebooks in `notebooks/` directory. Ignore deprecated directories.
+
+## Skills Directory
+
+The `skills/` folder contains task-specific instruction files (`.skill.md`). When performing a task, **check if a matching skill file exists** and follow those instructions.
+
+**Usage**:
+1. When starting a task, look for a skill file with a relevant name (e.g., `create-flashcard.skill.md` for flashcard creation)
+2. If a matching skill file exists, read it and follow the step-by-step instructions
+3. Skills provide standardized workflows and best practices for common tasks
 
 ## Notebook Conventions
 
