@@ -67,6 +67,8 @@ The `skills/` folder contains task-specific instruction files (`.skill.md`). Whe
 
 ### Creating/Editing
 
+**IMPORTANT**: When creating notebooks, read and follow `skills/create-notebook.skill.md` for comprehensive guidance on structure, flow, and teaching principles.
+
 **IMPORTANT**: When the user requests to "create a notebook" or "build a notebook", this ALWAYS means creating an educational notebook following these rules:
 
 **Critical rules**:
