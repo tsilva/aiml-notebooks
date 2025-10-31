@@ -26,9 +26,9 @@
   ~1. basics-linear-regression - Linear regression from scratch (MSE loss, gradient descent, analytical solution)
   ~2. basics-loss-functions - Compare MSE, MAE, Cross-Entropy, Hinge Loss with visualizations
   ~3. basics-optimizers - SGD, Momentum, Adam, RMSprop side-by-side comparison
-  4. basics-learning-rate-schedules - Step decay, exponential decay, cosine annealing, warmup
-  5. basics-regularization - L1/L2 regularization, dropout, early stopping, weight decay
-  6. basics-data-augmentation - Image augmentation techniques (rotation, flip, crop, color jitter)
+  ~4. basics-learning-rate-schedules - Step decay, exponential decay, cosine annealing, warmup
+  ~5. basics-regularization - L1/L2 regularization, dropout, early stopping, weight decay
+  ~6. basics-data-augmentation - Image augmentation techniques (rotation, flip, crop, color jitter)
 
   🟡 Important Fundamentals
 
@@ -62,21 +62,3 @@
   25. model-interpretability - Grad-CAM, SHAP, feature importance
   26. basics-time-series - Forecasting, ARIMA, seasonal decomposition
   27. basics-graph-neural-networks - Simple GNN on graph classification
-
-  ---
-  Prioritized Top 10 for Learning Basics
-
-  If you want to focus on the most foundational topics first:
-
-  1. basics-linear-regression ⭐⭐⭐
-  2. basics-loss-functions ⭐⭐⭐
-  3. basics-optimizers ⭐⭐⭐
-  4. basics-regularization ⭐⭐⭐
-  5. basics-overfitting-underfitting ⭐⭐⭐
-  6. basics-train-val-test-split ⭐⭐⭐
-  7. basics-evaluation-metrics ⭐⭐
-  8. cnn-from-scratch ⭐⭐
-  9. lstm-from-scratch ⭐⭐
-  10. basics-embeddings ⭐⭐
-
-  These would fill critical gaps in understanding core ML/DL concepts before diving into more advanced architectures.
