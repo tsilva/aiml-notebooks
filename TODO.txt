@@ -41,7 +41,7 @@
   🟢 Architecture Fundamentals
 
   12. cnn-from-scratch - Build CNN layer-by-layer (conv, pool, flatten, fc)
-  13. lstm-from-scratch - LSTM cell implementation with gate visualizations
+  ~13. lstm-from-scratch - LSTM cell implementation with gate visualizations
   14. gru-from-scratch - GRU cell implementation, compare to LSTM
   15. autoencoder-basics - Simple autoencoder for dimensionality reduction
   16. vae-from-scratch - Variational autoencoder with latent space visualization
