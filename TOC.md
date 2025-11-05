@@ -177,6 +177,9 @@ Practical guide to debugging neural networks systematically. Covers essential sa
 
 **Computer vision fundamentals.**
 
+### **basics-pooling-operations.ipynb**
+Comprehensive guide to pooling operations (MaxPooling, AveragePooling, Global pooling) that are essential for CNNs. Explains why downsampling is critical (computational efficiency, translation invariance, receptive field expansion), demonstrates spatial invariance through interactive examples, and teaches how pooling enables efficient feature extraction. Covers output size calculations, common pitfalls, and when to use each pooling type. Essential foundation before diving into complete CNN architectures.
+
 ### **basics-tensors-convolution.ipynb**
 Teaches convolutional operations from first principles, showing how filters slide across inputs to extract features. Essential for understanding CNNs and image processing architectures.
 
