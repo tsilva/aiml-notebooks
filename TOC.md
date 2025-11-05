@@ -93,6 +93,9 @@ Covers techniques for creating informative features from raw data including enco
 ### **basics-data-augmentation.ipynb**
 Teaches data augmentation strategies for artificially expanding training datasets through transformations (rotations, flips, crops for images; synonym replacement for text) to improve model generalization and robustness.
 
+### **basics-mini-batch-gradient-descent.ipynb** ⭐ **CRITICAL**
+Teaches the three flavors of gradient descent (full-batch, mini-batch, stochastic) and essential terminology (epochs, steps, iterations, batches). Explains why mini-batching works through gradient noise analysis, memory/computational trade-offs, and practical batch size selection. Critical prerequisite for understanding optimizers, as all modern optimizers assume mini-batch training with noisy gradients.
+
 ### **basics-optimizers.ipynb**
 Deep dive into optimization algorithms (SGD, Momentum, RMSprop, Adam) that train neural networks, building intuition through visualization of their paths through loss landscapes. Explains how each optimizer addresses specific challenges like ravines, saddle points, and different parameter scales, with practical guidance on when to use each.
 
