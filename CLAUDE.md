@@ -57,27 +57,17 @@ The `skills/` folder contains task-specific instruction files (`.skill.md`). Whe
 - `wip-description.ipynb` - Work in progress
 - `description.ipynb` - Completed standalone
 
-**Philosophy**: Create highly engaging, interactive notebooks (50-80 cells) that build deep intuitions effortlessly through:
-- **Building blocks approach**: Progress step-by-step, each concept building on the last
-- **Concise with flow**: Clear narrative, always markdown before code (even one line)
-- **Theory before practice**: Explain "why" before "how"
-- **Progressive visualizations**: Show concepts visually as they develop
-- **Self-contained**: Runnable end-to-end, no external dependencies on other notebooks
-
 ## Working with Notebooks
 
 ### Creating/Editing
 
 **IMPORTANT**: When creating notebooks, read and follow `skills/create-notebook.skill.md` for comprehensive guidance on structure, flow, and teaching principles.
 
-**IMPORTANT**: When the user requests to "create a notebook" or "build a notebook", this ALWAYS means creating an educational notebook following these rules:
-
-**Critical rules**:
-1. **Always** place markdown cell before each code cell (even if just one explanatory line)
-2. Each cell should have a clear purpose in the learning progression
-3. Build intuition through small, incremental steps (not large code dumps)
-4. Include visualizations after introducing new concepts
-5. Use formulas, diagrams, and examples liberally
+**Quick reference** (see skill file for full details):
+- Always markdown before code (even one line)
+- Build intuition through small, incremental steps
+- Theory before practice, progressive visualizations
+- Self-contained and runnable end-to-end
 
 Place notebooks in `notebooks/` with appropriate naming.
 
@@ -85,63 +75,36 @@ Place notebooks in `notebooks/` with appropriate naming.
 
 ### Using Shared Library
 
+**Available Components**: Check source files for latest API:
+- `src/aiml_notebooks/tokenizers.py` - Tokenizer classes
+- `src/aiml_notebooks/datasets.py` - Datasets, factories, utilities
+
+**Setup in notebooks**:
 ```python
-from aiml_notebooks import CharacterTokenizer, NamesDataset, create_dataset, create_dataloaders, get_device, set_seed
+from aiml_notebooks import CharacterTokenizer, create_dataset, create_dataloaders, get_device, set_seed
 
 %load_ext autoreload
 %autoreload 2  # Hot reload library changes
 ```
 
-**Available Components**:
-- `CharacterTokenizer` - Character-level tokenizer (attrs: `chars`, `vocab_size`; methods: `encode()`, `decode()`)
-- `NamesDataset` - PyTorch Dataset (methods: `get_texts()`)
-- `create_dataset(dataset_id, splits)` - Factory for data loading/splitting (supports "names", "words")
-- `create_dataloaders(train_dataset, val_dataset, ...)` - DataLoader factory
-- `get_device(prefer_cpu=False)` - Smart device detection (use `prefer_cpu=True` for Transformers)
-- `set_seed(42)` - Set random seeds
-- `collate_fn`, `count_parameters`, `print_model_summary` - Utilities
-
-**Typical Pattern**:
+**Typical usage pattern**:
 ```python
 full_dataset, train_dataset, val_dataset = create_dataset("names", splits=[0.9, 0.1])
 tokenizer = full_dataset.tokenizer
 train_loader, val_loader = create_dataloaders(train_dataset, val_dataset, batch_size=32)
 ```
 
-**Common Mistakes**:
-- Using non-existent methods (e.g., `tokenizer.get_vocab()` doesn't exist - use `tokenizer.chars`)
-- Not checking API before use (check source in `src/aiml_notebooks/` or docs above)
+**IMPORTANT**: Always check the source files in `src/aiml_notebooks/` for current API before using. Don't assume methods exist.
 
 ### Defensive Programming for Array Operations
 
-When writing code involving NumPy/PyTorch array operations in notebooks, use defensive programming to catch errors before full execution:
+**Why**: Notebook execution testing is expensive; shape/index errors may not appear until late in execution.
 
-**Array Shape Validation**:
-- For non-trivial operations, add comments documenting expected shapes
-- Use assertions to validate shapes for intermediate results
-- Verify computed indices are in valid range before using them for lookups
-
-**Why this matters**: Notebook execution testing is expensive (full `nbconvert` run), and shape/index errors may not appear until late in execution, wasting time.
-
-**Example** (avoiding IndexError):
-```python
-# ❌ BAD: This can cause IndexError if argmax returns flattened index
-confusion = np.zeros((3, 3))  # Shape: (3, 3)
-idx = np.argmax(confusion - np.diag(np.diag(confusion)))  # Returns 0-8, not 0-2!
-print(class_names[idx])  # IndexError when idx >= 3
-
-# ✅ GOOD: Compute per-row, validate shape, then use index
-misclass_per_class = confusion.sum(axis=1) - np.diag(confusion)  # Shape: (3,)
-assert misclass_per_class.shape == (num_classes,), f"Expected ({num_classes},), got {misclass_per_class.shape}"
-if misclass_per_class.max() > 0:
-    idx = np.argmax(misclass_per_class)  # Now guaranteed 0-2
-    print(class_names[idx])  # Safe!
-```
-
-**Common pitfalls**:
-- `np.argmax()` on 2D arrays returns flattened indices unless `axis` is specified
-- Array broadcasting can create unexpected shapes
-- Integer array indexing can exceed bounds if indices not validated
+**Best practices**:
+- Add comments documenting expected shapes for non-trivial operations
+- Use assertions to validate intermediate shapes
+- Verify computed indices are in valid range before array lookups
+- Remember: `np.argmax()` on 2D arrays returns flattened indices unless `axis` is specified
 
 ### Testing Notebooks
 
@@ -195,33 +158,21 @@ The TOC delineates the **optimal learning order** for a complete AI/ML n00b to m
 
 **Step 1: Analyze Prerequisites**
 - What concepts must a learner understand before tackling this notebook?
-- Examples:
-  - VAEs require understanding of KL divergence
-  - Transformers require understanding of attention mechanisms
-  - CNNs require understanding of convolutions and basic neural networks
+- Check existing tier structure in `TOC.md` to understand progression
 
 **Step 2: Determine Appropriate Tier**
-- Tier 1-3: Foundations (tensors, ML basics, optimization)
-- Tier 4: Deep learning foundations (backprop, gradients)
-- Tier 5-6: First neural networks
-- Tier 7+: Progressive specialization
+- Review `TOC.md` to see current tier organization and where notebook fits
+- Position based on conceptual prerequisites, not difficulty or topic
 
 **Step 3: Insert with Description**
-- Follow existing format: notebook name in bold, followed by concise description
-- Mark critical notebooks with ⭐ if they're foundational for multiple advanced topics
+- Follow existing format in `TOC.md`
+- Use ⭐ for notebooks foundational to multiple advanced topics
 - Ensure description explains what the notebook teaches AND why it matters
 
-**Step 4: Update Statistics**
-- Adjust tier counts in "Summary Statistics" section
-- Update total notebook count
-
-### Maintenance Rules (from TOC.md)
-1. **New notebooks** must be inserted in their appropriate tier based on conceptual prerequisites
-2. **Updated notebooks** may require repositioning if their content changes significantly
-3. **Tier structure** should reflect clear learning progression with minimal prerequisite violations
-4. **Dependencies** between notebooks should be explicitly considered
-
-**Example**: If creating a notebook on "Diffusion Models", it should go in Tier 12+ (after VAEs, GANs, and understanding of generative models), NOT earlier just because it's a "basics" topic.
+**Maintenance Rules**:
+- Insert based on conceptual prerequisites, not alphabetically or by topic
+- May require repositioning if content changes significantly
+- Keep tier structure reflecting clear learning progression
 
 ## Common Tasks
 
@@ -241,25 +192,10 @@ uv run python run_sweep.py sweeps/config.yaml notebooks/notebook.ipynb --count 1
 
 Structure: `sweeps/*.yaml` (configs) → `run_sweep.py` (runner) → `tmp/sweeps/` (temp files, gitignored)
 
-**Basic sweep config**:
-```yaml
-name: sweep-name
-method: bayes  # or grid, random
-project: wandb-project
-metric:
-  name: val_loss
-  goal: minimize
-parameters:
-  learning_rate:
-    min: 0.0001
-    max: 0.01
-    distribution: log_uniform_values
-  batch_size:
-    values: [64, 128, 256]
-```
+**Config format**: Check existing files in `sweeps/` for examples. Common methods: `bayes`, `grid`, `random`.
 
 ## Git Workflow
 
 - Main branch: `main`
-- `.gitignore`: `.venv/`, `.ipynb_checkpoints`, `notebooks/tmp`, `notebooks/output`, `notebooks/wandb`, `notebooks/lightning_logs`, `.env`
+- Check `.gitignore` for ignored patterns (venvs, temp files, logs, etc.)
 - `uv.lock` is committed for reproducibility
