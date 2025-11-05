@@ -112,6 +112,37 @@ train_loader, val_loader = create_dataloaders(train_dataset, val_dataset, batch_
 - Using non-existent methods (e.g., `tokenizer.get_vocab()` doesn't exist - use `tokenizer.chars`)
 - Not checking API before use (check source in `src/aiml_notebooks/` or docs above)
 
+### Defensive Programming for Array Operations
+
+When writing code involving NumPy/PyTorch array operations in notebooks, use defensive programming to catch errors before full execution:
+
+**Array Shape Validation**:
+- For non-trivial operations, add comments documenting expected shapes
+- Use assertions to validate shapes for intermediate results
+- Verify computed indices are in valid range before using them for lookups
+
+**Why this matters**: Notebook execution testing is expensive (full `nbconvert` run), and shape/index errors may not appear until late in execution, wasting time.
+
+**Example** (avoiding IndexError):
+```python
+# ❌ BAD: This can cause IndexError if argmax returns flattened index
+confusion = np.zeros((3, 3))  # Shape: (3, 3)
+idx = np.argmax(confusion - np.diag(np.diag(confusion)))  # Returns 0-8, not 0-2!
+print(class_names[idx])  # IndexError when idx >= 3
+
+# ✅ GOOD: Compute per-row, validate shape, then use index
+misclass_per_class = confusion.sum(axis=1) - np.diag(confusion)  # Shape: (3,)
+assert misclass_per_class.shape == (num_classes,), f"Expected ({num_classes},), got {misclass_per_class.shape}"
+if misclass_per_class.max() > 0:
+    idx = np.argmax(misclass_per_class)  # Now guaranteed 0-2
+    print(class_names[idx])  # Safe!
+```
+
+**Common pitfalls**:
+- `np.argmax()` on 2D arrays returns flattened indices unless `axis` is specified
+- Array broadcasting can create unexpected shapes
+- Integer array indexing can exceed bounds if indices not validated
+
 ### Testing Notebooks
 
 **IMPORTANT**: Always test end-to-end after creation/modification.
