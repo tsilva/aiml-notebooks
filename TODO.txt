@@ -18,47 +18,132 @@
 - repro vanishing gradients with RNNs and detect it in wandb
 - check how far RNNs can repeat a pattern in a sequence, compare to LSTMs and GRUs
 - learn to generalize RNNs ability to generalize to longer sequences (curriculum?)\
+Excellent question! After analyzing your TOC, I can see you have a solid foundation, but there are some critical gaps that would strengthen the learning progression, especially for complete beginners. Here are my recommendations:
 
----
+  Critical Missing Foundations (Should be added to Tier 1)
 
-- hinton's forward forward from scratch
-🔴 Critical Basics
-  ~1. basics-linear-regression - Linear regression from scratch (MSE loss, gradient descent, analytical solution)
-  ~2. basics-loss-functions - Compare MSE, MAE, Cross-Entropy, Hinge Loss with visualizations
-  ~3. basics-optimizers - SGD, Momentum, Adam, RMSprop side-by-side comparison
-  ~4. basics-learning-rate-schedules - Step decay, exponential decay, cosine annealing, warmup
-  ~5. basics-regularization - L1/L2 regularization, dropout, early stopping, weight decay
-  ~6. basics-data-augmentation - Image augmentation techniques (rotation, flip, crop, color jitter)
+  2. basics-softmax-multiclass.ipynb (Tier 1, after logistic regression)
 
-  🟡 Important Fundamentals
+  Why: You have binary classification (logistic regression) but jump straight to neural networks without covering multiclass classification.
+  - Softmax function and its properties
+  - Categorical cross-entropy loss
+  - One-hot encoding
+  - Bridge from binary to multiclass (iris dataset or similar)
 
-  ~7. basics-embeddings - Word embeddings, character embeddings, positional encodings
-  ~8. basics-attention-mechanism - Scaled dot-product attention, multi-head attention visualization
-  ~9. basics-cross-validation - K-fold, stratified k-fold, time-series splits
-  ~10. basics-feature-engineering - Normalization, standardization, one-hot encoding, binning
-  ~11. basics-overfitting-underfitting - Visualization with polynomial regression and model capacity
+  3. basics-numpy-fundamentals.ipynb (Tier 1, before tensors)
 
-  🟢 Architecture Fundamentals
+  Why: You assume NumPy knowledge but never teach it. Many concepts in tensors build on NumPy.
+  - Array creation, indexing, slicing
+  - Broadcasting rules (preview for tensors)
+  - Universal functions
+  - Random number generation
 
-  12. cnn-from-scratch - Build CNN layer-by-layer (conv, pool, flatten, fc)
-  ~13. lstm-from-scratch - LSTM cell implementation with gate visualizations
-  14. gru-from-scratch - GRU cell implementation, compare to LSTM
-  15. autoencoder-basics - Simple autoencoder for dimensionality reduction
-  16. vae-from-scratch - Variational autoencoder with latent space visualization
-  17. gan-from-scratch - Simple GAN for generating simple images (MNIST)
+  Important Gaps (Tier 2-4)
 
-  🔵 Training & Evaluation Basics
+  4. basics-train-test-val-split.ipynb (Tier 2, before cross-validation)
 
-  18. basics-train-val-test-split - Proper data splitting, stratification, distribution shifts
-  19. basics-evaluation-metrics - Precision, recall, F1, ROC-AUC, confusion matrix
-  20. basics-hyperparameter-tuning - Grid search, random search, Bayesian optimization
-  21. basics-model-checkpointing - Saving/loading models, early stopping, best model selection
-  22. basics-transfer-learning - Fine-tuning pre-trained models (ResNet, BERT)
+  Why: Cross-validation assumes you understand train/test/validation philosophy, but it's never explicitly taught.
+  - Why we split data
+  - When to use validation vs test sets
+  - Data leakage prevention
+  - Temporal split considerations
 
-  🟣 Advanced But Missing Fundamentals
+  5. basics-mini-batch-gradient-descent.ipynb (Tier 3, before optimizers)
 
-  23. seq2seq-from-scratch - Encoder-decoder architecture for translation
-  24. attention-visualization - Visualize attention weights in transformers
-  25. model-interpretability - Grad-CAM, SHAP, feature importance
-  26. basics-time-series - Forecasting, ARIMA, seasonal decomposition
-  27. basics-graph-neural-networks - Simple GNN on graph classification
+  Why: Optimizers notebook assumes understanding of mini-batches, epochs, and iterations, but these aren't taught.
+  - Full-batch vs mini-batch vs stochastic GD
+  - Epochs, steps, iterations
+  - Why batching helps (noise in gradients)
+  - Memory and computational trade-offs
+
+  6. basics-data-normalization.ipynb (Tier 3, with data preprocessing)
+
+  Why: Normalization/standardization is mentioned everywhere but never deeply taught as a standalone concept.
+  - Min-max scaling vs standardization
+  - When to use each
+  - Fitting on train, applying to test (avoiding leakage)
+  - Why neural networks need normalized inputs
+
+  7. basics-neural-network-fundamentals.ipynb (Tier 4, BEFORE backprop)
+
+  Why: You jump straight to backprop without explaining what a neural network actually is.
+  - What is a layer? What is a network?
+  - Forward pass computation
+  - Why we stack layers
+  - Architecture terminology (width, depth, parameters)
+  - Universal approximation theorem (intuition)
+
+  8. basics-computational-graphs.ipynb (Tier 4, BEFORE backprop)
+
+  Why: Backprop is much easier to understand with computational graph visualization first.
+  - DAG representation of computations
+  - Nodes as operations, edges as data flow
+  - Why graphs help with differentiation
+  - Visual intuition before diving into autograd
+
+  9. basics-pytorch-fundamentals.ipynb (Tier 4 or early Tier 5)
+
+  Why: Students learn tensors but not the PyTorch ecosystem (autograd, nn.Module, etc.)
+  - Autograd basics and .backward()
+  - nn.Module and nn.Parameter
+  - Building custom layers
+  - Model training loop structure
+
+  Nice-to-Have Additions
+
+  10. basics-imbalanced-data.ipynb (Tier 3)
+
+  - Class weights, oversampling, undersampling
+  - SMOTE and variations
+  - Evaluation metrics for imbalanced data
+
+  11. basics-calculus-refresher.ipynb (Tier 1 or pre-tier)
+
+  - Derivatives, chain rule, partial derivatives
+  - Gradient as direction of steepest ascent
+  - Critical for understanding optimization
+
+  12. basics-debugging-neural-networks.ipynb (Tier 5)
+
+  - Common failure modes (dying ReLU, NaN losses)
+  - Sanity checks (overfit small batch)
+  - Gradient flow visualization
+  - Learning curve interpretation
+
+  13. basics-hyperparameter-tuning.ipynb (Tier 2)
+
+  - Grid search, random search
+  - Bayesian optimization (conceptual)
+  - Which hyperparameters matter most
+
+  Recommended Priority Order
+
+  Highest Priority (fill critical gaps):
+  1. basics-softmax-multiclass.ipynb (Tier 1)
+  2. basics-neural-network-fundamentals.ipynb (Tier 4)
+  3. basics-computational-graphs.ipynb (Tier 4)
+  4. basics-mini-batch-gradient-descent.ipynb (Tier 3)
+  5. basics-probability-distributions.ipynb (Tier 1)
+
+  High Priority (strengthen foundations):
+  6. basics-train-test-val-split.ipynb (Tier 2)
+  7. basics-data-normalization.ipynb (Tier 3)
+  8. basics-pytorch-fundamentals.ipynb (Tier 4/5)
+
+  Medium Priority (round out fundamentals):
+  9. basics-numpy-fundamentals.ipynb (Tier 1)
+  10. basics-debugging-neural-networks.ipynb (Tier 5)
+
+  The biggest gap I see is that you assume neural network knowledge before teaching what a neural network actually is. The backprop notebook is great, but students need "basics-neural-network-fundamentals.ipynb" and "basics-computational-graphs.ipynb" right
+  before it to understand what they're learning backprop for.
+
+  Would you like me to help create any of these notebooks?
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+>  
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ? for shortcuts
+
+
+
+

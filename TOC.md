@@ -39,6 +39,9 @@ Builds linear regression from scratch to develop deep intuitions about gradient 
 ### **basics-metrics.ipynb**
 Comprehensive guide to evaluation metrics (accuracy, precision, recall, F1, ROC-AUC, etc.) for classification and regression tasks, teaching when to use each metric and how to interpret them in different contexts.
 
+### **basics-probability-distributions.ipynb**
+Foundational introduction to probability distributions that appear throughout machine learning. Covers discrete distributions (PMF: Bernoulli, Categorical, Binomial) and continuous distributions (PDF: Uniform, Gaussian/Normal), teaching mean/variance/sampling with visual intuitions. Explains the Central Limit Theorem and connects distributions to ML concepts like cross-entropy loss, VAEs, and model outputs. Essential for understanding loss functions, KL divergence, and generative models.
+
 ### **basics-loss-functions.ipynb**
 Provides comprehensive coverage of loss functions (MSE, MAE, cross-entropy, hinge loss) used in machine learning, explaining their mathematical properties and when to use each. Visualizes how different losses handle outliers, class imbalance, and various prediction tasks through interactive experiments.
 
@@ -307,8 +310,8 @@ Teaches how to build an AI-powered political debate simulator using LangChain an
 
 ## Summary Statistics
 
-- **Total notebooks:** 60
-- **Tier 1 (Absolute Foundations):** 7 notebooks
+- **Total notebooks:** 61
+- **Tier 1 (Absolute Foundations):** 8 notebooks
 - **Tier 2 (Core ML Principles):** 5 notebooks
 - **Tier 3 (Data & Optimization):** 4 notebooks
 - **Tier 4 (Deep Learning Foundations):** 6 notebooks
