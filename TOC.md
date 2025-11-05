@@ -231,6 +231,9 @@ Teaches the fundamentals of Gated Recurrent Units (GRUs) through the bit-parity 
 
 **Modern sequence modeling - the revolution.**
 
+### **seq2seq-with-attention.ipynb**
+Introduces sequence-to-sequence (seq2seq) encoder-decoder architecture for transforming one sequence into another (e.g., string reversal, translation). Demonstrates the **bottleneck problem** in basic RNN encoder-decoders where information gets lost in long sequences, then introduces the **attention mechanism** as the solution. Shows how attention allows the decoder to dynamically access all encoder hidden states through learned alignment weights. Includes extensive attention visualization showing which input positions influence each output token, making the model's decision-making process interpretable. Essential bridge from RNNs to modern attention-based architectures, showing why attention revolutionized NLP.
+
 ### **basics-attention-mechanism.ipynb**
 Introduces the attention mechanism that revolutionized deep learning, explaining how models can "focus" on relevant parts of input sequences. Builds intuition through step-by-step implementation of scaled dot-product attention and demonstrates its use in sequence-to-sequence tasks.
 
