@@ -34,6 +34,7 @@ src/aiml_notebooks/     # Shared library
 ├── tokenizers.py       # CharacterTokenizer
 └── datasets.py         # Datasets, factories, utilities
 
+TOC.md                  # Table of Contents (optimal learning order)
 pyproject.toml          # Dependencies (uv config)
 uv.lock                 # Locked dependencies
 ```
@@ -79,6 +80,8 @@ The `skills/` folder contains task-specific instruction files (`.skill.md`). Whe
 5. Use formulas, diagrams, and examples liberally
 
 Place notebooks in `notebooks/` with appropriate naming.
+
+**IMPORTANT**: After creating or significantly modifying a notebook, you MUST update `TOC.md` to include it in the optimal learning order. See the "Maintaining the Table of Contents" section below for detailed instructions.
 
 ### Using Shared Library
 
@@ -144,6 +147,50 @@ device = get_device(prefer_cpu=True)    # Safe mode for Transformers (CUDA > CPU
 # Run Jupyter with MPS fallback
 PYTORCH_ENABLE_MPS_FALLBACK=1 uv run jupyter lab
 ```
+
+## Maintaining the Table of Contents (TOC.md)
+
+**CRITICAL**: The `TOC.md` file MUST be kept up to date whenever notebooks are created, modified, or deleted.
+
+### Purpose of TOC.md
+The TOC delineates the **optimal learning order** for a complete AI/ML n00b to make it to god-tier. This is the PRIMARY organizing principle - notebooks are ordered by conceptual dependencies, not alphabetically or by topic.
+
+### When to Update TOC.md
+1. **Creating a new notebook**: Analyze its conceptual prerequisites and insert it in the appropriate tier
+2. **Modifying existing notebook content**: If changes significantly alter the difficulty or prerequisites, consider repositioning
+3. **Completing WIP notebooks**: Update status and potentially move to more appropriate tier
+
+### How to Update TOC.md
+
+**Step 1: Analyze Prerequisites**
+- What concepts must a learner understand before tackling this notebook?
+- Examples:
+  - VAEs require understanding of KL divergence
+  - Transformers require understanding of attention mechanisms
+  - CNNs require understanding of convolutions and basic neural networks
+
+**Step 2: Determine Appropriate Tier**
+- Tier 1-3: Foundations (tensors, ML basics, optimization)
+- Tier 4: Deep learning foundations (backprop, gradients)
+- Tier 5-6: First neural networks
+- Tier 7+: Progressive specialization
+
+**Step 3: Insert with Description**
+- Follow existing format: notebook name in bold, followed by concise description
+- Mark critical notebooks with ⭐ if they're foundational for multiple advanced topics
+- Ensure description explains what the notebook teaches AND why it matters
+
+**Step 4: Update Statistics**
+- Adjust tier counts in "Summary Statistics" section
+- Update total notebook count
+
+### Maintenance Rules (from TOC.md)
+1. **New notebooks** must be inserted in their appropriate tier based on conceptual prerequisites
+2. **Updated notebooks** may require repositioning if their content changes significantly
+3. **Tier structure** should reflect clear learning progression with minimal prerequisite violations
+4. **Dependencies** between notebooks should be explicitly considered
+
+**Example**: If creating a notebook on "Diffusion Models", it should go in Tier 12+ (after VAEs, GANs, and understanding of generative models), NOT earlier just because it's a "basics" topic.
 
 ## Common Tasks
 

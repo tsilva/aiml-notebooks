@@ -1,5 +1,22 @@
 # AI/ML Notebooks - Table of Contents
 
+## 🎯 PURPOSE & MAINTENANCE REQUIREMENT
+
+**This file MUST be maintained to delineate the optimal learning order for a complete AI/ML n00b to make it to god-tier by following the specified sequence.**
+
+### Critical Constraint:
+When this TOC is updated (e.g., when new notebooks are added or existing notebooks are modified), this constraint MUST ALWAYS be upheld - even if it means restructuring the existing order. The learning progression from foundational to advanced topics is the PRIMARY organizing principle.
+
+### Maintenance Rules:
+1. **New notebooks** must be inserted in their appropriate tier based on conceptual prerequisites
+2. **Updated notebooks** may require repositioning if their content changes significantly
+3. **Tier structure** should reflect clear learning progression with minimal prerequisite violations
+4. **Dependencies** between notebooks should be explicitly considered (e.g., VAEs require understanding KL divergence)
+
+---
+
+## 📚 Learning Path Overview
+
 This repository contains educational Jupyter notebooks covering fundamental to advanced AI/ML concepts. Each notebook is designed to build deep intuitions through hands-on implementation and progressive learning.
 
 **This TOC is organized in optimal learning order** - starting from absolute foundations and progressively building to advanced topics. Follow this sequence for the most effective learning path from n00b to god-tier.
