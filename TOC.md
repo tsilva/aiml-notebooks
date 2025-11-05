@@ -81,6 +81,9 @@ Explores regularization techniques (L1, L2, dropout, early stopping) that preven
 ### **basics-confidence-intervals.ipynb**
 Teaches how to quantify uncertainty in model predictions and evaluation metrics using statistical confidence intervals. Demonstrates bootstrap methods and hypothesis testing to understand whether performance differences between models are statistically significant.
 
+### **basics-hyperparameter-tuning.ipynb**
+Comprehensive guide to finding the best model configuration through systematic hyperparameter search. Covers grid search (exhaustive exploration), random search (efficient sampling), and Bayesian optimization (smart sequential search). Demonstrates which hyperparameters matter most (learning rate is king!), practical tuning strategies, and when to use each search method. Essential for getting the best performance out of any machine learning model.
+
 ---
 
 ## TIER 3: Data & Optimization
