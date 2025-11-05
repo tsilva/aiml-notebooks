@@ -24,6 +24,7 @@ dependencies = [
     "matplotlib",
     "seaborn",
     "scikit-learn",
+    "imbalanced-learn",
     "pandas",
     "wandb",
     "pyyaml",
