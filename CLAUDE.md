@@ -199,3 +199,49 @@ Structure: `sweeps/*.yaml` (configs) → `run_sweep.py` (runner) → `tmp/sweeps
 - Main branch: `main`
 - Check `.gitignore` for ignored patterns (venvs, temp files, logs, etc.)
 - `uv.lock` is committed for reproducibility
+
+## Self-Reinforcement Learning Loop
+
+**CRITICAL**: After completing tasks, update this file with high-value learnings that prevent recurring mistakes.
+
+### When to Update CLAUDE.md
+
+Add a tip ONLY if all of these are true:
+1. **High frequency**: The mistake would happen in >90% of similar tasks
+2. **Easily preventable**: A simple workflow change would avoid it
+3. **Generic pattern**: Applies broadly, not specific to one file/function/library
+4. **Process/approach**: About tool calling, environment understanding, or workflow - NOT specific code fixes
+
+### What TO Add
+
+Focus on workflow patterns and tool-calling strategies:
+- "Always check X before doing Y to avoid Z"
+- "Use Grep tool instead of assuming file locations when searching for..."
+- "Verify assumption A by reading B before proceeding with C"
+- "Don't assume X exists in environment - check with Y tool first"
+- "When doing task type X, always start by reading Y to understand Z"
+
+### What NOT to Add
+
+Avoid these (debug on the fly instead):
+- Specific API quirks for third-party libraries (will change)
+- Programming language basics (should be known)
+- One-off edge cases specific to single files
+- Detailed code patterns (belongs in skill files or code comments)
+- Fixes for temporary environment issues
+
+### Format for New Tips
+
+Add to the relevant section with clear context:
+```markdown
+**Pattern learned**: [One-line summary]
+- Why: [Brief explanation of what went wrong]
+- Fix: [Generic approach to prevent it]
+```
+
+**Example**:
+```markdown
+**Pattern learned**: Always read skill files before starting standardized tasks
+- Why: Skill files contain detailed, tested workflows that prevent common mistakes
+- Fix: Use Glob to find matching `*.skill.md` files, read relevant ones before proceeding
+```
