@@ -23,39 +23,6 @@ Excellent question! After analyzing your TOC, I can see you have a solid foundat
   Important Gaps (Tier 2-4)
 
 
-  5. basics-mini-batch-gradient-descent.ipynb (Tier 3, before optimizers)
-
-  Why: Optimizers notebook assumes understanding of mini-batches, epochs, and iterations, but these aren't taught.
-  - Full-batch vs mini-batch vs stochastic GD
-  - Epochs, steps, iterations
-  - Why batching helps (noise in gradients)
-  - Memory and computational trade-offs
-
-  6. basics-data-normalization.ipynb (Tier 3, with data preprocessing)
-
-  Why: Normalization/standardization is mentioned everywhere but never deeply taught as a standalone concept.
-  - Min-max scaling vs standardization
-  - When to use each
-  - Fitting on train, applying to test (avoiding leakage)
-  - Why neural networks need normalized inputs
-
-  7. basics-neural-network-fundamentals.ipynb (Tier 4, BEFORE backprop)
-
-  Why: You jump straight to backprop without explaining what a neural network actually is.
-  - What is a layer? What is a network?
-  - Forward pass computation
-  - Why we stack layers
-  - Architecture terminology (width, depth, parameters)
-  - Universal approximation theorem (intuition)
-
-  8. basics-computational-graphs.ipynb (Tier 4, BEFORE backprop)
-
-  Why: Backprop is much easier to understand with computational graph visualization first.
-  - DAG representation of computations
-  - Nodes as operations, edges as data flow
-  - Why graphs help with differentiation
-  - Visual intuition before diving into autograd
-
   9. basics-pytorch-fundamentals.ipynb (Tier 4 or early Tier 5)
 
   Why: Students learn tensors but not the PyTorch ecosystem (autograd, nn.Module, etc.)
@@ -90,34 +57,6 @@ Excellent question! After analyzing your TOC, I can see you have a solid foundat
   - Grid search, random search
   - Bayesian optimization (conceptual)
   - Which hyperparameters matter most
-
-  Recommended Priority Order
-
-  Highest Priority (fill critical gaps):
-  1. basics-softmax-multiclass.ipynb (Tier 1)
-  2. basics-neural-network-fundamentals.ipynb (Tier 4)
-  3. basics-computational-graphs.ipynb (Tier 4)
-  4. basics-mini-batch-gradient-descent.ipynb (Tier 3)
-  5. basics-probability-distributions.ipynb (Tier 1)
-
-  High Priority (strengthen foundations):
-  6. basics-train-test-val-split.ipynb (Tier 2)
-  7. basics-data-normalization.ipynb (Tier 3)
-  8. basics-pytorch-fundamentals.ipynb (Tier 4/5)
-
-  Medium Priority (round out fundamentals):
-  9. basics-numpy-fundamentals.ipynb (Tier 1)
-  10. basics-debugging-neural-networks.ipynb (Tier 5)
-
-  The biggest gap I see is that you assume neural network knowledge before teaching what a neural network actually is. The backprop notebook is great, but students need "basics-neural-network-fundamentals.ipynb" and "basics-computational-graphs.ipynb" right
-  before it to understand what they're learning backprop for.
-
-  Would you like me to help create any of these notebooks?
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
->  
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  ? for shortcuts
 
 
 
