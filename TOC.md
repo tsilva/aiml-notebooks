@@ -36,6 +36,9 @@ Introduction to tensor operations and manipulations in PyTorch, covering shapes,
 ### **basics-tensor-multiplication.ipynb**
 Deep dive into matrix multiplication, broadcasting rules, and efficient tensor operations. Builds intuition for how neural network layers actually perform computations through matrix operations.
 
+### **basics-calculus-refresher.ipynb** ⭐ **CRITICAL**
+Essential calculus foundations for understanding optimization and training. Covers derivatives (rate of change), the chain rule (foundation of backpropagation), partial derivatives (multiple inputs), and gradients (direction of steepest ascent/descent). Builds deep intuition through interactive visualizations of tangent lines, gradient vectors, and gradient descent convergence. Critical prerequisite for understanding how neural networks learn through optimization.
+
 ### **basics-linear-regression.ipynb**
 Builds linear regression from scratch to develop deep intuitions about gradient descent, loss functions, and optimization. Compares iterative gradient descent with the analytical closed-form solution, teaching fundamental machine learning concepts that underpin all neural network training.
 
