@@ -96,6 +96,9 @@ Covers techniques for creating informative features from raw data including enco
 ### **basics-data-augmentation.ipynb**
 Teaches data augmentation strategies for artificially expanding training datasets through transformations (rotations, flips, crops for images; synonym replacement for text) to improve model generalization and robustness.
 
+### **basics-imbalanced-data.ipynb**
+Addresses the critical problem of class imbalance where one class vastly outnumbers others (e.g., fraud detection: 1% fraud, 99% legitimate). Demonstrates why standard training fails (models predict only majority class), why accuracy is misleading, and teaches proper evaluation metrics (precision, recall, F1-score, confusion matrices). Covers three solution approaches: class weights (penalize minority errors more), resampling (oversampling/undersampling), and SMOTE (synthetic minority sample generation). Essential for real-world applications where balanced datasets are rare.
+
 ### **basics-mini-batch-gradient-descent.ipynb** ⭐ **CRITICAL**
 Teaches the three flavors of gradient descent (full-batch, mini-batch, stochastic) and essential terminology (epochs, steps, iterations, batches). Explains why mini-batching works through gradient noise analysis, memory/computational trade-offs, and practical batch size selection. Critical prerequisite for understanding optimizers, as all modern optimizers assume mini-batch training with noisy gradients.
 
