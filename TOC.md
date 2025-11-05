@@ -69,6 +69,9 @@ Explores the fundamental machine learning challenge of balancing model capacity 
 ### **basics-bias-variance-tradeoff.ipynb**
 Theoretical exploration of the bias-variance decomposition, showing how model error can be broken down into irreducible error, bias, and variance components to guide model selection and complexity decisions.
 
+### **basics-train-test-val-split.ipynb**
+Foundational explanation of why we split data into train/validation/test sets, teaching the philosophy behind each split and when to use them. Covers data leakage prevention (preprocessing order, target leakage), temporal split considerations for time-series data, and common mistakes that lead to overly optimistic performance estimates. Essential prerequisite for understanding cross-validation.
+
 ### **basics-cross-validation.ipynb**
 Explores three essential cross-validation techniques: K-Fold, Stratified K-Fold, and Time Series Split. Teaches when to use each method, how they provide more reliable performance estimates than single train/test splits, and how to avoid data leakage in temporal data.
 
