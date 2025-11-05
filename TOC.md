@@ -321,6 +321,9 @@ Implements extreme quantization where weights are constrained to {-1, +1} (binar
 ### **mcts-simple.ipynb**
 Introduces Monte Carlo Tree Search (MCTS) algorithm through a Tic-Tac-Toe implementation, explaining the four phases (selection, expansion, simulation, backpropagation) and UCB1 formula for balancing exploration vs exploitation.
 
+### **rl-deep-q-networks.ipynb** ⭐ **CRITICAL - Bridge to Deep RL**
+Bridges tabular Q-learning to deep reinforcement learning by introducing Deep Q-Networks (DQN). Explains why neural networks are needed for Q-value approximation in large state spaces, demonstrates the critical **experience replay** mechanism that breaks correlation in training data, and shows how **target networks** stabilize learning by preventing the moving target problem. Implements complete DQN from scratch on CartPole, with ablation studies proving each component's importance. Essential foundation for understanding all modern deep RL algorithms (PPO, SAC, etc.).
+
 ### **wip-rl-world-model-01-repr.ipynb** *(Work in Progress)*
 Part 1 of a world model series teaching how to compress gameplay frames into low-dimensional latent representations using convolutional autoencoders for the Tetris GameBoy environment.
 
@@ -364,7 +367,7 @@ Follow the tiers in order from 1 → 17 for comprehensive mastery.
 - Tiers 1-5 → Tier 7 → Tier 9 → Tier 10 → Tier 11 → Tier 14
 
 **Reinforcement Learning Track:**
-- Tiers 1-4 → Tier 7 (esp. KL divergence) → Tier 16
+- Tiers 1-4 → Tier 7 (esp. KL divergence) → Tier 16 (focus on rl-deep-q-networks.ipynb)
 
 **Research/Theory Track:**
 - Tiers 1-4 → Tier 7 → Tier 13 → Tier 14 → Tier 15
