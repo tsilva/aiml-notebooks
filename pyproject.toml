@@ -29,6 +29,7 @@ dependencies = [
     "wandb",
     "pyyaml",
     "datasets>=4.3.0",
+    "gymnasium",
 ]
 
 [build-system]
