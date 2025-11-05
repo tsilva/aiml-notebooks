@@ -87,6 +87,9 @@ Teaches how to quantify uncertainty in model predictions and evaluation metrics 
 ### **basics-hyperparameter-tuning.ipynb**
 Comprehensive guide to finding the best model configuration through systematic hyperparameter search. Covers grid search (exhaustive exploration), random search (efficient sampling), and Bayesian optimization (smart sequential search). Demonstrates which hyperparameters matter most (learning rate is king!), practical tuning strategies, and when to use each search method. Essential for getting the best performance out of any machine learning model.
 
+### **basics-ensemble-methods.ipynb**
+Teaches how combining multiple models produces better predictions than any single model through the "wisdom of crowds" principle. Covers variance reduction through averaging, bagging (bootstrap aggregating), Random Forests (most popular ensemble), boosting methods (AdaBoost, Gradient Boosting) that learn from mistakes sequentially, and stacking (meta-learning to combine models). Demonstrates why model diversity is critical and provides practical guidance on when to use each ensemble approach. Essential practical ML technique used in production systems and competitions.
+
 ---
 
 ## TIER 3: Data & Optimization
