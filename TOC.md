@@ -204,6 +204,9 @@ Introduces the concept of learned dense vector representations for discrete obje
 ### **kmeans-from-scratch.ipynb**
 Builds the k-means clustering algorithm from first principles, showing how it partitions data through iterative assignment and update steps. Covers distance metrics, initialization strategies (k-means++), convergence guarantees, and the elbow method for choosing k.
 
+### **basics-gaussian-mixture-models.ipynb**
+Extends k-means to probabilistic soft clustering using Gaussian Mixture Models (GMMs). Teaches the Expectation-Maximization (EM) algorithm, soft vs hard cluster assignments with uncertainty quantification, different covariance types (spherical, diagonal, full) for capturing cluster shapes, the mathematical connection between GMMs and k-means, and model selection using BIC/AIC instead of the elbow method. Essential for understanding probabilistic models and a foundation for VAEs.
+
 ---
 
 ## TIER 9: Recurrent Neural Networks
