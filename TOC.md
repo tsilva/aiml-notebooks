@@ -189,6 +189,8 @@ Teaches convolutional operations from first principles, showing how filters slid
 ### **classification-image.ipynb**
 Demonstrates building image classifiers with configurable architectures (CNN or MLP) on multiple datasets (CIFAR-10, MNIST, Fashion-MNIST), using PyTorch Lightning for training with automatic checkpointing and W&B logging.
 
+### **basics-residual-connections.ipynb** ⭐ **REVOLUTIONARY**
+Revolutionary architectural innovation that enabled training networks with 100+ layers. Teaches the vanishing gradient problem in deep networks, skip connections (residual blocks), and why they work through gradient highways and ensemble interpretation. Implements ResNet blocks from scratch and demonstrates the famous result: plain networks degrade with depth, but ResNets improve. Essential foundation for understanding ResNet, Transformers, U-Net, and all modern deep architectures.
 ### **basics-transfer-learning.ipynb** ⭐ **CRITICAL - Used in 90% of Real Applications**
 Teaches transfer learning, the most practical deep learning technique for real-world applications. Covers pretrained models (ResNet on ImageNet), feature extraction (freezing layers) vs fine-tuning (unfreezing with low learning rates), when to use each approach based on dataset size and domain similarity, differential learning rates for optimal fine-tuning, and hands-on comparison on CIFAR-10. Essential for working with limited data and achieving state-of-the-art results quickly.
 
