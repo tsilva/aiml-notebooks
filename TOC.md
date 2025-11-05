@@ -336,6 +336,9 @@ Implements extreme quantization where weights are constrained to {-1, +1} (binar
 
 **Learning through interaction with environments.**
 
+### **rl-q-learning.ipynb** ⭐ **FOUNDATIONAL RL**
+Teaches foundational reinforcement learning through Q-learning on GridWorld and CartPole. Covers Markov Decision Processes (MDPs), value functions, Q-tables, the Bellman equation, temporal difference learning, and exploration vs exploitation (ε-greedy). Builds complete understanding of how agents learn from rewards through trial and error. Essential prerequisite for all modern RL algorithms (DQN, PPO, etc.) and policy-based methods.
+
 ### **mcts-simple.ipynb**
 Introduces Monte Carlo Tree Search (MCTS) algorithm through a Tic-Tac-Toe implementation, explaining the four phases (selection, expansion, simulation, backpropagation) and UCB1 formula for balancing exploration vs exploitation.
 
