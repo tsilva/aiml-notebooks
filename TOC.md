@@ -105,6 +105,9 @@ Teaches how to improve training by dynamically adjusting learning rates over tim
 
 **Now we can start with neural networks!**
 
+### **basics-neural-network-fundamentals.ipynb**
+Foundation for understanding what neural networks actually are. Covers the core building blocks: single neurons (perceptrons), layers as collections of neurons, and networks as stacked layers. Explains forward pass computation, architecture terminology (width, depth, parameters), why we stack layers for hierarchical feature learning, and provides intuition for the Universal Approximation Theorem. Essential prerequisite for understanding backpropagation and training.
+
 ### **z2h-01-backprop.ipynb** ⭐ **CRITICAL**
 Teaches backpropagation from scratch by building a micrograd-style autograd engine that tracks computational graphs, calculates gradients using the chain rule, and trains neural networks using gradient descent. **Must understand this deeply before proceeding!**
 
