@@ -111,6 +111,9 @@ Teaches how to improve training by dynamically adjusting learning rates over tim
 
 **Now we can start with neural networks!**
 
+### **basics-computational-graphs.ipynb** ⭐ **CRITICAL**
+Teaches how to represent any computation as a directed acyclic graph (DAG) where nodes are values/operations and edges represent data flow. Builds visual intuition for how graphs naturally encode the chain rule, making backpropagation obvious. Shows how PyTorch's automatic differentiation builds and traverses these graphs during forward and backward passes. **Essential foundation before backprop!**
+
 ### **basics-neural-network-fundamentals.ipynb**
 Foundation for understanding what neural networks actually are. Covers the core building blocks: single neurons (perceptrons), layers as collections of neurons, and networks as stacked layers. Explains forward pass computation, architecture terminology (width, depth, parameters), why we stack layers for hierarchical feature learning, and provides intuition for the Universal Approximation Theorem. Essential prerequisite for understanding backpropagation and training.
 
