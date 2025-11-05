@@ -153,6 +153,9 @@ Continues optimization topics by migrating code to PyTorch and conducting experi
 ### **z2h-06-backprop-ninja-wip.ipynb** *(Work in Progress)*
 Advanced backpropagation practice where students manually implement backward passes for complex operations (cross-entropy, batch normalization) to deeply understand gradient computation in neural networks.
 
+### **basics-debugging-neural-networks.ipynb**
+Practical guide to debugging neural networks systematically. Covers essential sanity checks (overfitting small batches), common failure modes (dying ReLU, NaN losses, mode collapse), gradient flow visualization, and learning curve interpretation (overfitting, underfitting, instability). Teaches a complete debugging workflow from identifying problems to testing fixes methodically.
+
 ---
 
 ## TIER 6: Convolutional Neural Networks
