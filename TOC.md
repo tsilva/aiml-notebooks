@@ -54,6 +54,9 @@ Teaches the fundamental activation functions used in neural networks (ReLU, sigm
 ### **logistic-regression.ipynb**
 Teaches how to build a binary linear classifier using logistic regression on 2D clustered data, covering gradient descent, loss functions (binary cross-entropy), and decision boundary visualization.
 
+### **basics-softmax-multiclass.ipynb**
+Bridges from binary to multiclass classification by teaching the softmax function, one-hot encoding, and categorical cross-entropy loss. Builds a complete multiclass classifier from scratch on the Iris dataset, demonstrating how softmax generalizes sigmoid and why it's the standard approach for multiclass problems. Essential foundation before neural networks.
+
 ---
 
 ## TIER 2: Core ML Principles
