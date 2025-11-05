@@ -183,6 +183,9 @@ Teaches convolutional operations from first principles, showing how filters slid
 ### **classification-image.ipynb**
 Demonstrates building image classifiers with configurable architectures (CNN or MLP) on multiple datasets (CIFAR-10, MNIST, Fashion-MNIST), using PyTorch Lightning for training with automatic checkpointing and W&B logging.
 
+### **basics-residual-connections.ipynb** ⭐ **REVOLUTIONARY**
+Revolutionary architectural innovation that enabled training networks with 100+ layers. Teaches the vanishing gradient problem in deep networks, skip connections (residual blocks), and why they work through gradient highways and ensemble interpretation. Implements ResNet blocks from scratch and demonstrates the famous result: plain networks degrade with depth, but ResNets improve. Essential foundation for understanding ResNet, Transformers, U-Net, and all modern deep architectures.
+
 ---
 
 ## TIER 7: Information Theory & Embeddings
