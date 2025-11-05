@@ -315,31 +315,6 @@ Builds a complete CHIP-8 emulator from scratch to teach fundamental emulation co
 ### **wip-debate-generator.ipynb** *(Work in Progress)*
 Teaches how to build an AI-powered political debate simulator using LangChain and LLMs, creating multiple AI agents representing different political parties that engage in structured debates with text-to-speech and video avatar generation.
 
----
-
-## Summary Statistics
-
-- **Total notebooks:** 62
-- **Tier 1 (Absolute Foundations):** 9 notebooks
-- **Tier 2 (Core ML Principles):** 5 notebooks
-- **Tier 3 (Data & Optimization):** 4 notebooks
-- **Tier 4 (Deep Learning Foundations):** 6 notebooks
-- **Tier 5 (First Neural Networks):** 5 notebooks
-- **Tier 6 (CNNs):** 2 notebooks
-- **Tier 7 (Information Theory):** 2 notebooks
-- **Tier 8 (Unsupervised Learning):** 1 notebook
-- **Tier 9 (RNNs):** 4 notebooks
-- **Tier 10 (Attention & Transformers):** 4 notebooks
-- **Tier 11 (Text Applications):** 4 notebooks
-- **Tier 12 (Image Generation):** 3 notebooks
-- **Tier 13 (Advanced Architectures):** 2 notebooks
-- **Tier 14 (Fascinating Phenomena):** 2 notebooks
-- **Tier 15 (Alternative Training):** 3 notebooks
-- **Tier 16 (Reinforcement Learning):** 4 notebooks
-- **Tier 17 (Fun & Specialized):** 2 notebooks
-
----
-
 ## Learning Path Recommendations
 
 ### **Quick Start Path (Core Essentials)**
