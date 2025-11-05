@@ -313,7 +313,10 @@ Demonstrates the grokking phenomenon where neural networks suddenly transition f
 
 ## TIER 15: Alternative Training Paradigms
 
-**Beyond standard backpropagation and gradient descent.**
+**Beyond standard supervised learning - self-supervised and alternative training methods.**
+
+### **basics-contrastive-learning.ipynb** ⭐ **CRITICAL for Modern AI**
+Teaches contrastive learning, a revolutionary self-supervised paradigm that learns representations without labels by contrasting positive and negative pairs. Covers InfoNCE loss, the temperature parameter, cosine similarity, and data augmentation strategies. Implements a SimCLR-style model from scratch to demonstrate how models like CLIP, MoCo, and modern foundation models learn powerful representations from unlabeled data. Essential for understanding modern pre-training approaches.
 
 ### **forward-forward.ipynb**
 Implements Geoffrey Hinton's Forward-Forward algorithm as an alternative to backpropagation, teaching layer-local learning through contrastive "goodness" functions with positive/negative samples, eliminating the need for backward gradient passes.
