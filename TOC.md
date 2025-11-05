@@ -87,11 +87,17 @@ Teaches how to quantify uncertainty in model predictions and evaluation metrics 
 
 **Making the most of your data and training.**
 
+### **basics-data-normalization.ipynb** ⭐
+Deep dive into data normalization/standardization - min-max scaling vs standardization (z-score), when to use each, why neural networks need normalized inputs, and critically: fitting on train data then applying to test to avoid data leakage. Essential preprocessing skill that directly impacts model convergence and performance.
+
 ### **basics-feature-engineering.ipynb**
 Covers techniques for creating informative features from raw data including encoding categorical variables, handling missing values, scaling, and domain-specific feature extraction to improve model performance.
 
 ### **basics-data-augmentation.ipynb**
 Teaches data augmentation strategies for artificially expanding training datasets through transformations (rotations, flips, crops for images; synonym replacement for text) to improve model generalization and robustness.
+
+### **basics-mini-batch-gradient-descent.ipynb** ⭐ **CRITICAL**
+Teaches the three flavors of gradient descent (full-batch, mini-batch, stochastic) and essential terminology (epochs, steps, iterations, batches). Explains why mini-batching works through gradient noise analysis, memory/computational trade-offs, and practical batch size selection. Critical prerequisite for understanding optimizers, as all modern optimizers assume mini-batch training with noisy gradients.
 
 ### **basics-optimizers.ipynb**
 Deep dive into optimization algorithms (SGD, Momentum, RMSprop, Adam) that train neural networks, building intuition through visualization of their paths through loss landscapes. Explains how each optimizer addresses specific challenges like ravines, saddle points, and different parameter scales, with practical guidance on when to use each.
@@ -107,6 +113,9 @@ Teaches how to improve training by dynamically adjusting learning rates over tim
 
 ### **basics-computational-graphs.ipynb** ⭐ **CRITICAL**
 Teaches how to represent any computation as a directed acyclic graph (DAG) where nodes are values/operations and edges represent data flow. Builds visual intuition for how graphs naturally encode the chain rule, making backpropagation obvious. Shows how PyTorch's automatic differentiation builds and traverses these graphs during forward and backward passes. **Essential foundation before backprop!**
+
+### **basics-neural-network-fundamentals.ipynb**
+Foundation for understanding what neural networks actually are. Covers the core building blocks: single neurons (perceptrons), layers as collections of neurons, and networks as stacked layers. Explains forward pass computation, architecture terminology (width, depth, parameters), why we stack layers for hierarchical feature learning, and provides intuition for the Universal Approximation Theorem. Essential prerequisite for understanding backpropagation and training.
 
 ### **z2h-01-backprop.ipynb** ⭐ **CRITICAL**
 Teaches backpropagation from scratch by building a micrograd-style autograd engine that tracks computational graphs, calculates gradients using the chain rule, and trains neural networks using gradient descent. **Must understand this deeply before proceeding!**
