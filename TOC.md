@@ -87,6 +87,9 @@ Teaches how to quantify uncertainty in model predictions and evaluation metrics 
 ### **basics-hyperparameter-tuning.ipynb**
 Comprehensive guide to finding the best model configuration through systematic hyperparameter search. Covers grid search (exhaustive exploration), random search (efficient sampling), and Bayesian optimization (smart sequential search). Demonstrates which hyperparameters matter most (learning rate is king!), practical tuning strategies, and when to use each search method. Essential for getting the best performance out of any machine learning model.
 
+### **basics-ensemble-methods.ipynb**
+Teaches how combining multiple models produces better predictions than any single model through the "wisdom of crowds" principle. Covers variance reduction through averaging, bagging (bootstrap aggregating), Random Forests (most popular ensemble), boosting methods (AdaBoost, Gradient Boosting) that learn from mistakes sequentially, and stacking (meta-learning to combine models). Demonstrates why model diversity is critical and provides practical guidance on when to use each ensemble approach. Essential practical ML technique used in production systems and competitions.
+
 ---
 
 ## TIER 3: Data & Optimization
@@ -177,6 +180,9 @@ Practical guide to debugging neural networks systematically. Covers essential sa
 
 **Computer vision fundamentals.**
 
+### **basics-pooling-operations.ipynb**
+Comprehensive guide to pooling operations (MaxPooling, AveragePooling, Global pooling) that are essential for CNNs. Explains why downsampling is critical (computational efficiency, translation invariance, receptive field expansion), demonstrates spatial invariance through interactive examples, and teaches how pooling enables efficient feature extraction. Covers output size calculations, common pitfalls, and when to use each pooling type. Essential foundation before diving into complete CNN architectures.
+
 ### **basics-tensors-convolution.ipynb**
 Teaches convolutional operations from first principles, showing how filters slide across inputs to extract features. Essential for understanding CNNs and image processing architectures.
 
@@ -185,6 +191,8 @@ Demonstrates building image classifiers with configurable architectures (CNN or 
 
 ### **basics-residual-connections.ipynb** ⭐ **REVOLUTIONARY**
 Revolutionary architectural innovation that enabled training networks with 100+ layers. Teaches the vanishing gradient problem in deep networks, skip connections (residual blocks), and why they work through gradient highways and ensemble interpretation. Implements ResNet blocks from scratch and demonstrates the famous result: plain networks degrade with depth, but ResNets improve. Essential foundation for understanding ResNet, Transformers, U-Net, and all modern deep architectures.
+### **basics-transfer-learning.ipynb** ⭐ **CRITICAL - Used in 90% of Real Applications**
+Teaches transfer learning, the most practical deep learning technique for real-world applications. Covers pretrained models (ResNet on ImageNet), feature extraction (freezing layers) vs fine-tuning (unfreezing with low learning rates), when to use each approach based on dataset size and domain similarity, differential learning rates for optimal fine-tuning, and hands-on comparison on CIFAR-10. Essential for working with limited data and achieving state-of-the-art results quickly.
 
 ---
 
@@ -206,6 +214,9 @@ Introduces the concept of learned dense vector representations for discrete obje
 
 ### **kmeans-from-scratch.ipynb**
 Builds the k-means clustering algorithm from first principles, showing how it partitions data through iterative assignment and update steps. Covers distance metrics, initialization strategies (k-means++), convergence guarantees, and the elbow method for choosing k.
+
+### **basics-gaussian-mixture-models.ipynb**
+Extends k-means to probabilistic soft clustering using Gaussian Mixture Models (GMMs). Teaches the Expectation-Maximization (EM) algorithm, soft vs hard cluster assignments with uncertainty quantification, different covariance types (spherical, diagonal, full) for capturing cluster shapes, the mathematical connection between GMMs and k-means, and model selection using BIC/AIC instead of the elbow method. Essential for understanding probabilistic models and a foundation for VAEs.
 
 ---
 
@@ -231,6 +242,9 @@ Teaches the fundamentals of Gated Recurrent Units (GRUs) through the bit-parity 
 
 **Modern sequence modeling - the revolution.**
 
+### **seq2seq-with-attention.ipynb**
+Introduces sequence-to-sequence (seq2seq) encoder-decoder architecture for transforming one sequence into another (e.g., string reversal, translation). Demonstrates the **bottleneck problem** in basic RNN encoder-decoders where information gets lost in long sequences, then introduces the **attention mechanism** as the solution. Shows how attention allows the decoder to dynamically access all encoder hidden states through learned alignment weights. Includes extensive attention visualization showing which input positions influence each output token, making the model's decision-making process interpretable. Essential bridge from RNNs to modern attention-based architectures, showing why attention revolutionized NLP.
+
 ### **basics-attention-mechanism.ipynb**
 Introduces the attention mechanism that revolutionized deep learning, explaining how models can "focus" on relevant parts of input sequences. Builds intuition through step-by-step implementation of scaled dot-product attention and demonstrates its use in sequence-to-sequence tasks.
 
@@ -239,6 +253,9 @@ Implements Word2Vec using the skip-gram model with negative sampling to learn wo
 
 ### **transformer-from-scratch.ipynb** ⭐ **CRITICAL for Modern AI**
 Builds a Transformer architecture incrementally from basic building blocks to a complete model. Covers the self-attention mechanism (the core innovation), multi-head attention, positional encodings, and how Transformers process sequences in parallel unlike RNNs.
+
+### **vision-transformers.ipynb**
+Demonstrates how transformers conquered computer vision through Vision Transformers (ViT). Teaches patch embeddings (splitting images into sequences), 2D positional encodings for spatial information, and building a complete ViT from scratch. Compares ViT with CNNs on CIFAR-10, visualizes learned attention patterns to see what the model focuses on, and explores the trade-offs between inductive bias (CNNs) and learned spatial understanding (ViT). Shows why transformers are now a universal architecture across text, vision, and beyond.
 
 ### **z2h-07-wavenet-lm-wip.ipynb** *(Work in Progress)*
 Implements a WaveNet-inspired hierarchical language model using custom layers (embeddings, batch normalization, sequential flattening) to process longer character contexts more efficiently than flat architectures.
@@ -304,7 +321,10 @@ Demonstrates the grokking phenomenon where neural networks suddenly transition f
 
 ## TIER 15: Alternative Training Paradigms
 
-**Beyond standard backpropagation and gradient descent.**
+**Beyond standard supervised learning - self-supervised and alternative training methods.**
+
+### **basics-contrastive-learning.ipynb** ⭐ **CRITICAL for Modern AI**
+Teaches contrastive learning, a revolutionary self-supervised paradigm that learns representations without labels by contrasting positive and negative pairs. Covers InfoNCE loss, the temperature parameter, cosine similarity, and data augmentation strategies. Implements a SimCLR-style model from scratch to demonstrate how models like CLIP, MoCo, and modern foundation models learn powerful representations from unlabeled data. Essential for understanding modern pre-training approaches.
 
 ### **forward-forward.ipynb**
 Implements Geoffrey Hinton's Forward-Forward algorithm as an alternative to backpropagation, teaching layer-local learning through contrastive "goodness" functions with positive/negative samples, eliminating the need for backward gradient passes.
@@ -321,8 +341,14 @@ Implements extreme quantization where weights are constrained to {-1, +1} (binar
 
 **Learning through interaction with environments.**
 
+### **rl-q-learning.ipynb** ⭐ **FOUNDATIONAL RL**
+Teaches foundational reinforcement learning through Q-learning on GridWorld and CartPole. Covers Markov Decision Processes (MDPs), value functions, Q-tables, the Bellman equation, temporal difference learning, and exploration vs exploitation (ε-greedy). Builds complete understanding of how agents learn from rewards through trial and error. Essential prerequisite for all modern RL algorithms (DQN, PPO, etc.) and policy-based methods.
+
 ### **mcts-simple.ipynb**
 Introduces Monte Carlo Tree Search (MCTS) algorithm through a Tic-Tac-Toe implementation, explaining the four phases (selection, expansion, simulation, backpropagation) and UCB1 formula for balancing exploration vs exploitation.
+
+### **rl-deep-q-networks.ipynb** ⭐ **CRITICAL - Bridge to Deep RL**
+Bridges tabular Q-learning to deep reinforcement learning by introducing Deep Q-Networks (DQN). Explains why neural networks are needed for Q-value approximation in large state spaces, demonstrates the critical **experience replay** mechanism that breaks correlation in training data, and shows how **target networks** stabilize learning by preventing the moving target problem. Implements complete DQN from scratch on CartPole, with ablation studies proving each component's importance. Essential foundation for understanding all modern deep RL algorithms (PPO, SAC, etc.).
 
 ### **wip-rl-world-model-01-repr.ipynb** *(Work in Progress)*
 Part 1 of a world model series teaching how to compress gameplay frames into low-dimensional latent representations using convolutional autoencoders for the Tetris GameBoy environment.
@@ -367,7 +393,7 @@ Follow the tiers in order from 1 → 17 for comprehensive mastery.
 - Tiers 1-5 → Tier 7 → Tier 9 → Tier 10 → Tier 11 → Tier 14
 
 **Reinforcement Learning Track:**
-- Tiers 1-4 → Tier 7 (esp. KL divergence) → Tier 16
+- Tiers 1-4 → Tier 7 (esp. KL divergence) → Tier 16 (focus on rl-deep-q-networks.ipynb)
 
 **Research/Theory Track:**
 - Tiers 1-4 → Tier 7 → Tier 13 → Tier 14 → Tier 15
