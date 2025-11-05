@@ -87,6 +87,9 @@ Teaches how to quantify uncertainty in model predictions and evaluation metrics 
 
 **Making the most of your data and training.**
 
+### **basics-data-normalization.ipynb** ⭐
+Deep dive into data normalization/standardization - min-max scaling vs standardization (z-score), when to use each, why neural networks need normalized inputs, and critically: fitting on train data then applying to test to avoid data leakage. Essential preprocessing skill that directly impacts model convergence and performance.
+
 ### **basics-feature-engineering.ipynb**
 Covers techniques for creating informative features from raw data including encoding categorical variables, handling missing values, scaling, and domain-specific feature extraction to improve model performance.
 
