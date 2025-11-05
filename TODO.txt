@@ -20,33 +20,8 @@
 - learn to generalize RNNs ability to generalize to longer sequences (curriculum?)\
 Excellent question! After analyzing your TOC, I can see you have a solid foundation, but there are some critical gaps that would strengthen the learning progression, especially for complete beginners. Here are my recommendations:
 
-  Critical Missing Foundations (Should be added to Tier 1)
-
-  2. basics-softmax-multiclass.ipynb (Tier 1, after logistic regression)
-
-  Why: You have binary classification (logistic regression) but jump straight to neural networks without covering multiclass classification.
-  - Softmax function and its properties
-  - Categorical cross-entropy loss
-  - One-hot encoding
-  - Bridge from binary to multiclass (iris dataset or similar)
-
-  3. basics-numpy-fundamentals.ipynb (Tier 1, before tensors)
-
-  Why: You assume NumPy knowledge but never teach it. Many concepts in tensors build on NumPy.
-  - Array creation, indexing, slicing
-  - Broadcasting rules (preview for tensors)
-  - Universal functions
-  - Random number generation
-
   Important Gaps (Tier 2-4)
 
-  4. basics-train-test-val-split.ipynb (Tier 2, before cross-validation)
-
-  Why: Cross-validation assumes you understand train/test/validation philosophy, but it's never explicitly taught.
-  - Why we split data
-  - When to use validation vs test sets
-  - Data leakage prevention
-  - Temporal split considerations
 
   5. basics-mini-batch-gradient-descent.ipynb (Tier 3, before optimizers)
 
