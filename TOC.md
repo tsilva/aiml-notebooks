@@ -246,6 +246,9 @@ Implements Word2Vec using the skip-gram model with negative sampling to learn wo
 ### **transformer-from-scratch.ipynb** ⭐ **CRITICAL for Modern AI**
 Builds a Transformer architecture incrementally from basic building blocks to a complete model. Covers the self-attention mechanism (the core innovation), multi-head attention, positional encodings, and how Transformers process sequences in parallel unlike RNNs.
 
+### **vision-transformers.ipynb**
+Demonstrates how transformers conquered computer vision through Vision Transformers (ViT). Teaches patch embeddings (splitting images into sequences), 2D positional encodings for spatial information, and building a complete ViT from scratch. Compares ViT with CNNs on CIFAR-10, visualizes learned attention patterns to see what the model focuses on, and explores the trade-offs between inductive bias (CNNs) and learned spatial understanding (ViT). Shows why transformers are now a universal architecture across text, vision, and beyond.
+
 ### **z2h-07-wavenet-lm-wip.ipynb** *(Work in Progress)*
 Implements a WaveNet-inspired hierarchical language model using custom layers (embeddings, batch normalization, sequential flattening) to process longer character contexts more efficiently than flat architectures.
 
