@@ -27,6 +27,9 @@ This repository contains educational Jupyter notebooks covering fundamental to a
 
 **Start here!** These are the bare essentials before anything else.
 
+### **basics-numpy-fundamentals.ipynb**
+Foundation of numerical computing in Python. Covers array creation, indexing, slicing, broadcasting rules (critical for tensors!), universal functions, and random number generation. Essential prerequisite for understanding PyTorch tensors and all subsequent ML concepts.
+
 ### **basics-tensors-operations.ipynb**
 Introduction to tensor operations and manipulations in PyTorch, covering shapes, broadcasting, indexing, and fundamental tensor algebra that forms the foundation of deep learning computations.
 
@@ -50,6 +53,9 @@ Teaches the fundamental activation functions used in neural networks (ReLU, sigm
 
 ### **logistic-regression.ipynb**
 Teaches how to build a binary linear classifier using logistic regression on 2D clustered data, covering gradient descent, loss functions (binary cross-entropy), and decision boundary visualization.
+
+### **basics-softmax-multiclass.ipynb**
+Bridges from binary to multiclass classification by teaching the softmax function, one-hot encoding, and categorical cross-entropy loss. Builds a complete multiclass classifier from scratch on the Iris dataset, demonstrating how softmax generalizes sigmoid and why it's the standard approach for multiclass problems. Essential foundation before neural networks.
 
 ---
 
@@ -314,8 +320,8 @@ Teaches how to build an AI-powered political debate simulator using LangChain an
 ## Summary Statistics
 
 - **Total notebooks:** 62
-- **Tier 1 (Absolute Foundations):** 8 notebooks
-- **Tier 2 (Core ML Principles):** 6 notebooks
+- **Tier 1 (Absolute Foundations):** 9 notebooks
+- **Tier 2 (Core ML Principles):** 5 notebooks
 - **Tier 3 (Data & Optimization):** 4 notebooks
 - **Tier 4 (Deep Learning Foundations):** 6 notebooks
 - **Tier 5 (First Neural Networks):** 5 notebooks
