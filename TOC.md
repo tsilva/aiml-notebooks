@@ -105,6 +105,9 @@ Teaches how to improve training by dynamically adjusting learning rates over tim
 
 **Now we can start with neural networks!**
 
+### **basics-computational-graphs.ipynb** ⭐ **CRITICAL**
+Teaches how to represent any computation as a directed acyclic graph (DAG) where nodes are values/operations and edges represent data flow. Builds visual intuition for how graphs naturally encode the chain rule, making backpropagation obvious. Shows how PyTorch's automatic differentiation builds and traverses these graphs during forward and backward passes. **Essential foundation before backprop!**
+
 ### **z2h-01-backprop.ipynb** ⭐ **CRITICAL**
 Teaches backpropagation from scratch by building a micrograd-style autograd engine that tracks computational graphs, calculates gradients using the chain rule, and trains neural networks using gradient descent. **Must understand this deeply before proceeding!**
 
