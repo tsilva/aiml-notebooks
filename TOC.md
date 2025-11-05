@@ -120,17 +120,17 @@ Teaches how to improve training by dynamically adjusting learning rates over tim
 
 **Now we can start with neural networks!**
 
-### **basics-computational-graphs.ipynb** ⭐ **CRITICAL**
-Teaches how to represent any computation as a directed acyclic graph (DAG) where nodes are values/operations and edges represent data flow. Builds visual intuition for how graphs naturally encode the chain rule, making backpropagation obvious. Shows how PyTorch's automatic differentiation builds and traverses these graphs during forward and backward passes. **Essential foundation before backprop!**
-
 ### **basics-neural-network-fundamentals.ipynb**
 Foundation for understanding what neural networks actually are. Covers the core building blocks: single neurons (perceptrons), layers as collections of neurons, and networks as stacked layers. Explains forward pass computation, architecture terminology (width, depth, parameters), why we stack layers for hierarchical feature learning, and provides intuition for the Universal Approximation Theorem. Essential prerequisite for understanding backpropagation and training.
 
-### **basics-pytorch-fundamentals.ipynb**
-Bridges conceptual neural network understanding with PyTorch's practical implementation tools. Covers autograd (automatic differentiation and `.backward()`), nn.Parameter (how PyTorch tracks trainable parameters), nn.Module (foundation for building components), the five-step training loop structure (forward, loss, zero gradients, backward, update), and building custom layers. Essential for understanding how PyTorch enables neural network training before diving into backpropagation internals.
+### **basics-computational-graphs.ipynb** ⭐ **CRITICAL**
+Teaches how to represent any computation as a directed acyclic graph (DAG) where nodes are values/operations and edges represent data flow. Builds visual intuition for how graphs naturally encode the chain rule, making backpropagation obvious. Shows how PyTorch's automatic differentiation builds and traverses these graphs during forward and backward passes. **Essential foundation before backprop!**
 
 ### **z2h-01-backprop.ipynb** ⭐ **CRITICAL**
 Teaches backpropagation from scratch by building a micrograd-style autograd engine that tracks computational graphs, calculates gradients using the chain rule, and trains neural networks using gradient descent. **Must understand this deeply before proceeding!**
+
+### **basics-pytorch-fundamentals.ipynb**
+Bridges conceptual neural network understanding with PyTorch's practical implementation tools. Covers autograd (automatic differentiation and `.backward()`), nn.Parameter (how PyTorch tracks trainable parameters), nn.Module (foundation for building components), the five-step training loop structure (forward, loss, zero gradients, backward, update), and building custom layers. Essential for understanding how PyTorch automates the backpropagation you just learned to implement manually.
 
 ### **basics-gradient-stability.ipynb**
 Explores the vanishing and exploding gradient problems that plague deep neural networks, demonstrating how gradients can shrink or grow exponentially during backpropagation through many layers and why this matters for training.
