@@ -29,6 +29,7 @@ dependencies = [
     "wandb",
     "pyyaml",
     "datasets>=4.3.0",
+    "umap-learn>=0.5.9.post2",
 ]
 
 [build-system]
