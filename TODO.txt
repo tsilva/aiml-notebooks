@@ -18,5 +18,7 @@
 - repro vanishing gradients with RNNs and detect it in wandb
 - check how far RNNs can repeat a pattern in a sequence, compare to LSTMs and GRUs
 - learn to generalize RNNs ability to generalize to longer sequences (curriculum?)\
-Excellent question! After analyzing your TOC, I can see you have a solid foundation, but there are some critical gaps that would strengthen the learning progression, especially for complete beginners. Here are my recommendations:
 
+# notebooks
+
+- mamba / selective state spaces
