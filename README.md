@@ -345,6 +345,9 @@ Focuses on removing noise from corrupted images using convolutional autoencoders
 
 **Beyond standard feedforward, convolutional, and recurrent networks.**
 
+###  **[capsule-networks.ipynb](notebooks/capsule-networks.ipynb)**
+Teaches Capsule Networks (CapsNets), Geoffrey Hinton's alternative to CNNs that addresses fundamental limitations in how CNNs handle part-whole spatial relationships. Covers the core problems with pooling (loses spatial information), what capsules are (vector outputs encoding entity properties), dynamic routing by agreement (capsules communicate based on agreement rather than fixed weights), and equivariance vs invariance. Implements complete CapsNet from scratch on MNIST with squash activation, margin loss, and decoder-based reconstruction. Demonstrates dimension perturbation to visualize what each capsule dimension encodes and shows superior robustness to affine transformations. Essential for understanding alternatives to standard CNN architectures and the importance of preserving spatial information.
+
 ###  **[graph-neural-networks.ipynb](notebooks/graph-neural-networks.ipynb)**
 Introduces Graph Neural Networks (GNNs) for learning on graph-structured data like social networks and molecules. Teaches the message passing framework where nodes aggregate information from neighbors, demonstrated through semi-supervised node classification.
 
