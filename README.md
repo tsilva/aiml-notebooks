@@ -238,6 +238,9 @@ Revolutionary architectural innovation that enabled training networks with 100+ 
 ###  **[basics-transfer-learning.ipynb](notebooks/basics-transfer-learning.ipynb)** ⭐ **CRITICAL - Used in 90% of Real Applications**
 Teaches transfer learning, the most practical deep learning technique for real-world applications. Covers pretrained models (ResNet on ImageNet), feature extraction (freezing layers) vs fine-tuning (unfreezing with low learning rates), when to use each approach based on dataset size and domain similarity, differential learning rates for optimal fine-tuning, and hands-on comparison on CIFAR-10. Essential for working with limited data and achieving state-of-the-art results quickly.
 
+###  **[basics-knowledge-distillation.ipynb](notebooks/basics-knowledge-distillation.ipynb)** ⭐ **CRITICAL - Used in Production**
+One of the most practical techniques for deploying models in production. Teaches how to compress large, accurate models into small, fast models with minimal accuracy loss. Covers teacher-student training framework, soft targets vs hard labels, temperature scaling for controlling prediction softness, response-based distillation (matching outputs), feature-based distillation (matching intermediate layers), and practical deployment considerations. Demonstrates achieving 10-100x speedup with <3% accuracy drop. Essential for mobile deployment, real-time inference, and cost-effective serving at scale.
+
 ---
 
 ## TIER 7: Information Theory & Embeddings
