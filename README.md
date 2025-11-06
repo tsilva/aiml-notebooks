@@ -253,6 +253,9 @@ Introduces the concept of learned dense vector representations for discrete obje
 ###  **[word2vec-from-scratch.ipynb](notebooks/word2vec-from-scratch.ipynb)**
 Implements Word2Vec using the skip-gram model with negative sampling to learn word embeddings from scratch. Demonstrates the distributional hypothesis ("you shall know a word by the company it keeps") and shows how vector arithmetic captures semantic relationships (king - man + woman ≈ queen). Essential practical implementation of embedding concepts that revolutionized NLP before transformers.
 
+###  **[siamese-networks.ipynb](notebooks/siamese-networks.ipynb)** ⭐ **CRITICAL for Similarity Learning**
+Teaches Siamese Networks, a foundational architecture for learning similarity between inputs using shared weights and contrastive loss. Covers the complete similarity learning pipeline: distance metrics (Euclidean, cosine), contrastive loss that pulls similar pairs together and pushes dissimilar pairs apart, building twin networks with shared weights, and training on MNIST digit pairs. Demonstrates one-shot learning (recognizing new classes from single examples), visualizes learned embedding spaces with t-SNE showing semantic clustering, and introduces triplet loss as an advanced alternative. Essential foundation for face verification, signature verification, metric learning, and few-shot learning applications used extensively in production systems.
+
 ---
 
 ## TIER 8: Unsupervised Learning Basics
