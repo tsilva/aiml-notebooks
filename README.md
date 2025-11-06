@@ -348,6 +348,9 @@ Focuses on removing noise from corrupted images using convolutional autoencoders
 ###  **[graph-neural-networks.ipynb](notebooks/graph-neural-networks.ipynb)**
 Introduces Graph Neural Networks (GNNs) for learning on graph-structured data like social networks and molecules. Teaches the message passing framework where nodes aggregate information from neighbors, demonstrated through semi-supervised node classification.
 
+###  **[neural-odes.ipynb](notebooks/neural-odes.ipynb)**
+Teaches Neural Ordinary Differential Equations (Neural ODEs) - continuous-depth networks that model transformations as flows defined by differential equations. Builds intuition from ResNets as discrete Euler methods, explains the adjoint method for memory-efficient backpropagation, and demonstrates adaptive computation. Elegant mathematical framework connecting neural networks to dynamical systems, with applications in continuous normalizing flows, time series, and physics-informed learning.
+
 ###  **[energy-based-neural-networks.ipynb](notebooks/energy-based-neural-networks.ipynb)**
 Explores energy-based models (EBMs) including Hopfield Networks and Restricted Boltzmann Machines (RBMs). Teaches how energy functions assign low energy to "good" configurations, the Gibbs distribution, and contrastive divergence for training.
 
