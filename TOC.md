@@ -204,6 +204,9 @@ Introduces the concept of learned dense vector representations for discrete obje
 ### **kmeans-from-scratch.ipynb**
 Builds the k-means clustering algorithm from first principles, showing how it partitions data through iterative assignment and update steps. Covers distance metrics, initialization strategies (k-means++), convergence guarantees, and the elbow method for choosing k.
 
+### **basics-self-supervised-learning.ipynb**
+Comprehensive introduction to self-supervised learning - a powerful paradigm where models learn useful representations from unlabeled data by creating automatic pretext tasks. Covers five major approaches: Rotation Prediction (learning spatial features), Jigsaw Puzzles (understanding object parts), Masked Autoencoding (reconstructing missing regions), SimCLR (contrastive learning with augmented views), and BERT-style Masking (predicting masked words). Demonstrates how these methods generate "free" labels from data structure itself, enabling models to learn transferable representations that work well on downstream tasks without expensive manual labeling. Essential for understanding modern pretraining approaches like GPT, BERT, and MAE.
+
 ---
 
 ## TIER 9: Recurrent Neural Networks
