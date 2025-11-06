@@ -349,6 +349,8 @@ Teaches foundational reinforcement learning through Q-learning on GridWorld and 
 ### **mcts-simple.ipynb**
 Introduces Monte Carlo Tree Search (MCTS) algorithm through a Tic-Tac-Toe implementation, explaining the four phases (selection, expansion, simulation, backpropagation) and UCB1 formula for balancing exploration vs exploitation.
 
+### **rl-policy-gradients.ipynb** ⭐ **CRITICAL for Modern RL**
+Comprehensive introduction to policy gradient methods that directly optimize policies through gradient ascent. Covers the policy gradient theorem, REINFORCE algorithm, variance reduction with baselines, Actor-Critic methods combining policy and value learning, and PPO (Proximal Policy Optimization) basics. Demonstrates the progression from high-variance REINFORCE to state-of-the-art PPO on CartPole, teaching the foundations of modern reinforcement learning used in robotics, game playing, and autonomous systems.
 ### **rl-deep-q-networks.ipynb** ⭐ **CRITICAL - Bridge to Deep RL**
 Bridges tabular Q-learning to deep reinforcement learning by introducing Deep Q-Networks (DQN). Explains why neural networks are needed for Q-value approximation in large state spaces, demonstrates the critical **experience replay** mechanism that breaks correlation in training data, and shows how **target networks** stabilize learning by preventing the moving target problem. Implements complete DQN from scratch on CartPole, with ablation studies proving each component's importance. Essential foundation for understanding all modern deep RL algorithms (PPO, SAC, etc.).
 
