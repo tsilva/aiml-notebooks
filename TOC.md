@@ -321,6 +321,9 @@ Implements extreme quantization where weights are constrained to {-1, +1} (binar
 ### **mcts-simple.ipynb**
 Introduces Monte Carlo Tree Search (MCTS) algorithm through a Tic-Tac-Toe implementation, explaining the four phases (selection, expansion, simulation, backpropagation) and UCB1 formula for balancing exploration vs exploitation.
 
+### **rl-policy-gradients.ipynb** ⭐ **CRITICAL for Modern RL**
+Comprehensive introduction to policy gradient methods that directly optimize policies through gradient ascent. Covers the policy gradient theorem, REINFORCE algorithm, variance reduction with baselines, Actor-Critic methods combining policy and value learning, and PPO (Proximal Policy Optimization) basics. Demonstrates the progression from high-variance REINFORCE to state-of-the-art PPO on CartPole, teaching the foundations of modern reinforcement learning used in robotics, game playing, and autonomous systems.
+
 ### **wip-rl-world-model-01-repr.ipynb** *(Work in Progress)*
 Part 1 of a world model series teaching how to compress gameplay frames into low-dimensional latent representations using convolutional autoencoders for the Tetris GameBoy environment.
 
