@@ -357,6 +357,9 @@ Explores energy-based models (EBMs) including Hopfield Networks and Restricted B
 
 **Interesting research findings that challenge intuitions.**
 
+###  **[adversarial-robustness.ipynb](notebooks/adversarial-robustness.ipynb)** ⭐ **CRITICAL for Deployment**
+Teaches adversarial examples and robustness - how neural networks can be fooled by imperceptible perturbations. Covers FGSM and PGD attacks (generating adversarial examples), adversarial training (defending through worst-case training), and certified defenses (provable robustness guarantees). Demonstrates the fundamental fragility of neural networks and why this matters critically for deploying ML in security-sensitive applications like autonomous vehicles, face recognition, malware detection, and medical diagnosis. Essential practical consideration for reliable, safe AI systems.
+
 ###  **[double-descent.ipynb](notebooks/double-descent.ipynb)**
 Explores the double descent phenomenon where test error decreases again after the interpolation threshold, challenging classical bias-variance tradeoff intuitions and demonstrating why overparameterized models can generalize better than expected.
 
