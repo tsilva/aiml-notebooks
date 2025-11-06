@@ -238,6 +238,9 @@ Revolutionary architectural innovation that enabled training networks with 100+ 
 ###  **[basics-transfer-learning.ipynb](notebooks/basics-transfer-learning.ipynb)** ⭐ **CRITICAL - Used in 90% of Real Applications**
 Teaches transfer learning, the most practical deep learning technique for real-world applications. Covers pretrained models (ResNet on ImageNet), feature extraction (freezing layers) vs fine-tuning (unfreezing with low learning rates), when to use each approach based on dataset size and domain similarity, differential learning rates for optimal fine-tuning, and hands-on comparison on CIFAR-10. Essential for working with limited data and achieving state-of-the-art results quickly.
 
+###  **[basics-knowledge-distillation.ipynb](notebooks/basics-knowledge-distillation.ipynb)** ⭐ **CRITICAL - Used in Production**
+One of the most practical techniques for deploying models in production. Teaches how to compress large, accurate models into small, fast models with minimal accuracy loss. Covers teacher-student training framework, soft targets vs hard labels, temperature scaling for controlling prediction softness, response-based distillation (matching outputs), feature-based distillation (matching intermediate layers), and practical deployment considerations. Demonstrates achieving 10-100x speedup with <3% accuracy drop. Essential for mobile deployment, real-time inference, and cost-effective serving at scale.
+
 ---
 
 ## TIER 7: Information Theory & Embeddings
@@ -252,6 +255,9 @@ Introduces the concept of learned dense vector representations for discrete obje
 
 ###  **[word2vec-from-scratch.ipynb](notebooks/word2vec-from-scratch.ipynb)**
 Implements Word2Vec using the skip-gram model with negative sampling to learn word embeddings from scratch. Demonstrates the distributional hypothesis ("you shall know a word by the company it keeps") and shows how vector arithmetic captures semantic relationships (king - man + woman ≈ queen). Essential practical implementation of embedding concepts that revolutionized NLP before transformers.
+
+###  **[siamese-networks.ipynb](notebooks/siamese-networks.ipynb)** ⭐ **CRITICAL for Similarity Learning**
+Teaches Siamese Networks, a foundational architecture for learning similarity between inputs using shared weights and contrastive loss. Covers the complete similarity learning pipeline: distance metrics (Euclidean, cosine), contrastive loss that pulls similar pairs together and pushes dissimilar pairs apart, building twin networks with shared weights, and training on MNIST digit pairs. Demonstrates one-shot learning (recognizing new classes from single examples), visualizes learned embedding spaces with t-SNE showing semantic clustering, and introduces triplet loss as an advanced alternative. Essential foundation for face verification, signature verification, metric learning, and few-shot learning applications used extensively in production systems.
 
 ---
 
@@ -336,6 +342,9 @@ Explores image reconstruction through three autoencoder variants (Vanilla, VAE, 
 ###  **[generation-image.ipynb](notebooks/generation-image.ipynb)** ⭐ **VAEs & GANs**
 Teaches image generation using Variational Autoencoders (VAE) and Deep Convolutional GANs (DCGAN) on MNIST, covering latent space exploration, interpolation, and the trade-offs between explicit vs implicit generative models.
 
+###  **[diffusion-models.ipynb](notebooks/diffusion-models.ipynb)** ⭐ **CRITICAL - State-of-the-Art Generation**
+Teaches Denoising Diffusion Probabilistic Models (DDPM), the breakthrough technology powering Stable Diffusion, DALL-E 2, and Midjourney. Covers the forward diffusion process (progressive noise addition), reverse diffusion (learning to denoise), U-Net architecture with time embeddings, DDPM training objective (noise prediction), DDIM sampling (10-20x faster generation), and connections to score-based models. Demonstrates why diffusion models achieve state-of-the-art quality with stable training, combining the best aspects of VAEs (stability) and GANs (quality). Essential for understanding modern generative AI systems that are revolutionizing creative applications.
+
 ###  **[denoising-image.ipynb](notebooks/denoising-image.ipynb)**
 Focuses on removing noise from corrupted images using convolutional autoencoders and denoising autoencoders (DAE), teaching how models learn robust representations by reconstructing clean data from noisy inputs.
 
@@ -347,9 +356,14 @@ Focuses on removing noise from corrupted images using convolutional autoencoders
 
 ###  **[capsule-networks.ipynb](notebooks/capsule-networks.ipynb)**
 Teaches Capsule Networks (CapsNets), Geoffrey Hinton's alternative to CNNs that addresses fundamental limitations in how CNNs handle part-whole spatial relationships. Covers the core problems with pooling (loses spatial information), what capsules are (vector outputs encoding entity properties), dynamic routing by agreement (capsules communicate based on agreement rather than fixed weights), and equivariance vs invariance. Implements complete CapsNet from scratch on MNIST with squash activation, margin loss, and decoder-based reconstruction. Demonstrates dimension perturbation to visualize what each capsule dimension encodes and shows superior robustness to affine transformations. Essential for understanding alternatives to standard CNN architectures and the importance of preserving spatial information.
+###  **[mixture-of-experts.ipynb](notebooks/mixture-of-experts.ipynb)** ⭐ **CRITICAL for Modern LLMs**
+Teaches Mixture of Experts (MoE), the breakthrough architecture enabling efficient scaling to trillion-parameter models. Covers sparse activation (only k out of N experts process each input), gating networks that learn to route inputs to relevant experts, load balancing to ensure equal expert usage, and integration with Transformers by replacing FFN layers. Demonstrates how MoE achieves 10x more model capacity with similar compute cost through specialization. Explains why modern LLMs like Mixtral 8x7B and GPT-4 use MoE, showing how Mixtral has 47B parameters but only ~13B active per token. Essential for understanding how massive models scale efficiently and why MoE is the future of LLM architecture.
 
 ###  **[graph-neural-networks.ipynb](notebooks/graph-neural-networks.ipynb)**
 Introduces Graph Neural Networks (GNNs) for learning on graph-structured data like social networks and molecules. Teaches the message passing framework where nodes aggregate information from neighbors, demonstrated through semi-supervised node classification.
+
+###  **[neural-odes.ipynb](notebooks/neural-odes.ipynb)**
+Teaches Neural Ordinary Differential Equations (Neural ODEs) - continuous-depth networks that model transformations as flows defined by differential equations. Builds intuition from ResNets as discrete Euler methods, explains the adjoint method for memory-efficient backpropagation, and demonstrates adaptive computation. Elegant mathematical framework connecting neural networks to dynamical systems, with applications in continuous normalizing flows, time series, and physics-informed learning.
 
 ###  **[energy-based-neural-networks.ipynb](notebooks/energy-based-neural-networks.ipynb)**
 Explores energy-based models (EBMs) including Hopfield Networks and Restricted Boltzmann Machines (RBMs). Teaches how energy functions assign low energy to "good" configurations, the Gibbs distribution, and contrastive divergence for training.
@@ -359,6 +373,9 @@ Explores energy-based models (EBMs) including Hopfield Networks and Restricted B
 ## TIER 14: Fascinating Phenomena
 
 **Interesting research findings that challenge intuitions.**
+
+###  **[adversarial-robustness.ipynb](notebooks/adversarial-robustness.ipynb)** ⭐ **CRITICAL for Deployment**
+Teaches adversarial examples and robustness - how neural networks can be fooled by imperceptible perturbations. Covers FGSM and PGD attacks (generating adversarial examples), adversarial training (defending through worst-case training), and certified defenses (provable robustness guarantees). Demonstrates the fundamental fragility of neural networks and why this matters critically for deploying ML in security-sensitive applications like autonomous vehicles, face recognition, malware detection, and medical diagnosis. Essential practical consideration for reliable, safe AI systems.
 
 ###  **[double-descent.ipynb](notebooks/double-descent.ipynb)**
 Explores the double descent phenomenon where test error decreases again after the interpolation threshold, challenging classical bias-variance tradeoff intuitions and demonstrating why overparameterized models can generalize better than expected.
@@ -400,6 +417,11 @@ Introduces Monte Carlo Tree Search (MCTS) algorithm through a Tic-Tac-Toe implem
 Comprehensive introduction to policy gradient methods that directly optimize policies through gradient ascent. Covers the policy gradient theorem, REINFORCE algorithm, variance reduction with baselines, Actor-Critic methods combining policy and value learning, and PPO (Proximal Policy Optimization) basics. Demonstrates the progression from high-variance REINFORCE to state-of-the-art PPO on CartPole, teaching the foundations of modern reinforcement learning used in robotics, game playing, and autonomous systems.
 ###  **[rl-deep-q-networks.ipynb](notebooks/rl-deep-q-networks.ipynb)** ⭐ **CRITICAL - Bridge to Deep RL**
 Bridges tabular Q-learning to deep reinforcement learning by introducing Deep Q-Networks (DQN). Explains why neural networks are needed for Q-value approximation in large state spaces, demonstrates the critical **experience replay** mechanism that breaks correlation in training data, and shows how **target networks** stabilize learning by preventing the moving target problem. Implements complete DQN from scratch on CartPole, with ablation studies proving each component's importance. Essential foundation for understanding all modern deep RL algorithms (PPO, SAC, etc.).
+
+###  **[rl-advanced-policy-methods.ipynb](notebooks/rl-advanced-policy-methods.ipynb)** ⭐ **CRITICAL - State-of-the-Art RL**
+Bridges basic policy gradients to state-of-the-art continuous control algorithms. Covers **A2C/A3C** (n-step returns and parallel environment collection), **SAC** (Soft Actor-Critic with maximum entropy RL for automatic exploration and sample efficiency), and **TD3** (Twin Delayed DDPG with twin critics and delayed updates). Implements all three algorithms from scratch on CartPole and Pendulum environments, demonstrating continuous action spaces, off-policy learning, and modern techniques used in robotics. Essential for understanding modern RL methods used in real-world applications.
+###  **[rl-model-based.ipynb](notebooks/rl-model-based.ipynb)** ⭐ **Alternative RL Paradigm**
+Introduces model-based reinforcement learning as an alternative to model-free approaches. Teaches how to learn a **world model** that predicts environment dynamics (transitions and rewards), then use it for planning to dramatically improve sample efficiency. Covers the **Dyna algorithm** (combining real and simulated experiences), **prioritized sweeping** (smart planning), and full planning with value iteration. Demonstrates the fundamental trade-off between computational cost and sample efficiency, showing why model-based RL is critical when real environment interactions are expensive (robotics, clinical trials, etc.). Essential for understanding modern algorithms like MuZero and Dreamer.
 
 ###  **[wip-rl-world-model-01-repr.ipynb](notebooks/wip-rl-world-model-01-repr.ipynb)** *(Work in Progress)*
 Part 1 of a world model series teaching how to compress gameplay frames into low-dimensional latent representations using convolutional autoencoders for the Tetris GameBoy environment.
