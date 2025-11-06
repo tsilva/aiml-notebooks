@@ -33,7 +33,7 @@ README.md               # Optimal learning order (MUST update after notebook cha
 
 ### Creating/Editing
 **CRITICAL**: Follow `skills/create-notebook.skill.md`. Quick rules:
-- Markdown before every code cell
+- **MANDATORY: Markdown cell before EVERY code cell** - Even if it's just a single line introducing what is going to happen. NO exceptions.
 - Small incremental steps, theory before practice
 - Self-contained and runnable end-to-end
 - Place in `notebooks/` with proper naming:
