@@ -345,6 +345,9 @@ Focuses on removing noise from corrupted images using convolutional autoencoders
 
 **Beyond standard feedforward, convolutional, and recurrent networks.**
 
+###  **[mixture-of-experts.ipynb](notebooks/mixture-of-experts.ipynb)** ⭐ **CRITICAL for Understanding Modern LLMs**
+Teaches Mixture of Experts (MoE), the architecture enabling efficient scaling to trillion-parameter models. Covers sparse gating mechanisms (top-K expert selection), router networks that learn which experts to activate, load balancing losses to prevent expert collapse, and conditional computation for efficiency. Demonstrates how MoE achieves 4x model capacity with only 1.25x computation cost through sparse activation. Implements complete MoE layer from scratch, analyzes expert specialization patterns, and visualizes routing decisions. Essential for understanding how modern LLMs like Mixtral 8x7B and GPT-4 scale efficiently by activating only relevant "experts" for each input token.
+
 ###  **[graph-neural-networks.ipynb](notebooks/graph-neural-networks.ipynb)**
 Introduces Graph Neural Networks (GNNs) for learning on graph-structured data like social networks and molecules. Teaches the message passing framework where nodes aggregate information from neighbors, demonstrated through semi-supervised node classification.
 
