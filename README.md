@@ -89,11 +89,11 @@ Builds linear regression from scratch to develop deep intuitions about gradient 
 ###  **[basics-metrics.ipynb](notebooks/basics-metrics.ipynb)**
 Comprehensive guide to evaluation metrics (accuracy, precision, recall, F1, ROC-AUC, etc.) for classification and regression tasks, teaching when to use each metric and how to interpret them in different contexts.
 
-###  **[basics-probability-distributions.ipynb](notebooks/basics-probability-distributions.ipynb)**
-Foundational introduction to probability distributions that appear throughout machine learning. Covers discrete distributions (PMF: Bernoulli, Categorical, Binomial) and continuous distributions (PDF: Uniform, Gaussian/Normal), teaching mean/variance/sampling with visual intuitions. Explains the Central Limit Theorem and connects distributions to ML concepts like cross-entropy loss, VAEs, and model outputs. Essential for understanding loss functions, KL divergence, and generative models.
+###  **[basics-probability-distributions.ipynb](notebooks/basics-probability-distributions.ipynb)** ⭐ **CRITICAL**
+Foundational introduction to probability distributions that appear throughout machine learning. Covers discrete distributions (PMF: Bernoulli, Categorical, Binomial) and continuous distributions (PDF: Uniform, Gaussian/Normal), teaching mean/variance/sampling with visual intuitions. Explains the Central Limit Theorem and connects distributions to ML concepts like cross-entropy loss, VAEs, and model outputs. Essential prerequisite for understanding loss functions, KL divergence, and generative models.
 
 ###  **[basics-loss-functions.ipynb](notebooks/basics-loss-functions.ipynb)**
-Provides comprehensive coverage of loss functions (MSE, MAE, cross-entropy, hinge loss) used in machine learning, explaining their mathematical properties and when to use each. Visualizes how different losses handle outliers, class imbalance, and various prediction tasks through interactive experiments.
+Provides comprehensive coverage of loss functions (MSE, MAE, cross-entropy, hinge loss) used in machine learning, explaining their mathematical properties and when to use each. Visualizes how different losses handle outliers, class imbalance, and various prediction tasks through interactive experiments. Builds on probability distributions to explain why cross-entropy is the natural loss for classification.
 
 ###  **[basics-activation-functions.ipynb](notebooks/basics-activation-functions.ipynb)**
 Teaches the fundamental activation functions used in neural networks (ReLU, sigmoid, tanh, etc.) and their properties. Explores how different activation functions affect gradient flow, training dynamics, and model expressiveness through visualizations and hands-on comparisons.
@@ -268,8 +268,6 @@ Teaches Siamese Networks, a foundational architecture for learning similarity be
 ###  **[kmeans-from-scratch.ipynb](notebooks/kmeans-from-scratch.ipynb)**
 Builds the k-means clustering algorithm from first principles, showing how it partitions data through iterative assignment and update steps. Covers distance metrics, initialization strategies (k-means++), convergence guarantees, and the elbow method for choosing k.
 
-###  **[basics-self-supervised-learning.ipynb](notebooks/basics-self-supervised-learning.ipynb)**
-Comprehensive introduction to self-supervised learning - a powerful paradigm where models learn useful representations from unlabeled data by creating automatic pretext tasks. Covers five major approaches: Rotation Prediction (learning spatial features), Jigsaw Puzzles (understanding object parts), Masked Autoencoding (reconstructing missing regions), SimCLR (contrastive learning with augmented views), and BERT-style Masking (predicting masked words). Demonstrates how these methods generate "free" labels from data structure itself, enabling models to learn transferable representations that work well on downstream tasks without expensive manual labeling. Essential for understanding modern pretraining approaches like GPT, BERT, and MAE.
 ###  **[basics-gaussian-mixture-models.ipynb](notebooks/basics-gaussian-mixture-models.ipynb)**
 Extends k-means to probabilistic soft clustering using Gaussian Mixture Models (GMMs). Teaches the Expectation-Maximization (EM) algorithm, soft vs hard cluster assignments with uncertainty quantification, different covariance types (spherical, diagonal, full) for capturing cluster shapes, the mathematical connection between GMMs and k-means, and model selection using BIC/AIC instead of the elbow method. Essential for understanding probabilistic models and a foundation for VAEs.
 
@@ -391,6 +389,9 @@ Demonstrates the grokking phenomenon where neural networks suddenly transition f
 
 ###  **[basics-contrastive-learning.ipynb](notebooks/basics-contrastive-learning.ipynb)** ⭐ **CRITICAL for Modern AI**
 Teaches contrastive learning, a revolutionary self-supervised paradigm that learns representations without labels by contrasting positive and negative pairs. Covers InfoNCE loss, the temperature parameter, cosine similarity, and data augmentation strategies. Implements a SimCLR-style model from scratch to demonstrate how models like CLIP, MoCo, and modern foundation models learn powerful representations from unlabeled data. Essential for understanding modern pre-training approaches.
+
+###  **[basics-self-supervised-learning.ipynb](notebooks/basics-self-supervised-learning.ipynb)** ⭐ **CRITICAL for Modern AI**
+Comprehensive overview of self-supervised learning - the paradigm powering modern foundation models. Covers five major approaches: Rotation Prediction (learning spatial features), Jigsaw Puzzles (understanding object parts), Masked Autoencoding (reconstructing missing regions), SimCLR (contrastive learning with augmented views), and BERT-style Masking (predicting masked words). Demonstrates how these methods generate "free" labels from data structure itself, enabling models to learn transferable representations without manual labeling. Essential for understanding modern pretraining approaches like GPT, BERT, CLIP, and MAE that have revolutionized AI. Requires understanding of autoencoders (TIER 12), transformers (TIER 10), and contrastive learning.
 
 ###  **[forward-forward.ipynb](notebooks/forward-forward.ipynb)**
 Implements Geoffrey Hinton's Forward-Forward algorithm as an alternative to backpropagation, teaching layer-local learning through contrastive "goodness" functions with positive/negative samples, eliminating the need for backward gradient passes.
