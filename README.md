@@ -336,6 +336,9 @@ Explores image reconstruction through three autoencoder variants (Vanilla, VAE, 
 ###  **[generation-image.ipynb](notebooks/generation-image.ipynb)** ⭐ **VAEs & GANs**
 Teaches image generation using Variational Autoencoders (VAE) and Deep Convolutional GANs (DCGAN) on MNIST, covering latent space exploration, interpolation, and the trade-offs between explicit vs implicit generative models.
 
+###  **[diffusion-models.ipynb](notebooks/diffusion-models.ipynb)** ⭐ **CRITICAL - State-of-the-Art Generation**
+Comprehensive introduction to Denoising Diffusion Probabilistic Models (DDPM), the architecture powering Stable Diffusion, DALL-E 2, and Midjourney. Teaches the forward diffusion process (gradually adding noise), reverse diffusion (learning to denoise step-by-step), U-Net architecture with sinusoidal time embeddings, and sampling strategies (DDPM vs DDIM for faster generation). Explains the deep connection to score-based models and Langevin dynamics, demonstrating how iterative denoising produces sharper images than VAEs with more stable training than GANs. Essential for understanding modern text-to-image models and the current state-of-the-art in generative modeling.
+
 ###  **[denoising-image.ipynb](notebooks/denoising-image.ipynb)**
 Focuses on removing noise from corrupted images using convolutional autoencoders and denoising autoencoders (DAE), teaching how models learn robust representations by reconstructing clean data from noisy inputs.
 
