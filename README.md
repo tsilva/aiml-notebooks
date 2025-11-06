@@ -398,6 +398,9 @@ Comprehensive introduction to policy gradient methods that directly optimize pol
 ###  **[rl-deep-q-networks.ipynb](notebooks/rl-deep-q-networks.ipynb)** ⭐ **CRITICAL - Bridge to Deep RL**
 Bridges tabular Q-learning to deep reinforcement learning by introducing Deep Q-Networks (DQN). Explains why neural networks are needed for Q-value approximation in large state spaces, demonstrates the critical **experience replay** mechanism that breaks correlation in training data, and shows how **target networks** stabilize learning by preventing the moving target problem. Implements complete DQN from scratch on CartPole, with ablation studies proving each component's importance. Essential foundation for understanding all modern deep RL algorithms (PPO, SAC, etc.).
 
+###  **[rl-model-based.ipynb](notebooks/rl-model-based.ipynb)** ⭐ **Alternative RL Paradigm**
+Introduces model-based reinforcement learning as an alternative to model-free approaches. Teaches how to learn a **world model** that predicts environment dynamics (transitions and rewards), then use it for planning to dramatically improve sample efficiency. Covers the **Dyna algorithm** (combining real and simulated experiences), **prioritized sweeping** (smart planning), and full planning with value iteration. Demonstrates the fundamental trade-off between computational cost and sample efficiency, showing why model-based RL is critical when real environment interactions are expensive (robotics, clinical trials, etc.). Essential for understanding modern algorithms like MuZero and Dreamer.
+
 ###  **[wip-rl-world-model-01-repr.ipynb](notebooks/wip-rl-world-model-01-repr.ipynb)** *(Work in Progress)*
 Part 1 of a world model series teaching how to compress gameplay frames into low-dimensional latent representations using convolutional autoencoders for the Tetris GameBoy environment.
 
