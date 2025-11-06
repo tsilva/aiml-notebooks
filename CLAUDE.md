@@ -22,7 +22,7 @@ notebooks/              # ONLY work with these (ignore deprecated dirs)
 
 skills/                 # Check for task-specific guides (*.skill.md)
 src/aiml_notebooks/     # Shared library (always check source for API)
-TOC.md                  # Optimal learning order (MUST update after notebook changes)
+README.md               # Optimal learning order (MUST update after notebook changes)
 ```
 
 ## Notebook Workflow
@@ -43,7 +43,7 @@ TOC.md                  # Optimal learning order (MUST update after notebook cha
 
 ### After Creation/Modification
 1. **Test end-to-end**: `uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebook.ipynb`
-2. **Update TOC.md**: Insert based on conceptual prerequisites (not alphabetically)
+2. **Update README.md**: Insert based on conceptual prerequisites (not alphabetically)
 
 ## Shared Library Usage
 
@@ -79,7 +79,7 @@ uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebo
 - Verify indices before array lookups
 - `np.argmax()` on 2D arrays returns flattened indices unless `axis` specified
 
-## TOC.md Maintenance
+## README.md Maintenance
 
 **Purpose**: Optimal learning order by conceptual prerequisites (not alphabetical/topical).
 
@@ -87,7 +87,7 @@ uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebo
 
 **How**:
 1. Identify conceptual prerequisites
-2. Insert in appropriate tier in `TOC.md`
+2. Insert in appropriate tier in `README.md`
 3. Use ⭐ for foundational notebooks
 4. Add description explaining what it teaches and why it matters
 
