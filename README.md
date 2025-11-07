@@ -277,6 +277,9 @@ Builds the k-means clustering algorithm from first principles, showing how it pa
 ###  **[basics-gaussian-mixture-models.ipynb](notebooks/basics-gaussian-mixture-models.ipynb)**
 Extends k-means to probabilistic soft clustering using Gaussian Mixture Models (GMMs). Teaches the Expectation-Maximization (EM) algorithm, soft vs hard cluster assignments with uncertainty quantification, different covariance types (spherical, diagonal, full) for capturing cluster shapes, the mathematical connection between GMMs and k-means, and model selection using BIC/AIC instead of the elbow method. Essential for understanding probabilistic models and a foundation for VAEs.
 
+###  **[basics-autoencoders.ipynb](notebooks/basics-autoencoders.ipynb)** ⭐ **CRITICAL - Foundation for VAEs**
+Introduces autoencoders as a fundamental unsupervised learning architecture that learns to compress data into a compact latent representation and reconstruct it. Teaches the encoder-decoder architecture, bottleneck principle, reconstruction loss (MSE vs BCE), and training from scratch on MNIST. Visualizes learned latent spaces with t-SNE/PCA showing semantic clustering, performs smooth interpolation between images in latent space, and demonstrates practical applications including denoising and anomaly detection. Essential prerequisite for understanding Variational Autoencoders (VAEs), generative models, and representation learning. Builds intuition for why the bottleneck forces networks to learn meaningful features.
+
 ---
 
 ## TIER 9: Recurrent Neural Networks
