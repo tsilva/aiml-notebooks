@@ -247,6 +247,9 @@ One of the most practical techniques for deploying models in production. Teaches
 
 **Important concepts for advanced topics.**
 
+###  **[basics-tokenization-methods.ipynb](notebooks/basics-tokenization-methods.ipynb)** ⭐ **CRITICAL for NLP**
+Foundational introduction to tokenization - the first step in all NLP pipelines. Compares four major approaches: character-level (tiny vocab, long sequences), word-level (semantic but OOV problems), BPE (GPT's method, frequency-based subwords), and WordPiece (BERT's method, likelihood-based subwords). Builds each tokenizer from scratch to understand merge algorithms, demonstrates OOV handling, morphological sharing, and the fundamental vocab-size vs sequence-length tradeoff. Shows why subword tokenization dominates modern NLP by balancing vocabulary size, OOV robustness, and computational efficiency. Essential prerequisite for understanding how models like GPT and BERT process text before embeddings.
+
 ###  **[basics-kl-divergence.ipynb](notebooks/basics-kl-divergence.ipynb)** ⭐ **CRITICAL for VAEs & RL**
 Teaches Kullback-Leibler (KL) divergence as a fundamental information-theoretic measure of how one probability distribution differs from another. Builds intuition from first principles through information content, entropy, and cross-entropy, explaining the asymmetry of KL divergence, forward vs reverse KL behavior (mode-seeking vs mode-covering), and critical applications in VAEs, reinforcement learning policy optimization (TRPO/PPO), variational inference, and distribution matching.
 
