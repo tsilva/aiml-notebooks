@@ -244,6 +244,12 @@ Teaches transfer learning, the most practical deep learning technique for real-w
 ###  **[basics-knowledge-distillation.ipynb](notebooks/basics-knowledge-distillation.ipynb)** ⭐ **CRITICAL - Used in Production**
 One of the most practical techniques for deploying models in production. Teaches how to compress large, accurate models into small, fast models with minimal accuracy loss. Covers teacher-student training framework, soft targets vs hard labels, temperature scaling for controlling prediction softness, response-based distillation (matching outputs), feature-based distillation (matching intermediate layers), and practical deployment considerations. Demonstrates achieving 10-100x speedup with <3% accuracy drop. Essential for mobile deployment, real-time inference, and cost-effective serving at scale.
 
+###  **[grad-cam-visualization.ipynb](notebooks/grad-cam-visualization.ipynb)** ⭐ **CRITICAL for Model Interpretability**
+Essential technique for understanding and debugging CNN decisions through visualization. Teaches Grad-CAM (Gradient-weighted Class Activation Mapping) to generate class-discriminative heatmaps showing which image regions influence predictions. Covers the complete algorithm (forward pass, gradient computation, weighted combination), implements from scratch with PyTorch hooks, and compares with other visualization methods (vanilla gradients, guided backpropagation, guided Grad-CAM). Demonstrates practical applications: debugging misclassifications, detecting dataset biases, building trust in model decisions. Critical for production deployment where model interpretability is required (medical diagnosis, autonomous vehicles, etc.).
+
+###  **[object-detection-yolo.ipynb](notebooks/object-detection-yolo.ipynb)** ⭐ **Core Computer Vision Application**
+Comprehensive introduction to object detection using YOLO (You Only Look Once), the foundational single-stage detector. Teaches detection fundamentals (localization + classification, bounding boxes, IoU), YOLO's grid-based architecture with anchor boxes, the multi-task loss function (localization + objectness + classification), and Non-Maximum Suppression (NMS) for duplicate removal. Implements simplified YOLO from scratch, demonstrates on geometric shapes dataset, and compares with two-stage detectors (R-CNN family). Essential for understanding modern object detection systems used in autonomous vehicles, surveillance, robotics, and real-time video analysis.
+
 ---
 
 ## TIER 7: Information Theory & Embeddings
@@ -316,6 +322,12 @@ Builds a Transformer architecture incrementally from basic building blocks to a 
 ###  **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Demonstrates how transformers conquered computer vision through Vision Transformers (ViT). Teaches patch embeddings (splitting images into sequences), 2D positional encodings for spatial information, and building a complete ViT from scratch. Compares ViT with CNNs on CIFAR-10, visualizes learned attention patterns to see what the model focuses on, and explores the trade-offs between inductive bias (CNNs) and learned spatial understanding (ViT). Shows why transformers are now a universal architecture across text, vision, and beyond.
 
+###  **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)** ⭐ **Essential Modern NLP Architecture**
+Comprehensive guide to BERT (Bidirectional Encoder Representations from Transformers), the breakthrough model that revolutionized NLP through bidirectional context understanding. Teaches masked language modeling (MLM) with 80/10/10 masking strategy, next sentence prediction (NSP), WordPiece tokenization with special tokens ([CLS], [SEP], [MASK], [PAD]), and the complete BERT architecture (embeddings, multi-head self-attention, feed-forward layers). Implements from scratch, demonstrates on sentiment analysis using [CLS] token, visualizes bidirectional vs unidirectional attention patterns, and compares with GPT-style models. Essential for understanding modern pre-trained language models like RoBERTa, ALBERT, and encoder-based architectures.
+
+###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)** ⭐ **Essential Generative Architecture**
+Complete introduction to GPT (Generative Pre-trained Transformer), the foundational architecture powering ChatGPT and modern language models. Teaches autoregressive generation, causal (unidirectional) masking to prevent future information leakage, BPE tokenization, and the decoder-only transformer architecture. Implements from scratch on character-level language modeling, demonstrates next-token prediction training objective, and covers all sampling strategies: greedy (deterministic), temperature (controlling randomness), top-k (limiting to k most likely), and nucleus/top-p (dynamic probability mass). Compares with BERT's bidirectional approach and explains why causal masking is essential for generation. Foundation for understanding GPT-2, GPT-3, GPT-4, and all autoregressive language models.
+
 ###  **[z2h-07-wavenet-lm-wip.ipynb](notebooks/z2h-07-wavenet-lm-wip.ipynb)** *(Work in Progress)*
 Implements a WaveNet-inspired hierarchical language model using custom layers (embeddings, batch normalization, sequential flattening) to process longer character contexts more efficiently than flat architectures.
 
@@ -336,6 +348,9 @@ Teaches sequence-to-sequence autoencoders for text reconstruction using encoder-
 
 ###  **[denoising-text.ipynb](notebooks/denoising-text.ipynb)**
 Demonstrates text correction and denoising techniques using seq2seq models with attention and transformers, including noise injection strategies, edit distance baselines, and evaluation metrics (CER/WER).
+
+###  **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)** ⭐ **Critical Real-World Application**
+Comprehensive guide to time series forecasting with neural networks, one of the most important real-world ML applications (finance, weather, energy, demand prediction). Teaches time series fundamentals (autoregression, lookback windows, forecast horizons, stationarity, seasonality), proper temporal train/val/test splitting to prevent data leakage, and sliding window sequence creation. Implements three progressive architectures from scratch: MLP baseline (feedforward), LSTM (sequential processing with memory), and Transformer (attention-based). Covers appropriate evaluation metrics (MAE, RMSE, MAPE), demonstrates multi-step forecasting, and discusses critical challenges (distribution shift, long-term dependencies). Essential for any production ML application dealing with temporal data.
 
 ---
 
@@ -394,7 +409,10 @@ Demonstrates the grokking phenomenon where neural networks suddenly transition f
 
 ## TIER 15: Alternative Training Paradigms
 
-**Beyond standard supervised learning - self-supervised and alternative training methods.**
+**Beyond standard supervised learning - self-supervised, meta-learning, and alternative training methods.**
+
+###  **[meta-learning-few-shot.ipynb](notebooks/meta-learning-few-shot.ipynb)** ⭐ **Important Modern Paradigm**
+Comprehensive introduction to meta-learning ("learning to learn") and few-shot learning, where models adapt to new tasks with minimal examples. Teaches the N-way K-shot classification problem, support/query set structure, and MAML (Model-Agnostic Meta-Learning) algorithm with inner loop (task adaptation) and outer loop (meta-optimization). Explains second-order gradients (gradient-through-gradient) that enable meta-learning. Implements MAML from scratch on sine wave regression, demonstrates rapid adaptation, and compares with Prototypical Networks (metric-based meta-learning). Contrasts with transfer learning and fine-tuning approaches. Essential for understanding modern few-shot learning used in drug discovery, personalized medicine, and rapid model adaptation with limited data.
 
 ###  **[basics-contrastive-learning.ipynb](notebooks/basics-contrastive-learning.ipynb)** ⭐ **CRITICAL for Modern AI**
 Teaches contrastive learning, a revolutionary self-supervised paradigm that learns representations without labels by contrasting positive and negative pairs. Covers InfoNCE loss, the temperature parameter, cosine similarity, and data augmentation strategies. Implements a SimCLR-style model from scratch to demonstrate how models like CLIP, MoCo, and modern foundation models learn powerful representations from unlabeled data. Essential for understanding modern pre-training approaches.
