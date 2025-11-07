@@ -143,6 +143,9 @@ Teaches how combining multiple models produces better predictions than any singl
 ###  **[basics-data-normalization.ipynb](notebooks/basics-data-normalization.ipynb)** ⭐
 Deep dive into data normalization/standardization - min-max scaling vs standardization (z-score), when to use each, why neural networks need normalized inputs, and critically: fitting on train data then applying to test to avoid data leakage. Essential preprocessing skill that directly impacts model convergence and performance.
 
+###  **[basics-dimensionality-reduction.ipynb](notebooks/basics-dimensionality-reduction.ipynb)**
+Comprehensive guide to reducing high-dimensional data to lower dimensions for visualization and analysis. Covers the curse of dimensionality (why distances become meaningless in high dimensions), PCA (linear method maximizing variance), t-SNE (non-linear method preserving local structure for beautiful visualizations), and UMAP (modern alternative that's faster and preserves both local and global structure). Demonstrates when to use each method, implements PCA from scratch, explores hyperparameter effects (perplexity for t-SNE, n_neighbors for UMAP), and shows the complete practical workflow: standardize → PCA for understanding → UMAP/t-SNE for visualization. Essential for exploratory data analysis, understanding dataset structure, and preprocessing before machine learning.
+
 ###  **[basics-feature-engineering.ipynb](notebooks/basics-feature-engineering.ipynb)**
 Covers techniques for creating informative features from raw data including encoding categorical variables, handling missing values, scaling, and domain-specific feature extraction to improve model performance.
 
