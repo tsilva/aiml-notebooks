@@ -241,6 +241,9 @@ Teaches transfer learning, the most practical deep learning technique for real-w
 ###  **[basics-knowledge-distillation.ipynb](notebooks/basics-knowledge-distillation.ipynb)** ⭐ **CRITICAL - Used in Production**
 One of the most practical techniques for deploying models in production. Teaches how to compress large, accurate models into small, fast models with minimal accuracy loss. Covers teacher-student training framework, soft targets vs hard labels, temperature scaling for controlling prediction softness, response-based distillation (matching outputs), feature-based distillation (matching intermediate layers), and practical deployment considerations. Demonstrates achieving 10-100x speedup with <3% accuracy drop. Essential for mobile deployment, real-time inference, and cost-effective serving at scale.
 
+###  **[basics-unet-architecture.ipynb](notebooks/basics-unet-architecture.ipynb)** ⭐ **CRITICAL for Segmentation**
+Teaches U-Net, the gold-standard architecture for semantic segmentation tasks (pixel-wise classification). Covers the complete encoder-decoder structure with skip connections, transpose convolutions for learnable upsampling, and why U-Net's concatenation-based skip connections (different from ResNet) preserve fine-grained spatial information. Implements U-Net from scratch, demonstrates training on synthetic circle segmentation, and includes ablation study proving skip connections are critical for precise localization. Essential for medical imaging (tumor/organ segmentation), autonomous driving (lane detection), satellite imagery, and any task requiring pixel-level predictions. Shows why U-Net works with limited data and revolutionized biomedical image analysis.
+
 ---
 
 ## TIER 7: Information Theory & Embeddings
