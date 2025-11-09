@@ -32,6 +32,12 @@ dependencies = [
     "gymnasium",
     "sentence-transformers",
     "faiss-cpu",
+    "librosa",
+    "soundfile",
+    "lime",
+    "shap",
+    "scikit-image",
+    "jiwer>=4.0.0",
 ]
 
 [build-system]
