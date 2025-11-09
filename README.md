@@ -21,37 +21,16 @@ This repository provides a comprehensive, hands-on learning path through machine
 
 ### Installation
 
-1. Install uv (if not already installed):
-   ```bash
-   # macOS/Linux
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-
-   # Windows
-   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-   ```
-
-2. Clone this repository:
-   ```bash
-   git clone https://github.com/tsilva/aiml-notebooks.git
-   cd aiml-notebooks
-   ```
-
-3. Install dependencies:
-   ```bash
-   uv sync
-   ```
+```bash
+git clone https://github.com/tsilva/aiml-notebooks.git
+cd aiml-notebooks
+uv sync
+```
 
 ### Running Jupyter
 
-Run JupyterLab directly with uv:
 ```bash
 uv run jupyter lab
-```
-
-Or activate the virtual environment first:
-```bash
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-jupyter lab
 ```
 
 ---
@@ -71,40 +50,40 @@ When notebooks are added or modified, they must be inserted in their appropriate
 
 **Start here!** These are the bare essentials before anything else.
 
-###  **[basics-numpy-fundamentals.ipynb](notebooks/basics-numpy-fundamentals.ipynb)**
+###  **[numpy-fundamentals.ipynb](notebooks/numpy-fundamentals.ipynb)**
 NumPy arrays, indexing, broadcasting, and operations. Foundation for all numerical ML work.
 
-###  **[basics-linear-algebra.ipynb](notebooks/basics-linear-algebra.ipynb)** 
+###  **[linear-algebra.ipynb](notebooks/linear-algebra.ipynb)** 
 Vectors, matrices, dot products, norms, eigenvalues, and orthogonality. Mathematical foundation for all ML algorithms.
 
-###  **[basics-tensors-operations.ipynb](notebooks/basics-tensors-operations.ipynb)**
+###  **[tensors-operations.ipynb](notebooks/tensors-operations.ipynb)**
 PyTorch tensor operations: shapes, broadcasting, indexing, and basic algebra.
 
-###  **[basics-tensor-multiplication.ipynb](notebooks/basics-tensor-multiplication.ipynb)**
+###  **[tensor-multiplication.ipynb](notebooks/tensor-multiplication.ipynb)**
 Matrix multiplication and broadcasting in detail. How neural network layers compute.
 
-###  **[basics-calculus-refresher.ipynb](notebooks/basics-calculus-refresher.ipynb)** 
+###  **[calculus-refresher.ipynb](notebooks/calculus-refresher.ipynb)** 
 Derivatives, chain rule, partial derivatives, and gradients. Foundation for backpropagation and optimization.
 
-###  **[basics-linear-regression.ipynb](notebooks/basics-linear-regression.ipynb)**
+###  **[linear-regression.ipynb](notebooks/linear-regression.ipynb)**
 Linear regression from scratch using gradient descent vs closed-form solution.
 
-###  **[basics-metrics.ipynb](notebooks/basics-metrics.ipynb)**
+###  **[metrics.ipynb](notebooks/metrics.ipynb)**
 Evaluation metrics: accuracy, precision, recall, F1, ROC-AUC. When to use each.
 
-###  **[basics-probability-distributions.ipynb](notebooks/basics-probability-distributions.ipynb)** 
+###  **[probability-distributions.ipynb](notebooks/probability-distributions.ipynb)** 
 Discrete (Bernoulli, Categorical, Binomial) and continuous (Uniform, Normal) distributions. Foundation for loss functions and generative models.
 
-###  **[basics-loss-functions.ipynb](notebooks/basics-loss-functions.ipynb)**
+###  **[loss-functions.ipynb](notebooks/loss-functions.ipynb)**
 MSE, MAE, cross-entropy, and hinge loss. Properties and when to use each.
 
-###  **[basics-activation-functions.ipynb](notebooks/basics-activation-functions.ipynb)**
+###  **[activation-functions.ipynb](notebooks/activation-functions.ipynb)**
 ReLU, sigmoid, tanh and their effects on gradient flow and training.
 
 ###  **[logistic-regression.ipynb](notebooks/logistic-regression.ipynb)**
 Binary classification with logistic regression, gradient descent, and decision boundaries.
 
-###  **[basics-softmax-multiclass.ipynb](notebooks/basics-softmax-multiclass.ipynb)**
+###  **[softmax-multiclass.ipynb](notebooks/softmax-multiclass.ipynb)**
 Softmax function, one-hot encoding, and categorical cross-entropy for multiclass classification.
 
 ---
@@ -113,28 +92,28 @@ Softmax function, one-hot encoding, and categorical cross-entropy for multiclass
 
 **Understanding how to build models that generalize.**
 
-###  **[basics-overfitting-underfitting.ipynb](notebooks/basics-overfitting-underfitting.ipynb)**
+###  **[overfitting-underfitting.ipynb](notebooks/overfitting-underfitting.ipynb)**
 Overfitting vs underfitting, model capacity, learning curves, and the bias-variance tradeoff.
 
-###  **[basics-bias-variance-tradeoff.ipynb](notebooks/basics-bias-variance-tradeoff.ipynb)**
+###  **[bias-variance-tradeoff.ipynb](notebooks/bias-variance-tradeoff.ipynb)**
 Bias-variance decomposition and how it guides model selection.
 
-###  **[basics-train-test-val-split.ipynb](notebooks/basics-train-test-val-split.ipynb)**
+###  **[train-test-val-split.ipynb](notebooks/train-test-val-split.ipynb)**
 Train/validation/test splits, data leakage prevention, and temporal splits for time-series.
 
-###  **[basics-cross-validation.ipynb](notebooks/basics-cross-validation.ipynb)**
+###  **[cross-validation.ipynb](notebooks/cross-validation.ipynb)**
 K-Fold, Stratified K-Fold, and Time Series cross-validation techniques.
 
-###  **[basics-regularization.ipynb](notebooks/basics-regularization.ipynb)**
+###  **[regularization.ipynb](notebooks/regularization.ipynb)**
 L1, L2, dropout, and early stopping to prevent overfitting.
 
-###  **[basics-confidence-intervals.ipynb](notebooks/basics-confidence-intervals.ipynb)**
+###  **[confidence-intervals.ipynb](notebooks/confidence-intervals.ipynb)**
 Quantifying uncertainty in predictions and metrics using bootstrap and hypothesis testing.
 
-### [x] **[basics-hyperparameter-tuning.ipynb](notebooks/basics-hyperparameter-tuning.ipynb)**
+### [x] **[hyperparameter-tuning.ipynb](notebooks/hyperparameter-tuning.ipynb)**
 Grid search, random search, and Bayesian optimization for hyperparameter tuning.
 
-###  **[basics-ensemble-methods.ipynb](notebooks/basics-ensemble-methods.ipynb)**
+###  **[ensemble-methods.ipynb](notebooks/ensemble-methods.ipynb)**
 Bagging, Random Forests, boosting (AdaBoost, Gradient Boosting), and stacking.
 
 ---
@@ -143,28 +122,28 @@ Bagging, Random Forests, boosting (AdaBoost, Gradient Boosting), and stacking.
 
 **Making the most of your data and training.**
 
-###  **[basics-data-normalization.ipynb](notebooks/basics-data-normalization.ipynb)** 
+###  **[data-normalization.ipynb](notebooks/data-normalization.ipynb)** 
 Min-max scaling vs standardization. Why normalization matters and avoiding data leakage.
 
-###  **[basics-dimensionality-reduction.ipynb](notebooks/basics-dimensionality-reduction.ipynb)**
+###  **[dimensionality-reduction.ipynb](notebooks/dimensionality-reduction.ipynb)**
 PCA, t-SNE, and UMAP for reducing dimensions and visualization.
 
-###  **[basics-feature-engineering.ipynb](notebooks/basics-feature-engineering.ipynb)**
+###  **[feature-engineering.ipynb](notebooks/feature-engineering.ipynb)**
 Encoding categorical variables, handling missing values, and creating features.
 
-###  **[basics-data-augmentation.ipynb](notebooks/basics-data-augmentation.ipynb)**
+###  **[data-augmentation.ipynb](notebooks/data-augmentation.ipynb)**
 Augmentation techniques for images and text to expand training data.
 
-###  **[basics-imbalanced-data.ipynb](notebooks/basics-imbalanced-data.ipynb)**
+###  **[imbalanced-data.ipynb](notebooks/imbalanced-data.ipynb)**
 Handling class imbalance: proper metrics, class weights, resampling, and SMOTE.
 
-###  **[basics-mini-batch-gradient-descent.ipynb](notebooks/basics-mini-batch-gradient-descent.ipynb)** 
+###  **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)** 
 Full-batch, mini-batch, and stochastic gradient descent. Epochs, steps, and batch sizes.
 
-###  **[basics-optimizers.ipynb](notebooks/basics-optimizers.ipynb)**
+###  **[optimizers.ipynb](notebooks/optimizers.ipynb)**
 SGD, Momentum, RMSprop, and Adam optimizers. When to use each.
 
-###  **[basics-learning-rate-schedules.ipynb](notebooks/basics-learning-rate-schedules.ipynb)**
+###  **[learning-rate-schedules.ipynb](notebooks/learning-rate-schedules.ipynb)**
 Learning rate schedules: step decay, exponential decay, cosine annealing, and warmup.
 
 ---
@@ -173,31 +152,31 @@ Learning rate schedules: step decay, exponential decay, cosine annealing, and wa
 
 **Now we can start with neural networks!**
 
-###  **[basics-neural-network-fundamentals.ipynb](notebooks/basics-neural-network-fundamentals.ipynb)**
+###  **[neural-network-fundamentals.ipynb](notebooks/neural-network-fundamentals.ipynb)**
 Neurons, layers, networks, forward pass, and the Universal Approximation Theorem.
 
-###  **[basics-computational-graphs.ipynb](notebooks/basics-computational-graphs.ipynb)** 
+###  **[computational-graphs.ipynb](notebooks/computational-graphs.ipynb)** 
 Representing computations as DAGs. How graphs encode the chain rule for backpropagation.
 
 ###  **[z2h-01-backprop.ipynb](notebooks/z2h-01-backprop.ipynb)** 
 Backpropagation from scratch: building a micrograd-style autograd engine.
 
-###  **[basics-pytorch-fundamentals.ipynb](notebooks/basics-pytorch-fundamentals.ipynb)**
+###  **[pytorch-fundamentals.ipynb](notebooks/pytorch-fundamentals.ipynb)**
 PyTorch autograd, nn.Parameter, nn.Module, and the training loop.
 
-###  **[basics-gradient-stability.ipynb](notebooks/basics-gradient-stability.ipynb)**
+###  **[gradient-stability.ipynb](notebooks/gradient-stability.ipynb)**
 Vanishing and exploding gradient problems in deep networks.
 
-###  **[basics-gradient-clipping.ipynb](notebooks/basics-gradient-clipping.ipynb)**
+###  **[gradient-clipping.ipynb](notebooks/gradient-clipping.ipynb)**
 Gradient clipping to prevent exploding gradients.
 
-###  **[basics-gradient-normalization.ipynb](notebooks/basics-gradient-normalization.ipynb)**
+###  **[gradient-normalization.ipynb](notebooks/gradient-normalization.ipynb)**
 Gradient normalization for stable training across layers.
 
-###  **[basics-batch-normalization.ipynb](notebooks/basics-batch-normalization.ipynb)**
+###  **[batch-normalization.ipynb](notebooks/batch-normalization.ipynb)**
 Batch normalization to stabilize and accelerate training.
 
-###  **[basics-layer-normalization.ipynb](notebooks/basics-layer-normalization.ipynb)**
+###  **[layer-normalization.ipynb](notebooks/layer-normalization.ipynb)**
 Layer normalization for RNNs and transformers.
 
 ---
@@ -215,13 +194,7 @@ Multi-layer perceptron for character-level language modeling.
 ###  **[z2h-04-optimization-pt1.ipynb](notebooks/z2h-04-optimization-pt1.ipynb)**
 Weight initialization (Xavier, Kaiming) and analyzing activation/gradient flow.
 
-###  **[z2h-05-optimization-pt2-wip.ipynb](notebooks/z2h-05-optimization-pt2-wip.ipynb)** *(Work in Progress)*
-PyTorch experiments with initialization and batch normalization.
-
-###  **[z2h-06-backprop-ninja-wip.ipynb](notebooks/z2h-06-backprop-ninja-wip.ipynb)** *(Work in Progress)*
-Manually implementing backward passes for cross-entropy and batch normalization.
-
-###  **[basics-debugging-neural-networks.ipynb](notebooks/basics-debugging-neural-networks.ipynb)**
+###  **[debugging-neural-networks.ipynb](notebooks/debugging-neural-networks.ipynb)**
 Systematic debugging: sanity checks, common failures, gradient flow, and learning curves.
 
 ---
@@ -230,25 +203,25 @@ Systematic debugging: sanity checks, common failures, gradient flow, and learnin
 
 **Computer vision fundamentals.**
 
-###  **[basics-tensors-convolution.ipynb](notebooks/basics-tensors-convolution.ipynb)**
+###  **[tensors-convolution.ipynb](notebooks/tensors-convolution.ipynb)**
 Convolutional operations: filters, padding, stride, dilation, and transposed convolutions.
 
-###  **[basics-pooling-operations.ipynb](notebooks/basics-pooling-operations.ipynb)**
+###  **[pooling-operations.ipynb](notebooks/pooling-operations.ipynb)**
 MaxPooling, AveragePooling, and Global pooling for downsampling feature maps.
 
 ###  **[classification-image.ipynb](notebooks/classification-image.ipynb)**
 Building CNN and MLP image classifiers on CIFAR-10, MNIST, and Fashion-MNIST.
 
-###  **[basics-residual-connections.ipynb](notebooks/basics-residual-connections.ipynb)**  **REVOLUTIONARY**
+###  **[residual-connections.ipynb](notebooks/residual-connections.ipynb)**  **REVOLUTIONARY**
 Skip connections and ResNet blocks. Foundation for modern deep architectures.
 
-###  **[basics-transfer-learning.ipynb](notebooks/basics-transfer-learning.ipynb)** 
+###  **[transfer-learning.ipynb](notebooks/transfer-learning.ipynb)** 
 Using pretrained models: feature extraction vs fine-tuning.
 
-###  **[basics-knowledge-distillation.ipynb](notebooks/basics-knowledge-distillation.ipynb)** 
+###  **[knowledge-distillation.ipynb](notebooks/knowledge-distillation.ipynb)** 
 Compressing models with teacher-student training and soft targets.
 
-###  **[basics-unet-architecture.ipynb](notebooks/basics-unet-architecture.ipynb)** 
+###  **[unet-architecture.ipynb](notebooks/unet-architecture.ipynb)** 
 U-Net encoder-decoder with skip connections for semantic segmentation.
 
 ###  **[grad-cam-visualization.ipynb](notebooks/grad-cam-visualization.ipynb)** 
@@ -263,13 +236,13 @@ YOLO architecture: bounding boxes, anchor boxes, and Non-Maximum Suppression.
 
 **Important concepts for advanced topics.**
 
-###  **[basics-tokenization-methods.ipynb](notebooks/basics-tokenization-methods.ipynb)** 
+###  **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)** 
 Character, word, BPE, and WordPiece tokenization. Vocabulary vs sequence length tradeoff.
 
-###  **[basics-kl-divergence.ipynb](notebooks/basics-kl-divergence.ipynb)** 
+###  **[kl-divergence.ipynb](notebooks/kl-divergence.ipynb)** 
 KL divergence, entropy, and cross-entropy. Essential for VAEs and RL.
 
-###  **[basics-embeddings.ipynb](notebooks/basics-embeddings.ipynb)**
+###  **[embeddings.ipynb](notebooks/embeddings.ipynb)**
 Learned vector representations for discrete objects (words, items, users).
 
 ###  **[word2vec-from-scratch.ipynb](notebooks/word2vec-from-scratch.ipynb)**
@@ -287,10 +260,10 @@ Twin networks with shared weights and contrastive loss for similarity learning.
 ###  **[kmeans-from-scratch.ipynb](notebooks/kmeans-from-scratch.ipynb)**
 K-means clustering: iterative assignment, k-means++, and the elbow method.
 
-###  **[basics-gaussian-mixture-models.ipynb](notebooks/basics-gaussian-mixture-models.ipynb)**
+###  **[gaussian-mixture-models.ipynb](notebooks/gaussian-mixture-models.ipynb)**
 Gaussian Mixture Models and Expectation-Maximization for soft clustering.
 
-###  **[basics-autoencoders.ipynb](notebooks/basics-autoencoders.ipynb)** 
+###  **[autoencoders.ipynb](notebooks/autoencoders.ipynb)** 
 Encoder-decoder architecture for compression and reconstruction. Foundation for VAEs.
 
 ---
@@ -305,25 +278,19 @@ RNN with hidden states and backpropagation through time (BPTT).
 ###  **[lstm-from-scratch.ipynb](notebooks/lstm-from-scratch.ipynb)**
 LSTM gates (forget, input, output) and solving vanishing gradients.
 
-###  **[wip-bit-parity-rnn.ipynb](notebooks/wip-bit-parity-rnn.ipynb)** *(Work in Progress)*
-RNN for bit-parity classification task.
-
-###  **[wip-bit-parity-gru.ipynb](notebooks/wip-bit-parity-gru.ipynb)** *(Work in Progress)*
-GRU with update and reset gates for bit-parity classification.
-
 ---
 
 ## TIER 10: Attention & Transformers
 
 **Modern sequence modeling - the revolution.**
 
-###  **[basics-attention-mechanism.ipynb](notebooks/basics-attention-mechanism.ipynb)**  **FOUNDATIONAL CONCEPT**
+###  **[attention-mechanism.ipynb](notebooks/attention-mechanism.ipynb)**  **FOUNDATIONAL CONCEPT**
 Scaled dot-product attention: queries, keys, values, and attention weights.
 
 ###  **[seq2seq-with-attention.ipynb](notebooks/seq2seq-with-attention.ipynb)**
 Seq2seq encoder-decoder with attention. Solving the bottleneck problem.
 
-###  **[basics-positional-encodings.ipynb](notebooks/basics-positional-encodings.ipynb)** 
+###  **[positional-encodings.ipynb](notebooks/positional-encodings.ipynb)** 
 Sinusoidal, Learned, Relative Position Bias, RoPE, and ALiBi positional encodings.
 
 ###  **[transformer-from-scratch.ipynb](notebooks/transformer-from-scratch.ipynb)** 
@@ -338,14 +305,11 @@ BERT encoder architecture. Masked language modeling and bidirectional context.
 ###  **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
-###  **[basics-mamba-state-space-models.ipynb](notebooks/basics-mamba-state-space-models.ipynb)** 
+###  **[mamba-state-space-models.ipynb](notebooks/mamba-state-space-models.ipynb)** 
 State Space Models and Mamba: linear-complexity alternative to Transformers.
 
-###  **[lora-peft.ipynb](notebooks/lora-peft.ipynb)** 
+###  **[lora-peft.ipynb](notebooks/lora-peft.ipynb)**
 LoRA and parameter-efficient fine-tuning. Low-rank weight updates.
-
-###  **[z2h-07-wavenet-lm-wip.ipynb](notebooks/z2h-07-wavenet-lm-wip.ipynb)** *(Work in Progress)*
-WaveNet-inspired hierarchical language model.
 
 ---
 
@@ -365,7 +329,7 @@ Seq2seq autoencoders for text reconstruction and latent space interpolation.
 ###  **[denoising-text.ipynb](notebooks/denoising-text.ipynb)**
 Text correction with seq2seq and transformers. CER/WER metrics.
 
-###  **[basics-audio-processing.ipynb](notebooks/basics-audio-processing.ipynb)**
+###  **[audio-processing.ipynb](notebooks/audio-processing.ipynb)**
 Fourier Transform, spectrograms, mel spectrograms, MFCCs, and audio augmentation.
 
 ### **[speech-recognition.ipynb](notebooks/speech-recognition.ipynb)**
@@ -455,10 +419,10 @@ Grokking: sudden generalization after prolonged overfitting on algorithmic tasks
 ###  **[meta-learning-few-shot.ipynb](notebooks/meta-learning-few-shot.ipynb)** 
 MAML for few-shot learning. Learning to learn with inner/outer loops.
 
-###  **[basics-contrastive-learning.ipynb](notebooks/basics-contrastive-learning.ipynb)** 
+###  **[contrastive-learning.ipynb](notebooks/contrastive-learning.ipynb)** 
 Contrastive learning with InfoNCE loss. SimCLR-style self-supervised learning.
 
-###  **[basics-self-supervised-learning.ipynb](notebooks/basics-self-supervised-learning.ipynb)** 
+###  **[self-supervised-learning.ipynb](notebooks/self-supervised-learning.ipynb)** 
 Self-supervised approaches: Rotation, Jigsaw, Masked Autoencoding, SimCLR, BERT masking.
 
 ###  **[forward-forward.ipynb](notebooks/forward-forward.ipynb)**
@@ -506,17 +470,8 @@ A2C/A3C, SAC, and TD3 for continuous control.
 ###  **[rlhf-alignment.ipynb](notebooks/rlhf-alignment.ipynb)** 
 RLHF pipeline: SFT, reward modeling, and PPO optimization. DPO alternative.
 
-###  **[rl-model-based.ipynb](notebooks/rl-model-based.ipynb)** 
+###  **[rl-model-based.ipynb](notebooks/rl-model-based.ipynb)**
 World models, Dyna algorithm, and planning for sample efficiency.
-
-###  **[wip-rl-world-model-01-repr.ipynb](notebooks/wip-rl-world-model-01-repr.ipynb)** *(Work in Progress)*
-Compressing gameplay frames with convolutional autoencoders.
-
-###  **[wip-rl-world-model-02-dynamics.ipynb](notebooks/wip-rl-world-model-02-dynamics.ipynb)** *(Work in Progress)*
-Learning dynamics models to predict future latent states.
-
-###  **[wip-rl-atari-pong-imitation.ipynb](notebooks/wip-rl-atari-pong-imitation.ipynb)** *(Work in Progress)*
-Imitation learning for Atari Pong.
 
 ---
 
@@ -527,7 +482,37 @@ Imitation learning for Atari Pong.
 ###  **[chip8-emulator.ipynb](notebooks/chip8-emulator.ipynb)**
 CHIP-8 emulator: fetch-decode-execute cycle and opcodes.
 
-###  **[wip-debate-generator.ipynb](notebooks/wip-debate-generator.ipynb)** *(Work in Progress)*
+---
+
+## 🗄️ Deprecated / Work in Progress
+
+**Incomplete notebooks not recommended for learning.**
+
+###  **[z2h-05-optimization-pt2-wip.ipynb](notebooks/deprecated/z2h-05-optimization-pt2-wip.ipynb)**
+PyTorch experiments with initialization and batch normalization.
+
+###  **[z2h-06-backprop-ninja-wip.ipynb](notebooks/deprecated/z2h-06-backprop-ninja-wip.ipynb)**
+Manually implementing backward passes for cross-entropy and batch normalization.
+
+###  **[z2h-07-wavenet-lm-wip.ipynb](notebooks/deprecated/z2h-07-wavenet-lm-wip.ipynb)**
+WaveNet-inspired hierarchical language model.
+
+###  **[wip-bit-parity-rnn.ipynb](notebooks/deprecated/wip-bit-parity-rnn.ipynb)**
+RNN for bit-parity classification task.
+
+###  **[wip-bit-parity-gru.ipynb](notebooks/deprecated/wip-bit-parity-gru.ipynb)**
+GRU with update and reset gates for bit-parity classification.
+
+###  **[wip-rl-world-model-01-repr.ipynb](notebooks/deprecated/wip-rl-world-model-01-repr.ipynb)**
+Compressing gameplay frames with convolutional autoencoders.
+
+###  **[wip-rl-world-model-02-dynamics.ipynb](notebooks/deprecated/wip-rl-world-model-02-dynamics.ipynb)**
+Learning dynamics models to predict future latent states.
+
+###  **[wip-rl-atari-pong-imitation.ipynb](notebooks/deprecated/wip-rl-atari-pong-imitation.ipynb)**
+Imitation learning for Atari Pong.
+
+###  **[wip-debate-generator.ipynb](notebooks/deprecated/wip-debate-generator.ipynb)**
 AI debate simulator with LangChain and multi-agent LLMs.
 
 ---
@@ -535,10 +520,10 @@ AI debate simulator with LangChain and multi-agent LLMs.
 ## 🎓 Learning Path Recommendations
 
 ### **Quick Start Path (Core Essentials)**
-If you're short on time, focus on notebooks marked with :
+If you're short on time, focus on notebooks marked with ⭐:
 1. Complete all of Tier 1-4 (foundations)
-2. z2h-01-backprop.ipynb (CRITICAL)
-3. basics-kl-divergence.ipynb (for VAEs/RL)
+2. z2h-01-backprop.ipynb
+3. kl-divergence.ipynb (for VAEs/RL)
 4. transformer-from-scratch.ipynb (modern AI foundation)
 5. generation-image.ipynb (VAEs & GANs)
 
