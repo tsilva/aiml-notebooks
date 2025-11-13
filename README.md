@@ -236,7 +236,10 @@ YOLO architecture: bounding boxes, anchor boxes, and Non-Maximum Suppression.
 
 **Important concepts for advanced topics.**
 
-###  **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)** 
+###  **[kl-divergence.ipynb](notebooks/kl-divergence.ipynb)**
+Information theory from the ground up: surprisal, entropy, cross-entropy, and KL divergence. Builds intuition through analogies and visualizations. Essential for understanding VAEs, RL policy optimization, and model training.
+
+###  **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)**
 Character, word, BPE, and WordPiece tokenization. Vocabulary vs sequence length tradeoff.
 
 ###  **[embeddings.ipynb](notebooks/embeddings.ipynb)**
