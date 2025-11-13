@@ -239,8 +239,8 @@ YOLO architecture: bounding boxes, anchor boxes, and Non-Maximum Suppression.
 ###  **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)** 
 Character, word, BPE, and WordPiece tokenization. Vocabulary vs sequence length tradeoff.
 
-###  **[kl-divergence.ipynb](notebooks/kl-divergence.ipynb)** 
-KL divergence, entropy, and cross-entropy. Essential for VAEs and RL.
+###  **[kl-divergence.ipynb](notebooks/kl-divergence.ipynb)**
+Information theory fundamentals: understanding information content, entropy, cross-entropy, and KL divergence through intuitive analogies and practical examples. Builds intuition using metaphors (news headlines, weather forecasting, GPS navigation) before diving into the math. Essential foundation for VAEs, RL (TRPO, PPO), and generative models.
 
 ###  **[embeddings.ipynb](notebooks/embeddings.ipynb)**
 Learned vector representations for discrete objects (words, items, users).
@@ -355,6 +355,9 @@ Time series with MLP, LSTM, and Transformer. Temporal data splitting.
 ## TIER 12: Generative Models for Images
 
 **Learning to generate and reconstruct images.**
+
+###  **[vae.ipynb](notebooks/vae.ipynb)**
+Variational Autoencoders (VAE): probabilistic latent spaces, reparameterization trick, and structured generation. Foundation for modern generative models.
 
 ###  **[reconstruction-image.ipynb](notebooks/reconstruction-image.ipynb)**
 Image reconstruction with Vanilla AE, VAE, and VQ-VAE on MNIST.
