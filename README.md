@@ -209,6 +209,9 @@ Convolutional operations: filters, padding, stride, dilation, and transposed con
 ###  **[pooling-operations.ipynb](notebooks/pooling-operations.ipynb)**
 MaxPooling, AveragePooling, and Global pooling for downsampling feature maps.
 
+###  **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)**
+Historical evolution of CNNs from LeNet (1998) → AlexNet (2012) → VGG (2014) → Inception (2014). Shows WHY each innovation mattered: ReLU activation, dropout regularization, depth with small filters, and multi-scale features. Foundational for understanding modern CNN design principles.
+
 ###  **[classification-image.ipynb](notebooks/classification-image.ipynb)**
 Building CNN and MLP image classifiers on CIFAR-10, MNIST, and Fashion-MNIST.
 
