@@ -359,8 +359,8 @@ Time series with MLP, LSTM, and Transformer. Temporal data splitting.
 ###  **[vae.ipynb](notebooks/vae.ipynb)**
 Variational Autoencoders (VAE): probabilistic latent spaces, reparameterization trick, and structured generation. Foundation for modern generative models.
 
-###  **[reconstruction-image.ipynb](notebooks/reconstruction-image.ipynb)**
-Image reconstruction with Vanilla AE, VAE, and VQ-VAE on MNIST.
+###  **[vqvae.ipynb](notebooks/vqvae.ipynb)**
+Vector-Quantized VAE (VQ-VAE): discrete latent spaces, learned codebook, vector quantization, and straight-through estimator. Foundation for DALL-E and hierarchical generation.
 
 ###  **[generation-image.ipynb](notebooks/generation-image.ipynb)**  **VAEs & GANs**
 VAEs and DCGANs for image generation. Latent space exploration.
@@ -490,6 +490,9 @@ CHIP-8 emulator: fetch-decode-execute cycle and opcodes.
 ## 🗄️ Deprecated / Work in Progress
 
 **Incomplete notebooks not recommended for learning.**
+
+###  **[reconstruction-image.ipynb](notebooks/deprecated/reconstruction-image.ipynb)**
+Image reconstruction with Vanilla AE, VAE, and VQ-VAE. Replaced by focused vqvae.ipynb notebook.
 
 ###  **[z2h-05-optimization-pt2-wip.ipynb](notebooks/deprecated/z2h-05-optimization-pt2-wip.ipynb)**
 PyTorch experiments with initialization and batch normalization.

@@ -22,3 +22,15 @@
 # notebooks
 
 - mamba / selective state spaces
+
+1. cnn-architectures-evolution.ipynb - The historical evolution (LeNet → AlexNet → VGG →
+Inception)
+- This is foundational and missing from your collection
+- Shows WHY each innovation mattered
+2. Enhance residual-connections.ipynb - Add ResNet-18/34/50 implementations + DenseNet
+- You already have the concepts, just complete it
+3. efficient-cnns.ipynb - Modern practical architectures
+- Critical for understanding modern deployment
+4. attention-mechanisms-cnns.ipynb - Attention in CNNs
+- Bridges CNN (Tier 6) to Attention (Tier 10)
+- GANs
