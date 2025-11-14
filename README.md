@@ -221,6 +221,12 @@ VGG (2014): proves depth matters more than filter size through uniform 3×3 arch
 ###  **[inception-multiscale.ipynb](notebooks/inception-multiscale.ipynb)**
 Inception/GoogLeNet (2014): answers "what filter size?" with "all of them!" Shows multi-scale parallel architecture (1×1, 3×3, 5×5, pool in parallel), 1×1 bottleneck layers for 97% parameter reduction, and Global Average Pooling to eliminate FC layers entirely. Achieves better performance than VGG with 27× fewer parameters (5M vs 138M). Then reveals the final challenge: degradation problem preventing networks beyond ~20 layers. Sets up the need for ResNet's skip connections to enable 100+ layer networks.
 
+###  **[resnet-skip-connections.ipynb](notebooks/resnet-skip-connections.ipynb)** ⭐ **REVOLUTIONARY**
+ResNet (2015): solves the degradation problem that prevented networks beyond ~20 layers. Explains mathematically why learning residuals F(x) is easier than learning direct mappings H(x), and how skip connections create gradient highways. Implements ResNet-18 with BasicBlocks, demonstrates successful training of 18+ layer networks, and shows why ResNet became the foundation for virtually all modern architectures (Transformers, U-Net, DenseNet). First architecture to exceed human-level performance on ImageNet (3.57% vs 5% error). Completes the CNN evolution story from LeNet to mature deep learning.
+
+###  **[mobilenet-efficient-cnns.ipynb](notebooks/mobilenet-efficient-cnns.ipynb)**
+MobileNet (2017): shifts focus from pure accuracy to efficiency for mobile and edge devices. Introduces depthwise separable convolutions that factorize standard convolutions into depthwise (spatial filtering per channel) and pointwise (channel mixing) operations, achieving 8-9× speedup with minimal accuracy loss. Implements width multiplier for easy model scaling (0.25×, 0.5×, 0.75×, 1.0×). Shows the efficiency vs accuracy trade-off landscape and demonstrates that architectural innovations can reduce computational cost while maintaining performance. Opens the efficiency branch of CNN evolution (MobileNet → EfficientNet → NAS).
+
 ###  **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)**
 Historical evolution of CNNs from LeNet (1998) → AlexNet (2012) → VGG (2014) → Inception (2014). Shows WHY each innovation mattered: ReLU activation, dropout regularization, depth with small filters, and multi-scale features. Foundational for understanding modern CNN design principles.
 
