@@ -44,6 +44,35 @@ Notebooks should feel like a conversation with an expert teacher who never assum
   - Print/plot results immediately after computation
 
 #### **Technical Requirements**
+* **CONFIG dictionary first**: Define all hyperparameters at the top for easy experimentation
+  ```python
+  CONFIG = {
+      # Reproducibility
+      'seed': 42,  # Random seed for reproducibility
+
+      # Data
+      'batch_size': 128,  # Number of samples per training batch
+      'num_workers': 0,  # Number of worker processes for data loading
+
+      # Training
+      'learning_rate': 0.001,  # Optimizer learning rate
+      'max_epochs': 20,  # Number of training epochs
+
+      # Model
+      'num_classes': 10,  # Number of output classes
+  }
+  ```
+* **PyTorch Lightning by default**: Use Lightning unless explicitly building training loop from scratch
+  - Models inherit from `L.LightningModule`
+  - Implement `training_step`, `validation_step`, `configure_optimizers`
+  - Use `L.Trainer` instead of manual training loops
+  - **Exception**: Use from-scratch loops when the goal is to teach the fundamentals of gradient descent, backpropagation, or training mechanics
+* **Distributed imports**: Place imports in the same cell as their first usage, not all at the beginning
+  - Setup utilities: `from aiml_notebooks import get_device, set_seed` (same cell as CONFIG/set_seed)
+  - Data: `from torchvision import datasets, transforms` (same cell as data transforms)
+  - Model: `import torch, torch.nn as nn, lightning as L` (same cell as model definition)
+  - Visualization: `import matplotlib.pyplot as plt, numpy as np` (same cell as first plot)
+  - **Exception**: If an import is 1-2 lines and the cell would be too long, place it in the preceding markdown cell's code block or a minimal import-only cell
 * **Use shared library** when possible:
   ```python
   from aiml_notebooks import CharacterTokenizer, create_dataset, create_dataloaders, get_device, set_seed
@@ -51,9 +80,8 @@ Notebooks should feel like a conversation with an expert teacher who never assum
   %load_ext autoreload
   %autoreload 2
   ```
-* **Set random seed** early: `set_seed(42)`
+* **Set random seed** from CONFIG: `set_seed(CONFIG['seed'])`
 * **Device management**: `device = get_device()` or `device = get_device(prefer_cpu=True)` for Transformers
-* **Import organization**: Group stdlib → third-party → local library
 
 ---
 
@@ -68,9 +96,34 @@ Notebooks should feel like a conversation with an expert teacher who never assum
 - What intuitions we'll develop
 
 ## 2. Setup
-- Imports (with %autoreload)
-- Random seeds
-- Device setup
+
+### Configuration
+[Markdown: Explain this is where all hyperparameters live]
+```python
+CONFIG = {
+    # Reproducibility
+    'seed': 42,  # Random seed for reproducibility
+
+    # Data
+    'batch_size': 128,  # Number of samples per training batch
+
+    # Training
+    'learning_rate': 0.001,  # Optimizer learning rate
+    'max_epochs': 20,  # Number of training epochs
+
+    # Model
+    'num_classes': 10,  # Number of output classes
+}
+```
+
+### Random Seed & Device Setup
+```python
+from aiml_notebooks import get_device, set_seed
+
+set_seed(CONFIG['seed'])
+device = get_device()
+print(f"Using device: {device}")
+```
 
 ## 3. Building Blocks (3-5 sections)
 Each section follows this pattern:
@@ -110,7 +163,7 @@ Each section follows this pattern:
 
 ### ✅ Example Cell Sequences
 
-#### **Pattern 1: Introducing a Concept**
+#### **Pattern 1: Introducing a Concept (with same-cell imports)**
 
 ```markdown
 ### Understanding Cross-Entropy Loss
@@ -121,6 +174,7 @@ Intuitively: it heavily penalizes confident wrong predictions.
 ```
 
 ```python
+# Import where first used
 import torch
 import torch.nn.functional as F
 
@@ -143,54 +197,92 @@ print(f"Loss (confident & wrong): {loss_wrong:.3f}")
 Notice how the confident wrong prediction has ~6x higher loss — cross-entropy punishes overconfidence in the wrong answer.
 ```
 
-#### **Pattern 2: Building Incrementally**
+#### **Pattern 2: PyTorch Lightning Model**
 
 ```markdown
-Let's build a simple neural network step by step.
+### Implement the Model
 
-First, a **single linear layer** — the simplest possible network.
+We'll use **PyTorch Lightning** to keep our code clean and organized.
 ```
 
 ```python
-class SimpleNet(torch.nn.Module):
-    def __init__(self, input_size, output_size):
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import lightning as L
+
+class MyModel(L.LightningModule):
+    def __init__(self, input_size=10, hidden_size=20, num_classes=CONFIG['num_classes'],
+                 learning_rate=CONFIG['learning_rate']):
         super().__init__()
-        self.linear = torch.nn.Linear(input_size, output_size)
+        self.save_hyperparameters()
+
+        # Model architecture
+        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.fc2 = nn.Linear(hidden_size, num_classes)
+
+        self.criterion = nn.CrossEntropyLoss()
 
     def forward(self, x):
-        return self.linear(x)
-
-model = SimpleNet(10, 3)
-print(f"Parameters: {sum(p.numel() for p in model.parameters())}")
-```
-
-```markdown
-Now add a **hidden layer** to learn non-linear patterns.
-```
-
-```python
-class BetterNet(torch.nn.Module):
-    def __init__(self, input_size, hidden_size, output_size):
-        super().__init__()
-        self.linear1 = torch.nn.Linear(input_size, hidden_size)
-        self.relu = torch.nn.ReLU()
-        self.linear2 = torch.nn.Linear(hidden_size, output_size)
-
-    def forward(self, x):
-        x = self.linear1(x)
-        x = self.relu(x)
-        x = self.linear2(x)
+        x = F.relu(self.fc1(x))
+        x = self.fc2(x)
         return x
 
-model = BetterNet(10, 20, 3)
-print(f"Parameters: {sum(p.numel() for p in model.parameters())}")
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        logits = self(x)
+        loss = self.criterion(logits, y)
+
+        # Log metrics
+        self.log('train_loss', loss, prog_bar=True)
+        return loss
+
+    def validation_step(self, batch, batch_idx):
+        x, y = batch
+        logits = self(x)
+        loss = self.criterion(logits, y)
+
+        # Calculate accuracy
+        preds = logits.argmax(dim=1)
+        acc = (preds == y).float().mean()
+
+        self.log('val_loss', loss, prog_bar=True)
+        self.log('val_acc', acc, prog_bar=True)
+        return loss
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=self.hparams.learning_rate)
 ```
 
 ```markdown
-The hidden layer adds capacity — but also more parameters to train. This is the classic **capacity vs. complexity** tradeoff.
+### Train the Model
+
+Lightning handles all the boilerplate — we just create a Trainer and call fit!
 ```
 
-#### **Pattern 3: Visualization-Driven Learning**
+```python
+model = MyModel()
+
+trainer = L.Trainer(
+    max_epochs=CONFIG['max_epochs'],
+    accelerator='auto',
+    devices=1,
+    logger=False,
+    enable_progress_bar=True
+)
+
+trainer.fit(model, train_loader, val_loader)
+```
+
+```markdown
+**Why Lightning?**
+- Eliminates boilerplate training loops
+- Handles device management automatically
+- Built-in logging and callbacks
+- Easier to maintain and extend
+```
+
+#### **Pattern 3: Visualization-Driven Learning (with same-cell imports)**
 
 ```markdown
 ### How Does Learning Rate Affect Training?
@@ -199,6 +291,7 @@ Let's train the same model with different learning rates and visualize the loss 
 ```
 
 ```python
+# Import visualization libraries where first used
 import matplotlib.pyplot as plt
 
 learning_rates = [0.001, 0.01, 0.1]
@@ -235,14 +328,26 @@ This is why learning rate is the most important hyperparameter to tune.
 
 ### 🚫 Common Mistakes to Avoid
 
+**Structure:**
 * **Code without context** — never have a code cell without a preceding markdown cell
 * **Large code dumps** — break into smaller, digestible pieces
+* **All imports at top** — place imports in the same cell as their first usage
+* **Separate import cells** — imports should be in the same cell as the code that uses them (with rare exceptions for very long cells)
+* **Hardcoded hyperparameters** — everything should be in CONFIG
+* **CONFIG defined too late** — must come before anything that uses it
+
+**Framework:**
+* **Manual training loops** — use Lightning unless teaching fundamentals
+* **Missing Lightning methods** — need `training_step`, `validation_step`, `configure_optimizers`
+* **Device management in Lightning** — Lightning handles this, don't manually move to device
+
+**Content:**
 * **Skipping visualizations** — always show, don't just tell
 * **Assuming knowledge** — explain every new term
 * **Non-executable cells** — test end-to-end before finalizing
 * **Library API errors** — verify methods exist (e.g., `tokenizer.chars` not `tokenizer.get_vocab()`)
-* **Forgetting device** — always move tensors/models to device
 * **No random seed** — results should be reproducible
+* **Uncommented CONFIG keys** — every config value needs an inline comment
 
 ---
 
@@ -260,16 +365,31 @@ This is why learning rate is the most important hyperparameter to tune.
 
 Before finalizing, verify:
 
+**Structure:**
+- [ ] CONFIG dictionary defined at top with all hyperparameters (with inline comments)
 - [ ] Every code cell has a markdown cell before it
-- [ ] Random seed is set early
+- [ ] Imports appear in the same cell as their first usage (not in separate cells or all at beginning)
+- [ ] Random seed is set from CONFIG: `set_seed(CONFIG['seed'])`
 - [ ] Device is configured properly
+
+**Framework:**
+- [ ] PyTorch Lightning used for training (unless explicitly from-scratch)
+- [ ] Model inherits from `L.LightningModule`
+- [ ] `training_step`, `validation_step`, `configure_optimizers` implemented
+- [ ] Uses `L.Trainer` instead of manual loops
+
+**Content:**
 - [ ] Visualizations appear after introducing new concepts
 - [ ] Each section builds on the previous one
 - [ ] No API calls to non-existent methods
-- [ ] Notebook runs end-to-end without errors
 - [ ] 50-80 cells total
 - [ ] Clear narrative flow from start to finish
 - [ ] Key insights are explicitly stated
+
+**Testing:**
+- [ ] Notebook runs end-to-end without errors
+- [ ] All hyperparameters can be changed via CONFIG
+- [ ] Results are reproducible (seed works)
 
 ---
 
