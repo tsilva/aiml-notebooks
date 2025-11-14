@@ -62,8 +62,9 @@ CONFIG = {
 Use Lightning unless explicitly teaching training fundamentals:
 * Models inherit from `L.LightningModule`
 * Implement `training_step`, `validation_step`, `configure_optimizers`
-* Use `L.Trainer` instead of manual loops
+* Use `L.Trainer` with `CSVLogger` to track metrics
 * Lightning handles device management automatically
+* **Always plot training/validation curves** after training (loss and accuracy/metrics)
 
 #### **3. Distributed Imports**
 Place imports **in the same cell** as their first usage:
@@ -161,10 +162,66 @@ class MyModel(L.LightningModule):
 ```
 
 ```python
+from lightning.pytorch.loggers import CSVLogger
+
 model = MyModel()
+logger = CSVLogger('logs', name='my_model')
 trainer = L.Trainer(max_epochs=CONFIG['max_epochs'], accelerator='auto',
-                    devices=1, logger=False, enable_progress_bar=True)
+                    devices=1, logger=logger, enable_progress_bar=True)
 trainer.fit(model, train_loader, val_loader)
+```
+
+```markdown
+### Plot training curves
+
+Visualize how the model learned over time.
+```
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read metrics from CSV logger
+metrics = pd.read_csv(f'{logger.log_dir}/metrics.csv')
+
+# Aggregate by epoch (Lightning logs per step)
+train_metrics = metrics[['epoch', 'train_loss', 'train_acc']].dropna()
+val_metrics = metrics[['epoch', 'val_loss', 'val_acc']].dropna()
+train_metrics = train_metrics.groupby('epoch').mean().reset_index()
+val_metrics = val_metrics.groupby('epoch').mean().reset_index()
+
+# Plot
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+
+# Loss curves
+ax1.plot(train_metrics['epoch'], train_metrics['train_loss'],
+         label='Train', marker='o', linewidth=2, color='#4ECDC4')
+ax1.plot(val_metrics['epoch'], val_metrics['val_loss'],
+         label='Validation', marker='s', linewidth=2, color='#FF6B6B')
+ax1.set_xlabel('Epoch', fontsize=12)
+ax1.set_ylabel('Loss', fontsize=12)
+ax1.set_title('Training and Validation Loss', fontsize=14, fontweight='bold')
+ax1.legend()
+ax1.grid(True, alpha=0.3)
+
+# Accuracy/metric curves
+ax2.plot(train_metrics['epoch'], train_metrics['train_acc'] * 100,
+         label='Train', marker='o', linewidth=2, color='#4ECDC4')
+ax2.plot(val_metrics['epoch'], val_metrics['val_acc'] * 100,
+         label='Validation', marker='s', linewidth=2, color='#FF6B6B')
+ax2.set_xlabel('Epoch', fontsize=12)
+ax2.set_ylabel('Accuracy (%)', fontsize=12)
+ax2.set_title('Training and Validation Accuracy', fontsize=14, fontweight='bold')
+ax2.legend()
+ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print(f"\nFinal Results:")
+print(f"  Train Accuracy: {train_metrics['train_acc'].iloc[-1]*100:.2f}%")
+print(f"  Val Accuracy: {val_metrics['val_acc'].iloc[-1]*100:.2f}%")
+print(f"  Overfitting Gap: {(train_metrics['train_acc'].iloc[-1] - val_metrics['val_acc'].iloc[-1])*100:.2f}%")
 ```
 
 ---
@@ -182,8 +239,9 @@ trainer.fit(model, train_loader, val_loader)
 - [ ] Lightning used (unless teaching fundamentals)
 - [ ] Model inherits `L.LightningModule`
 - [ ] Has `training_step`, `validation_step`, `configure_optimizers`
-- [ ] Uses `L.Trainer` not manual loops
+- [ ] Uses `L.Trainer` with `CSVLogger` not manual loops
 - [ ] No manual device movement (Lightning handles it)
+- [ ] Training/validation curves plotted after training
 
 **Content:**
 - [ ] Visualizations after new concepts
@@ -204,6 +262,7 @@ trainer.fit(model, train_loader, val_loader)
 - ❌ Manual training loops (unless teaching fundamentals)
 - ❌ CONFIG missing inline comments
 - ❌ Skipping visualizations
+- ❌ Not plotting training curves after training
 
 ---
 
