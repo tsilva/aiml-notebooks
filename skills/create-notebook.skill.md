@@ -51,7 +51,8 @@ CONFIG = {
 
     # Training
     'learning_rate': 0.001,  # Optimizer learning rate
-    'max_epochs': 20,  # Number of training epochs
+    'max_epochs': 50,  # Maximum number of training epochs
+    'early_stop_patience': 10,  # Epochs to wait before early stopping
 
     # Model
     'num_classes': 10,  # Number of output classes
@@ -63,6 +64,7 @@ Use Lightning unless explicitly teaching training fundamentals:
 * Models inherit from `L.LightningModule`
 * Implement `training_step`, `validation_step`, `configure_optimizers`
 * Use `L.Trainer` with `CSVLogger` to track metrics
+* **Always use `EarlyStopping` callback** (monitors `val_loss`, patience=10)
 * Lightning handles device management automatically
 * **Always plot training/validation curves** after training (loss and accuracy/metrics)
 
@@ -163,11 +165,27 @@ class MyModel(L.LightningModule):
 
 ```python
 from lightning.pytorch.loggers import CSVLogger
+from lightning.pytorch.callbacks import EarlyStopping
 
 model = MyModel()
 logger = CSVLogger('logs', name='my_model')
-trainer = L.Trainer(max_epochs=CONFIG['max_epochs'], accelerator='auto',
-                    devices=1, logger=logger, enable_progress_bar=True)
+
+# Create early stopping callback
+early_stop = EarlyStopping(
+    monitor='val_loss',
+    patience=CONFIG['early_stop_patience'],
+    mode='min',
+    verbose=False  # Only print when stopping
+)
+
+trainer = L.Trainer(
+    max_epochs=CONFIG['max_epochs'],
+    accelerator='auto',
+    devices=1,
+    logger=logger,
+    callbacks=[early_stop],
+    enable_progress_bar=True
+)
 trainer.fit(model, train_loader, val_loader)
 ```
 
@@ -204,6 +222,11 @@ ax1.set_title('Training and Validation Loss', fontsize=14, fontweight='bold')
 ax1.legend()
 ax1.grid(True, alpha=0.3)
 
+# Mark early stopping point if triggered
+if trainer.early_stopping_callback and trainer.early_stopping_callback.stopped_epoch > 0:
+    stop_epoch = trainer.early_stopping_callback.stopped_epoch
+    ax1.axvline(x=stop_epoch, color='red', linestyle='--', alpha=0.5, label='Early Stop')
+
 # Accuracy/metric curves
 ax2.plot(train_metrics['epoch'], train_metrics['train_acc'] * 100,
          label='Train', marker='o', linewidth=2, color='#4ECDC4')
@@ -215,9 +238,19 @@ ax2.set_title('Training and Validation Accuracy', fontsize=14, fontweight='bold'
 ax2.legend()
 ax2.grid(True, alpha=0.3)
 
+# Mark early stopping point if triggered
+if trainer.early_stopping_callback and trainer.early_stopping_callback.stopped_epoch > 0:
+    ax2.axvline(x=stop_epoch, color='red', linestyle='--', alpha=0.5, label='Early Stop')
+
 plt.tight_layout()
 plt.show()
 
+# Report training stats
+epochs_trained = len(train_metrics)
+print(f"\nTraining Statistics:")
+print(f"  Epochs trained: {epochs_trained} / {CONFIG['max_epochs']}")
+if trainer.early_stopping_callback and trainer.early_stopping_callback.stopped_epoch > 0:
+    print(f"  Early stopping triggered at epoch {stop_epoch}")
 print(f"\nFinal Results:")
 print(f"  Train Accuracy: {train_metrics['train_acc'].iloc[-1]*100:.2f}%")
 print(f"  Val Accuracy: {val_metrics['val_acc'].iloc[-1]*100:.2f}%")
@@ -230,6 +263,7 @@ print(f"  Overfitting Gap: {(train_metrics['train_acc'].iloc[-1] - val_metrics['
 
 **Structure:**
 - [ ] CONFIG at top with all hyperparameters + inline comments
+- [ ] CONFIG includes `early_stop_patience` parameter
 - [ ] Markdown cell before every code cell
 - [ ] Imports in same cell as first usage (not separate/at top)
 - [ ] `set_seed(CONFIG['seed'])` early
@@ -239,9 +273,10 @@ print(f"  Overfitting Gap: {(train_metrics['train_acc'].iloc[-1] - val_metrics['
 - [ ] Lightning used (unless teaching fundamentals)
 - [ ] Model inherits `L.LightningModule`
 - [ ] Has `training_step`, `validation_step`, `configure_optimizers`
-- [ ] Uses `L.Trainer` with `CSVLogger` not manual loops
+- [ ] Uses `L.Trainer` with `CSVLogger` and `EarlyStopping` callback
 - [ ] No manual device movement (Lightning handles it)
 - [ ] Training/validation curves plotted after training
+- [ ] Early stopping point marked on curves (if triggered)
 
 **Content:**
 - [ ] Visualizations after new concepts
@@ -263,6 +298,7 @@ print(f"  Overfitting Gap: {(train_metrics['train_acc'].iloc[-1] - val_metrics['
 - ❌ CONFIG missing inline comments
 - ❌ Skipping visualizations
 - ❌ Not plotting training curves after training
+- ❌ Not using early stopping callback
 
 ---
 
