@@ -209,6 +209,18 @@ Convolutional operations: filters, padding, stride, dilation, and transposed con
 ###  **[pooling-operations.ipynb](notebooks/pooling-operations.ipynb)**
 MaxPooling, AveragePooling, and Global pooling for downsampling feature maps.
 
+###  **[lenet-limitations.ipynb](notebooks/lenet-limitations.ipynb)**
+LeNet-5 (1998): the first successful CNN architecture. Implementation and training on CIFAR-10 reveals fundamental limitations: insufficient depth (only 2 conv layers), minimal feature capacity (6/16 filters), no regularization, and FC layers that don't scale. Each limitation motivates specific innovations in later architectures. Essential foundation for understanding CNN evolution.
+
+###  **[alexnet-breakthrough.ipynb](notebooks/alexnet-breakthrough.ipynb)**
+AlexNet (2012): the ImageNet breakthrough that started the deep learning revolution. Shows how it solves every LeNet limitation through ReLU activation, dropout, depth (5 conv layers), massive capacity (64→192→384 filters), and data augmentation. Then reveals AlexNet's own inefficiencies: large filters waste parameters, heterogeneous design is hard to scale, and FC layers still dominate. Essential for understanding why VGG chose uniform 3×3 convolutions.
+
+###  **[vgg-depth-uniformity.ipynb](notebooks/vgg-depth-uniformity.ipynb)**
+VGG (2014): proves depth matters more than filter size through uniform 3×3 architecture. Shows mathematically that stacked 3×3 filters achieve same receptive field as large filters but with fewer parameters and more non-linearity. Demonstrates elegant systematic depth scaling (VGG-11/13/16/19). Then reveals VGG's limitations: massive parameter count (FC layers dominate), single-scale features (no multi-scale extraction), and high memory/compute costs. Motivates Inception's multi-scale parallel approach.
+
+###  **[inception-multiscale.ipynb](notebooks/inception-multiscale.ipynb)**
+Inception/GoogLeNet (2014): answers "what filter size?" with "all of them!" Shows multi-scale parallel architecture (1×1, 3×3, 5×5, pool in parallel), 1×1 bottleneck layers for 97% parameter reduction, and Global Average Pooling to eliminate FC layers entirely. Achieves better performance than VGG with 27× fewer parameters (5M vs 138M). Then reveals the final challenge: degradation problem preventing networks beyond ~20 layers. Sets up the need for ResNet's skip connections to enable 100+ layer networks.
+
 ###  **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)**
 Historical evolution of CNNs from LeNet (1998) → AlexNet (2012) → VGG (2014) → Inception (2014). Shows WHY each innovation mattered: ReLU activation, dropout regularization, depth with small filters, and multi-scale features. Foundational for understanding modern CNN design principles.
 
@@ -526,40 +538,8 @@ AI debate simulator with LangChain and multi-agent LLMs.
 
 ---
 
-## 🎓 Learning Path Recommendations
-
-### **Quick Start Path (Core Essentials)**
-If you're short on time, focus on notebooks marked with ⭐:
-1. Complete all of Tier 1-4 (foundations)
-2. z2h-01-backprop.ipynb
-3. kl-divergence.ipynb (for VAEs/RL)
-4. transformer-from-scratch.ipynb (modern AI foundation)
-5. generation-image.ipynb (VAEs & GANs)
-
-### **Full Path (N00b → God-Tier)**
-Follow the tiers in order from 1 → 17 for comprehensive mastery.
-
-### **Specialization Paths**
-
-**Computer Vision Track:**
-- Tiers 1-4 → Tier 6 → Tier 12 → Tier 13 (GNNs) → Tier 14
-
-**NLP/LLM Track:**
-- Tiers 1-5 → Tier 7 → Tier 9 → Tier 10 → Tier 11 → Tier 14
-
-**Reinforcement Learning Track:**
-- Tiers 1-4 → Tier 7 (esp. KL divergence) → Tier 16 (focus on rl-deep-q-networks.ipynb)
-
-**Research/Theory Track:**
-- Tiers 1-4 → Tier 7 → Tier 13 → Tier 14 → Tier 15
-
----
-
 ## 🔧 Advanced Usage
 
-### Shared Utilities
-
-The repository includes shared utilities in `src/aiml_notebooks/` for common tasks like data loading, tokenization, and device management. Check the source files for the current API.
 
 ### Running Hyperparameter Sweeps
 
