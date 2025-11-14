@@ -227,6 +227,9 @@ ResNet (2015): solves the degradation problem that prevented networks beyond ~20
 ###  **[mobilenet-efficient-cnns.ipynb](notebooks/mobilenet-efficient-cnns.ipynb)**
 MobileNet (2017): shifts focus from pure accuracy to efficiency for mobile and edge devices. Introduces depthwise separable convolutions that factorize standard convolutions into depthwise (spatial filtering per channel) and pointwise (channel mixing) operations, achieving 8-9× speedup with minimal accuracy loss. Implements width multiplier for easy model scaling (0.25×, 0.5×, 0.75×, 1.0×). Shows the efficiency vs accuracy trade-off landscape and demonstrates that architectural innovations can reduce computational cost while maintaining performance. Opens the efficiency branch of CNN evolution (MobileNet → EfficientNet → NAS).
 
+###  **[efficientnet-compound-scaling.ipynb](notebooks/efficientnet-compound-scaling.ipynb)**
+EfficientNet (2019): solves the scaling problem through compound scaling that simultaneously balances depth, width, and resolution with fixed ratios (d=α^φ, w=β^φ, r=γ^φ). Shows why single-dimension scaling is suboptimal and uses Neural Architecture Search (NAS) to discover optimal base architecture. Implements MBConv blocks with Squeeze-and-Excitation for channel attention. Achieves 10× better efficiency than previous CNNs - EfficientNet-B0 matches ResNet-50 accuracy with 5× fewer parameters. Completes the efficiency branch: shows how automated search + systematic scaling creates the peak of CNN efficiency before Vision Transformers.
+
 ###  **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)**
 Historical evolution of CNNs from LeNet (1998) → AlexNet (2012) → VGG (2014) → Inception (2014). Shows WHY each innovation mattered: ReLU activation, dropout regularization, depth with small filters, and multi-scale features. Foundational for understanding modern CNN design principles.
 
