@@ -47,3 +47,4 @@ wandb/
 notebooks/data/
 data/
 lightning_logs/
+notebooks/logs/
