@@ -317,10 +317,16 @@ Seq2seq encoder-decoder with attention. Solving the bottleneck problem.
 ###  **[positional-encodings.ipynb](notebooks/positional-encodings.ipynb)** 
 Sinusoidal, Learned, Relative Position Bias, RoPE, and ALiBi positional encodings.
 
-###  **[transformer-from-scratch.ipynb](notebooks/transformer-from-scratch.ipynb)** 
+###  **[transformer-from-scratch.ipynb](notebooks/transformer-from-scratch.ipynb)**
 Full Transformer: self-attention, multi-head attention, encoder-decoder architecture.
 
-###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)** 
+###  **[karpathy-build-gpt-clean.ipynb](notebooks/karpathy-build-gpt-clean.ipynb)**
+Building GPT from scratch following Andrej Karpathy's tutorial. Character-level language model with transformer decoder blocks trained on Shakespeare text. Raw PyTorch implementation showing all training details.
+
+###  **[karpathy-build-gpt-lightning.ipynb](notebooks/karpathy-build-gpt-lightning.ipynb)**
+PyTorch Lightning version of the GPT build tutorial. Same architecture as karpathy-build-gpt-clean but with cleaner training code, automatic device management, CSV logging, and training time tracking. Great for understanding Lightning best practices.
+
+###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
 ###  **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)** 
