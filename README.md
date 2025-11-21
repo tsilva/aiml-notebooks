@@ -329,6 +329,9 @@ PyTorch Lightning version of the GPT build tutorial. Same architecture as karpat
 ###  **[karpathy-build-gpt-optimized.ipynb](notebooks/karpathy-build-gpt-optimized.ipynb)**
 Production-grade GPT implementation with optimized batched operations for 2-3x higher throughput. Replaces iterative multi-head attention with batched tensor operations using head dimensions. Shows how to use reshape/transpose patterns for parallel computation - the approach used in all modern transformer libraries (PyTorch, Hugging Face). Essential for understanding performance optimization in deep learning.
 
+###  **[karpathy-build-gpt-a100.ipynb](notebooks/karpathy-build-gpt-a100.ipynb)**
+A100-optimized GPT with datacenter GPU optimizations for 5-8x speedup. Implements mixed precision (BF16), Flash Attention 2, torch.compile, fused optimizers, and 4x larger batches. Shows production-grade optimizations: Tensor Core utilization, memory-efficient attention, JIT compilation, and gradient checkpointing. Essential for understanding how to maximize performance on high-end GPUs (A100, H100). Includes throughput benchmarking and performance metrics.
+
 ###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
