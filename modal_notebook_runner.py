@@ -2,11 +2,8 @@
 Modal runner for Jupyter notebooks with GPU support.
 
 Usage:
+    modal run modal_notebook_runner.py
     modal run modal_notebook_runner.py --notebook notebooks/karpathy-build-gpt.ipynb
-
-Or with custom parameters:
-    modal run modal_notebook_runner.py --notebook notebooks/karpathy-build-gpt.ipynb \
-        --param batch_size 128 --param max_steps 10000
 """
 
 import modal
@@ -16,10 +13,9 @@ app = modal.App("notebook-runner")
 # Build image with all dependencies
 image = (
     modal.Image.debian_slim(python_version="3.11")
-    .pip_install_from_pyproject("pyproject.toml")
     .pip_install("papermill", "ipykernel")
-    # Copy source code for aiml_notebooks imports
-    .copy_local_dir("src/aiml_notebooks", "/root/aiml_notebooks")
+    # Install all dependencies from pyproject.toml
+    .pip_install_from_pyproject("pyproject.toml")
 )
 
 # Persistent volume for checkpoints
@@ -32,12 +28,26 @@ volume = modal.Volume.from_name("gpt-checkpoints", create_if_missing=True)
     volumes={"/checkpoints": volume},
     secrets=[modal.Secret.from_name("wandb-secret")],  # Optional: remove if not using W&B
 )
-def run_notebook(notebook_content: bytes, notebook_name: str, parameters: dict = None):
+def run_notebook(notebook_content: bytes, notebook_name: str, package_tarball: bytes, parameters: dict = None):
     """Execute a Jupyter notebook with optional parameter injection."""
     import papermill as pm
-    import sys
     import os
+    import sys
+    import tarfile
+    import subprocess
     from pathlib import Path
+
+    # Extract and install package
+    package_tar_path = "/tmp/package.tar.gz"
+    Path(package_tar_path).write_bytes(package_tarball)
+
+    with tarfile.open(package_tar_path, 'r:gz') as tar:
+        tar.extractall('/tmp/aiml_package')
+
+    # Install the package
+    subprocess.run([
+        sys.executable, "-m", "pip", "install", "-e", "/tmp/aiml_package"
+    ], check=True)
 
     # Setup paths
     input_path = f"/tmp/{notebook_name}"
@@ -45,9 +55,6 @@ def run_notebook(notebook_content: bytes, notebook_name: str, parameters: dict =
 
     # Write notebook to container
     Path(input_path).write_bytes(notebook_content)
-
-    # Add aiml_notebooks to path
-    sys.path.insert(0, '/root')
 
     # Set checkpoint directory
     os.environ['CHECKPOINT_DIR'] = '/checkpoints'
@@ -88,23 +95,21 @@ def run_notebook(notebook_content: bytes, notebook_name: str, parameters: dict =
         raise
 
 @app.local_entrypoint()
-def main(
-    notebook: str = "notebooks/karpathy-build-gpt.ipynb",
-    param: list[str] = [],  # Format: ["key=value", "key2=value2"]
-):
+def main(notebook: str = "notebooks/karpathy-build-gpt.ipynb"):
     """
     Run a Jupyter notebook on Modal with GPU acceleration.
 
     Args:
         notebook: Path to notebook file
-        param: Parameters to inject (format: key=value)
 
     Examples:
         modal run modal_notebook_runner.py
         modal run modal_notebook_runner.py --notebook notebooks/karpathy-build-gpt.ipynb
-        modal run modal_notebook_runner.py --param batch_size=128 --param max_steps=10000
     """
     from pathlib import Path
+    import tarfile
+    import tempfile
+    import io
 
     # Read notebook
     notebook_path = Path(notebook)
@@ -113,33 +118,28 @@ def main(
 
     notebook_content = notebook_path.read_bytes()
 
-    # Parse parameters
-    parameters = {}
-    for p in param:
-        if "=" not in p:
-            raise ValueError(f"Invalid parameter format: {p}. Use key=value")
-        key, value = p.split("=", 1)
-        # Try to parse as int/float/bool, otherwise keep as string
-        try:
-            value = int(value)
-        except ValueError:
-            try:
-                value = float(value)
-            except ValueError:
-                if value.lower() in ("true", "false"):
-                    value = value.lower() == "true"
-        parameters[key] = value
+    # Create tarball of the package
+    print("📦 Packaging aiml_notebooks...")
+    tar_buffer = io.BytesIO()
+    with tarfile.open(fileobj=tar_buffer, mode='w:gz') as tar:
+        # Add pyproject.toml
+        tar.add("pyproject.toml", arcname="pyproject.toml")
+        # Add README.md (required by pyproject.toml)
+        tar.add("README.md", arcname="README.md")
+        # Add src directory
+        tar.add("src", arcname="src")
+
+    package_tarball = tar_buffer.getvalue()
 
     print(f"🚀 Launching notebook on Modal...")
     print(f"📓 Notebook: {notebook}")
-    if parameters:
-        print(f"⚙️  Parameters: {parameters}")
 
     # Run remotely
     result = run_notebook.remote(
         notebook_content=notebook_content,
         notebook_name=notebook_path.name,
-        parameters=parameters
+        package_tarball=package_tarball,
+        parameters=None
     )
 
     print(f"\n✅ Complete!")
