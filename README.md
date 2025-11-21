@@ -326,6 +326,9 @@ Building GPT from scratch following Andrej Karpathy's tutorial. Character-level 
 ###  **[karpathy-build-gpt-lightning.ipynb](notebooks/karpathy-build-gpt-lightning.ipynb)**
 PyTorch Lightning version of the GPT build tutorial. Same architecture as karpathy-build-gpt-clean but with cleaner training code, automatic device management, CSV logging, and training time tracking. Great for understanding Lightning best practices.
 
+###  **[karpathy-build-gpt-optimized.ipynb](notebooks/karpathy-build-gpt-optimized.ipynb)**
+Production-grade GPT implementation with optimized batched operations for 2-3x higher throughput. Replaces iterative multi-head attention with batched tensor operations using head dimensions. Shows how to use reshape/transpose patterns for parallel computation - the approach used in all modern transformer libraries (PyTorch, Hugging Face). Essential for understanding performance optimization in deep learning.
+
 ###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
