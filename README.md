@@ -329,11 +329,8 @@ PyTorch Lightning version of the GPT build tutorial. Same architecture as karpat
 ###  **[karpathy-build-gpt-optimized.ipynb](notebooks/karpathy-build-gpt-optimized.ipynb)**
 Production-grade GPT implementation with optimized batched operations for 2-3x higher throughput. Replaces iterative multi-head attention with batched tensor operations using head dimensions. Shows how to use reshape/transpose patterns for parallel computation - the approach used in all modern transformer libraries (PyTorch, Hugging Face). Essential for understanding performance optimization in deep learning.
 
-###  **[karpathy-build-gpt-a100.ipynb](notebooks/karpathy-build-gpt-a100.ipynb)**
-A100-optimized GPT with datacenter GPU optimizations for 5-8x speedup. Implements mixed precision (BF16), Flash Attention 2, torch.compile, fused optimizers, and 4x larger batches. Shows production-grade optimizations: Tensor Core utilization, memory-efficient attention, JIT compilation, and gradient checkpointing. Essential for understanding how to maximize performance on high-end GPUs (A100, H100). Includes throughput benchmarking and performance metrics.
-
-###  **[karpathy-build-gpt-m1.ipynb](notebooks/karpathy-build-gpt-m1.ipynb)**
-Apple Silicon-optimized GPT for M1/M2/M3/M4 MacBook Pro and Mac Studio. Leverages unified memory architecture, MPS (Metal Performance Shaders) backend, FP16 mixed precision, and adaptive batch sizing based on available memory. Implements gradient accumulation for memory-constrained devices and memory-efficient attention. Shows how to work with Apple's unique architecture: unified memory, automatic CPU fallbacks, and power-efficient training. Includes performance comparisons across M-series chips. 2-5x faster than CPU-only on Apple Silicon.
+###  **[karpathy-build-gpt.ipynb](notebooks/karpathy-build-gpt.ipynb)**
+Hardware-adaptive GPT implementation that automatically detects and optimizes for your hardware (NVIDIA GPUs, Apple Silicon, or CPU). On NVIDIA datacenter GPUs (A100/H100): implements BF16 mixed precision, Flash Attention 2, torch.compile, fused optimizers for 5-8x speedup. On Apple Silicon (M1/M2/M3/M4): leverages MPS backend, FP16 precision, adaptive batch sizing, and gradient accumulation for 2-8x speedup. Single codebase that runs optimally everywhere - essential for understanding portable performance optimization. Includes detailed throughput metrics and hardware-specific explanations.
 
 ###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
