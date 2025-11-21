@@ -15,6 +15,7 @@ This package contains reusable components for multiple notebooks:
 - preprocessing: Text preprocessing utilities
 - models: Common encoder/decoder architectures
 - utils: General utilities (device selection, seeding, model info)
+- hardware: Hardware detection and optimal configuration (CUDA, MPS, CPU)
 - augmentation: Data augmentation (text and image noise)
 - image_utils: Image normalization and transform utilities
 - positional_encoding: Positional encodings for transformers
@@ -57,6 +58,16 @@ from .tokenizers import CharacterTokenizer, WordTokenizer
 
 # General utilities
 from .utils import get_device, set_seed, count_parameters, print_model_summary
+
+# Hardware detection and configuration
+from .hardware import (
+    HardwareConfig,
+    detect_hardware,
+    check_flash_attention,
+    configure_cuda_optimizations,
+    apply_torch_compile,
+    flash_attention_func,
+)
 
 # Training utilities
 from .logging import log_gradients, log_model_weights, log_gradient_flow
@@ -224,6 +235,13 @@ __all__ = [
     "set_seed",
     "count_parameters",
     "print_model_summary",
+    # Hardware detection and configuration
+    "HardwareConfig",
+    "detect_hardware",
+    "check_flash_attention",
+    "configure_cuda_optimizations",
+    "apply_torch_compile",
+    "flash_attention_func",
     # Training
     "log_gradients",
     "log_model_weights",
