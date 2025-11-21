@@ -332,6 +332,9 @@ Production-grade GPT implementation with optimized batched operations for 2-3x h
 ###  **[karpathy-build-gpt-a100.ipynb](notebooks/karpathy-build-gpt-a100.ipynb)**
 A100-optimized GPT with datacenter GPU optimizations for 5-8x speedup. Implements mixed precision (BF16), Flash Attention 2, torch.compile, fused optimizers, and 4x larger batches. Shows production-grade optimizations: Tensor Core utilization, memory-efficient attention, JIT compilation, and gradient checkpointing. Essential for understanding how to maximize performance on high-end GPUs (A100, H100). Includes throughput benchmarking and performance metrics.
 
+###  **[karpathy-build-gpt-m1.ipynb](notebooks/karpathy-build-gpt-m1.ipynb)**
+Apple Silicon-optimized GPT for M1/M2/M3/M4 MacBook Pro and Mac Studio. Leverages unified memory architecture, MPS (Metal Performance Shaders) backend, FP16 mixed precision, and adaptive batch sizing based on available memory. Implements gradient accumulation for memory-constrained devices and memory-efficient attention. Shows how to work with Apple's unique architecture: unified memory, automatic CPU fallbacks, and power-efficient training. Includes performance comparisons across M-series chips. 2-5x faster than CPU-only on Apple Silicon.
+
 ###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
