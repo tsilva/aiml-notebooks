@@ -38,6 +38,7 @@ dependencies = [
     "shap",
     "scikit-image",
     "jiwer>=4.0.0",
+    "modal>=1.2.3",
 ]
 
 [build-system]
