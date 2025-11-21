@@ -67,13 +67,16 @@ def run_notebook(notebook_content: bytes, notebook_name: str, package_tarball: b
         print(f"⚙️  Parameters: {parameters}")
 
     try:
-        # Execute notebook
+        # Execute notebook with live output streaming
         pm.execute_notebook(
             input_path,
             output_path,
             parameters=parameters or {},
             kernel_name='python3',
-            progress_bar=False
+            progress_bar=True,  # Show cell-by-cell progress
+            log_output=True,    # Stream outputs to stdout in real-time
+            stdout_file=None,   # Output to console (not file)
+            stderr_file=None    # Errors to console (not file)
         )
 
         print(f"✅ Notebook executed successfully!")
@@ -108,7 +111,6 @@ def main(notebook: str = "notebooks/karpathy-build-gpt.ipynb"):
     """
     from pathlib import Path
     import tarfile
-    import tempfile
     import io
 
     # Read notebook
