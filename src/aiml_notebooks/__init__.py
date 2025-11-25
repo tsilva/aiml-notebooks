@@ -71,6 +71,11 @@ from .hardware import (
     auto_precision,
     auto_attention_backend,
     auto_compile_model,
+    auto_pin_memory,
+    auto_num_workers,
+    auto_batch_size,
+    auto_gradient_accumulation_steps,
+    auto_learning_rate,
 )
 
 # Training utilities
@@ -250,6 +255,11 @@ __all__ = [
     "auto_precision",
     "auto_attention_backend",
     "auto_compile_model",
+    "auto_pin_memory",
+    "auto_num_workers",
+    "auto_batch_size",
+    "auto_gradient_accumulation_steps",
+    "auto_learning_rate",
     # Training
     "log_gradients",
     "log_model_weights",

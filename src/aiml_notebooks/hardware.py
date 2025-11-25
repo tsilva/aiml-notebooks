@@ -584,3 +584,176 @@ def auto_compile_model(
         hw_config = detect_hardware(verbose=False)
 
     return mode if hw_config.use_compile else False
+
+
+def auto_pin_memory(hw_config: Optional[HardwareConfig] = None) -> bool:
+    """
+    Auto-detect whether to use pinned memory for DataLoader.
+
+    Pinned memory provides faster CPU→GPU transfers on CUDA. Not beneficial
+    for MPS (unified memory) or CPU.
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+
+    Returns:
+        True if pinned memory should be used, False otherwise
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> pin_memory = auto_pin_memory(hw)
+        >>> dataloader = DataLoader(dataset, batch_size=32, pin_memory=pin_memory)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    return hw_config.pin_memory
+
+
+def auto_num_workers(hw_config: Optional[HardwareConfig] = None, max_workers: int = 4) -> int:
+    """
+    Auto-detect optimal number of DataLoader workers based on hardware.
+
+    Returns optimal worker count for data loading:
+    - CUDA: 2-4 workers for parallel data loading
+    - MPS: 0 workers (multiprocessing issues on some PyTorch/MPS versions)
+    - CPU: 2 workers for basic parallelism
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+        max_workers: Maximum number of workers to return (default: 4)
+
+    Returns:
+        Optimal number of DataLoader workers
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> num_workers = auto_num_workers(hw)
+        >>> dataloader = DataLoader(dataset, batch_size=32, num_workers=num_workers)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    if hw_config.device_type == 'cuda':
+        # CUDA benefits from parallel data loading
+        return min(max_workers, 4)
+    elif hw_config.device_type == 'mps':
+        # MPS can have issues with multiprocessing workers in some PyTorch versions
+        # Using 0 workers (main process) is safest
+        return 0
+    else:  # CPU
+        # CPU can benefit from some parallelism but keep it modest
+        return min(max_workers, 2)
+
+
+def auto_batch_size(hw_config: Optional[HardwareConfig] = None) -> int:
+    """
+    Auto-detect optimal batch size based on hardware memory.
+
+    Returns hardware-optimized batch size:
+    - CUDA: Scaled based on GPU memory (32-256)
+    - MPS: Scaled based on unified memory (16-64)
+    - CPU: Conservative batch size (32)
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+
+    Returns:
+        Optimal batch size for the hardware
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> batch_size = auto_batch_size(hw)
+        >>> dataloader = DataLoader(dataset, batch_size=batch_size)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    return hw_config.batch_size
+
+
+def auto_gradient_accumulation_steps(hw_config: Optional[HardwareConfig] = None) -> int:
+    """
+    Auto-detect optimal gradient accumulation steps based on hardware.
+
+    Gradient accumulation simulates larger batch sizes by accumulating gradients
+    across multiple forward/backward passes before updating weights.
+
+    Returns:
+    - CUDA with high memory: 1 (no accumulation needed)
+    - MPS with low memory: 2-4 steps (simulate larger batches)
+    - CPU: 1 (no accumulation needed)
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+
+    Returns:
+        Optimal gradient accumulation steps
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> accum_steps = auto_gradient_accumulation_steps(hw)
+        >>> trainer = L.Trainer(accumulate_grad_batches=accum_steps)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    return hw_config.gradient_accumulation_steps
+
+
+def auto_learning_rate(
+    base_lr: float,
+    base_batch_size: int,
+    hw_config: Optional[HardwareConfig] = None,
+    scaling_rule: Literal['linear', 'sqrt'] = 'linear'
+) -> float:
+    """
+    Auto-scale learning rate based on actual batch size and gradient accumulation.
+
+    When batch size changes, learning rate should be adjusted to maintain training
+    dynamics. Two common scaling rules:
+
+    - Linear scaling (default): LR scales proportionally with effective batch size
+      Effective batch size = batch_size * gradient_accumulation_steps
+      Scaled LR = base_lr * (effective_batch_size / base_batch_size)
+      Best for most cases, especially large models
+
+    - Square root scaling: LR scales with sqrt of effective batch size
+      Scaled LR = base_lr * sqrt(effective_batch_size / base_batch_size)
+      Can be better for small models or very large batch sizes
+
+    Args:
+        base_lr: Base learning rate for base_batch_size
+        base_batch_size: Batch size that base_lr was tuned for
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+        scaling_rule: 'linear' (default) or 'sqrt' scaling
+
+    Returns:
+        Scaled learning rate for actual hardware configuration
+
+    Example:
+        >>> hw = detect_hardware(base_batch_size=64)
+        >>> # Base LR was tuned for batch_size=64
+        >>> scaled_lr = auto_learning_rate(base_lr=3e-4, base_batch_size=64, hw_config=hw)
+        >>> # If hw.batch_size=32 and gradient_accumulation=2, scaled_lr = 3e-4 (same effective batch)
+        >>> # If hw.batch_size=128, scaled_lr = 6e-4 (2x effective batch → 2x LR)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    # Calculate effective batch sizes
+    actual_batch_size = hw_config.batch_size
+    gradient_accumulation = hw_config.gradient_accumulation_steps
+    effective_batch_size = actual_batch_size * gradient_accumulation
+
+    # Calculate scaling factor
+    ratio = effective_batch_size / base_batch_size
+
+    if scaling_rule == 'linear':
+        scaled_lr = base_lr * ratio
+    elif scaling_rule == 'sqrt':
+        scaled_lr = base_lr * (ratio ** 0.5)
+    else:
+        raise ValueError(f"Unknown scaling_rule '{scaling_rule}'. Must be 'linear' or 'sqrt'")
+
+    return scaled_lr
