@@ -67,6 +67,10 @@ from .hardware import (
     configure_cuda_optimizations,
     apply_torch_compile,
     flash_attention_func,
+    auto_optimizer,
+    auto_precision,
+    auto_attention_backend,
+    auto_compile_model,
 )
 
 # Training utilities
@@ -242,6 +246,10 @@ __all__ = [
     "configure_cuda_optimizations",
     "apply_torch_compile",
     "flash_attention_func",
+    "auto_optimizer",
+    "auto_precision",
+    "auto_attention_backend",
+    "auto_compile_model",
     # Training
     "log_gradients",
     "log_model_weights",

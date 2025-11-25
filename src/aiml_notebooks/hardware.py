@@ -478,3 +478,109 @@ def flash_attention_func(
         out = out.transpose(1, 2).contiguous()
 
         return out
+
+
+def auto_optimizer(hw_config: Optional[HardwareConfig] = None) -> Literal['adamw', 'adamw-fused']:
+    """
+    Auto-detect best optimizer based on hardware.
+
+    Returns 'adamw-fused' for CUDA GPUs (2x faster), 'adamw' for MPS/CPU.
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+
+    Returns:
+        'adamw-fused' if fused optimizer is supported, 'adamw' otherwise
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> optimizer_name = auto_optimizer(hw)
+        >>> optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, fused=(optimizer_name == 'adamw-fused'))
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    return 'adamw-fused' if hw_config.use_fused_optimizer else 'adamw'
+
+
+def auto_precision(hw_config: Optional[HardwareConfig] = None) -> Literal['bf16-mixed', '16-mixed', '32-true']:
+    """
+    Auto-detect best precision based on hardware.
+
+    Returns:
+        - 'bf16-mixed' for CUDA Ampere+ GPUs (A100, H100, RTX 30XX/40XX)
+        - '16-mixed' for older CUDA GPUs and Apple Silicon (MPS)
+        - '32-true' for CPU
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+
+    Returns:
+        Optimal precision string for Lightning Trainer
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> precision = auto_precision(hw)
+        >>> trainer = L.Trainer(precision=precision, ...)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    return hw_config.precision
+
+
+def auto_attention_backend(hw_config: Optional[HardwareConfig] = None) -> Literal['flash', 'custom']:
+    """
+    Auto-detect best attention backend based on hardware and available packages.
+
+    Flash Attention 2 provides 2-4x speedup on CUDA GPUs with compute capability >= 8.0.
+    Falls back to custom implementation for MPS/CPU or when flash-attn is not installed.
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+
+    Returns:
+        'flash' if Flash Attention is available and supported, 'custom' otherwise
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> backend = auto_attention_backend(hw)
+        >>> model = GPTModel(attention_backend=backend)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    # Check both hardware support and package availability
+    if hw_config.use_flash_attention and check_flash_attention():
+        return 'flash'
+    else:
+        return 'custom'
+
+
+def auto_compile_model(
+    hw_config: Optional[HardwareConfig] = None,
+    mode: str = 'default'
+) -> Literal['default', 'reduce-overhead', 'max-autotune', False]:
+    """
+    Auto-detect whether to use torch.compile based on hardware.
+
+    torch.compile provides 1.5-2x speedup on CUDA GPUs. Limited support on MPS,
+    not recommended for CPU.
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+        mode: Compilation mode to return if supported ('default', 'reduce-overhead', 'max-autotune')
+
+    Returns:
+        Compilation mode string if supported, False otherwise
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> compile_setting = auto_compile_model(hw, mode='max-autotune')
+        >>> if compile_setting:
+        ...     model = apply_torch_compile(model, mode=compile_setting)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    return mode if hw_config.use_compile else False
