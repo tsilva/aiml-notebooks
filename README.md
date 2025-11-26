@@ -164,7 +164,7 @@ Backpropagation from scratch: building a micrograd-style autograd engine.
 ###  **[pytorch-fundamentals.ipynb](notebooks/pytorch-fundamentals.ipynb)**
 PyTorch autograd, nn.Parameter, nn.Module, and the training loop.
 
-###  **[gradient-stability.ipynb](notebooks/gradient-stability.ipynb)**
+### ✅ **[gradient-stability.ipynb](notebooks/gradient-stability.ipynb)**
 Vanishing and exploding gradient problems in deep networks.
 
 ###  **[gradient-clipping.ipynb](notebooks/gradient-clipping.ipynb)**
