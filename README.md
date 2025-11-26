@@ -176,7 +176,7 @@ Gradient normalization for stable training across layers.
 ###  **[batch-normalization.ipynb](notebooks/batch-normalization.ipynb)**
 Batch normalization to stabilize and accelerate training.
 
-###  **[layer-normalization.ipynb](notebooks/layer-normalization.ipynb)**
+### ✅ **[layer-normalization.ipynb](notebooks/layer-normalization.ipynb)**
 Layer normalization for RNNs and transformers.
 
 ---
