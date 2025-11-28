@@ -9,7 +9,7 @@ Usage:
 
     config = find_optimal_batch_config(
         model=my_model,
-        sample_input=(batch_size, seq_len),  # Shape for dummy data
+        sample_input=(batch_size, n_positions),  # Shape for dummy data
         target_effective_batch=512,
         device='auto'
     )
@@ -68,7 +68,7 @@ class BatchSizeOptimizer:
         model: nn.Module,
         sample_input_shape: Tuple[int, ...],
         vocab_size: Optional[int] = None,
-        seq_len: Optional[int] = None,
+        n_positions: Optional[int] = None,
         device: Optional[torch.device] = None,
         optimizer_class: type = torch.optim.AdamW,
         optimizer_kwargs: Optional[Dict] = None,
@@ -78,9 +78,9 @@ class BatchSizeOptimizer:
 
         Args:
             model: PyTorch model to optimize for
-            sample_input_shape: Shape of input tensor (batch_size, seq_len) or (batch_size, channels, height, width)
+            sample_input_shape: Shape of input tensor (batch_size, n_positions) or (batch_size, channels, height, width)
             vocab_size: Vocabulary size for language models (if applicable)
-            seq_len: Sequence length (auto-detected from sample_input_shape if not provided)
+            n_positions: Sequence length (auto-detected from sample_input_shape if not provided)
             device: Target device ('auto' to auto-detect, or specific device)
             optimizer_class: Optimizer to use (default: AdamW)
             optimizer_kwargs: Kwargs for optimizer (default: {'lr': 3e-4})
@@ -88,7 +88,7 @@ class BatchSizeOptimizer:
         self.model = model
         self.sample_input_shape = sample_input_shape
         self.vocab_size = vocab_size
-        self.seq_len = seq_len or (sample_input_shape[1] if len(sample_input_shape) > 1 else None)
+        self.n_positions = n_positions or (sample_input_shape[1] if len(sample_input_shape) > 1 else None)
         self.optimizer_class = optimizer_class
         self.optimizer_kwargs = optimizer_kwargs or {'lr': 3e-4}
 
@@ -135,9 +135,9 @@ class BatchSizeOptimizer:
     def _create_dummy_batch(self, batch_size: int) -> Tuple[torch.Tensor, torch.Tensor]:
         """Create dummy input/target batch for testing."""
         if self.vocab_size is not None:
-            # Language model: (batch_size, seq_len)
-            x = torch.randint(0, self.vocab_size, (batch_size, self.seq_len), device=self.device)
-            y = torch.randint(0, self.vocab_size, (batch_size, self.seq_len), device=self.device)
+            # Language model: (batch_size, n_positions)
+            x = torch.randint(0, self.vocab_size, (batch_size, self.n_positions), device=self.device)
+            y = torch.randint(0, self.vocab_size, (batch_size, self.n_positions), device=self.device)
         else:
             # General case: use sample_input_shape
             shape = (batch_size,) + self.sample_input_shape[1:]
@@ -252,7 +252,7 @@ class BatchSizeOptimizer:
             # Calculate metrics
             updates_per_sec = num_updates / elapsed
             samples_per_sec = (num_updates * effective_batch_size) / elapsed
-            tokens_per_sec = samples_per_sec * (self.seq_len or 1)
+            tokens_per_sec = samples_per_sec * (self.n_positions or 1)
             time_per_update = elapsed / num_updates
             memory_gb = self._get_memory_usage_gb()
 
@@ -453,12 +453,12 @@ class BatchSizeOptimizer:
         # Find maximum batch size if not provided
         if test_batch_sizes is None:
             # Smart estimate: ballpark based on model size, then verify
-            # GPU memory scales roughly with: params * seq_len * batch_size * 4 (float32)
+            # GPU memory scales roughly with: params * n_positions * batch_size * 4 (float32)
             # Plus gradients (2x) and optimizer states (2x) = ~12x multiplier
             # MPS M1 Pro 16GB has ~10GB usable for tensors
 
-            seq_len_for_calc = self.seq_len or 128  # Default if not set
-            model_memory_gb = (self.num_params * seq_len_for_calc * 4 * 12) / (1024**3)
+            n_positions_for_calc = self.n_positions or 128  # Default if not set
+            model_memory_gb = (self.num_params * n_positions_for_calc * 4 * 12) / (1024**3)
             estimated_max_batch = int(10.0 / model_memory_gb)  # Conservative estimate
 
             # Clamp to reasonable range
@@ -627,7 +627,7 @@ class BatchSizeOptimizer:
             print(f"\n  Performance:")
             print(f"    • {config.updates_per_sec:.2f} updates/second")
             print(f"    • {config.samples_per_sec:.0f} samples/second")
-            if self.seq_len:
+            if self.n_positions:
                 print(f"    • {config.tokens_per_sec:.0f} tokens/second")
             print(f"    • {config.time_per_update*1000:.1f}ms per update")
             print(f"    • {config.memory_gb:.2f} GB memory")
@@ -637,7 +637,7 @@ def find_optimal_batch_config(
     model: nn.Module,
     sample_input_shape: Optional[Tuple[int, ...]] = None,
     vocab_size: Optional[int] = None,
-    seq_len: Optional[int] = None,
+    n_positions: Optional[int] = None,
     target_effective_batch: Optional[int] = None,
     device: Optional[torch.device] = None,
     weight_speed: float = 0.3,
@@ -650,12 +650,12 @@ def find_optimal_batch_config(
     Args:
         model: PyTorch model
         sample_input_shape: Shape of input tensor (excluding batch dimension).
-            - For language models: Can omit if seq_len is provided (auto-inferred as (1, seq_len))
+            - For language models: Can omit if n_positions is provided (auto-inferred as (1, n_positions))
             - For image models: (channels, height, width) e.g., (3, 224, 224)
             - For other models: Full shape excluding batch dimension
         vocab_size: Vocabulary size (for language models)
-        seq_len: Sequence length (for language models). If provided without sample_input_shape,
-            automatically infers sample_input_shape=(1, seq_len)
+        n_positions: Sequence length (for language models). If provided without sample_input_shape,
+            automatically infers sample_input_shape=(1, n_positions)
         target_effective_batch: Target effective batch size (auto-estimated if None)
         device: Target device ('auto' or specific device)
         weight_speed: Weight for speed vs quality (0-1)
@@ -671,7 +671,7 @@ def find_optimal_batch_config(
         >>> result = find_optimal_batch_config(
         ...     model=model,
         ...     vocab_size=50257,
-        ...     seq_len=128,  # No need for sample_input_shape!
+        ...     n_positions=128,  # No need for sample_input_shape!
         ... )
 
         Language model (explicit):
@@ -690,12 +690,12 @@ def find_optimal_batch_config(
     """
     # Auto-infer sample_input_shape for language models
     if sample_input_shape is None:
-        if seq_len is not None:
-            sample_input_shape = (1, seq_len)
+        if n_positions is not None:
+            sample_input_shape = (1, n_positions)
         else:
             raise ValueError(
-                "Must provide either sample_input_shape or seq_len. "
-                "For language models, just pass seq_len and we'll infer the shape."
+                "Must provide either sample_input_shape or n_positions. "
+                "For language models, just pass n_positions and we'll infer the shape."
             )
 
     # Extract show_progress before passing kwargs to optimizer
@@ -705,7 +705,7 @@ def find_optimal_batch_config(
         model=model,
         sample_input_shape=sample_input_shape,
         vocab_size=vocab_size,
-        seq_len=seq_len,
+        n_positions=n_positions,
         device=device,
         **kwargs
     )
