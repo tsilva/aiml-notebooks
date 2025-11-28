@@ -59,6 +59,13 @@ from .tokenizers import CharacterTokenizer, WordTokenizer
 # General utilities
 from .utils import get_device, set_seed, count_parameters, print_model_summary
 
+# Batch size optimization (import early to avoid circular imports)
+from .optimize_batch_size import (
+    BatchConfig,
+    BatchSizeOptimizer,
+    find_optimal_batch_config,
+)
+
 # Hardware detection and configuration
 from .hardware import (
     HardwareConfig,
@@ -360,4 +367,8 @@ __all__ = [
     "create_padding_mask",
     "create_attention_mask",
     "get_positional_encoding",
+    # Batch size optimization
+    "BatchConfig",
+    "BatchSizeOptimizer",
+    "find_optimal_batch_config",
 ]
