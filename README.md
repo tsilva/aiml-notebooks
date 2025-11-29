@@ -341,6 +341,9 @@ GPT-2 style transformer built from scratch using Keras with JAX backend. Educati
 ### **[gpt2.ipynb](notebooks/gpt2.ipynb)**
 Hardware-adaptive GPT-2 implementation with PyTorch Lightning. Auto-detects optimal settings for CUDA/MPS/CPU: precision, attention backend, batch size, gradient accumulation, and torch.compile. Production-ready training with checkpointing and early stopping.
 
+### **[flash-attention.ipynb](notebooks/flash-attention.ipynb)**
+Flash Attention: memory-efficient attention with tiling and online softmax. Explains why standard attention is I/O bound (not compute bound), GPU memory hierarchy (SRAM vs HBM), and implements simplified Flash Attention from scratch. Covers causal masking, memory comparison, and PyTorch's scaled_dot_product_attention.
+
 ### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
