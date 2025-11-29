@@ -350,6 +350,9 @@ KV Caching: efficient autoregressive inference by caching key-value tensors. Exp
 ### **[speculative-decoding.ipynb](notebooks/speculative-decoding.ipynb)**
 Speculative Decoding: accelerating LLM inference using a small draft model to propose multiple tokens that are verified in parallel by the target model. Explains why autoregressive generation is memory-bound, implements speculative decoding from scratch with rejection sampling, analyzes acceptance rates and expected speedup, and covers draft model selection strategies (smaller models, distillation, early exit, quantization).
 
+### **[int8-fp16-quantization.ipynb](notebooks/int8-fp16-quantization.ipynb)**
+INT8/FP16 Quantization: reducing model precision for efficient deployment. Covers numerical representations (FP32, FP16, BF16, INT8), symmetric and asymmetric quantization, per-tensor vs per-channel granularity, Post-Training Quantization (PTQ) with dynamic and static approaches, Quantization-Aware Training (QAT), and FP16 mixed precision training with AMP. Implements quantization from scratch and with PyTorch's quantization toolkit.
+
 ### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
