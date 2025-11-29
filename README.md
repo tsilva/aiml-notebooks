@@ -344,6 +344,9 @@ Hardware-adaptive GPT-2 implementation with PyTorch Lightning. Auto-detects opti
 ### **[flash-attention.ipynb](notebooks/flash-attention.ipynb)**
 Flash Attention: memory-efficient attention with tiling and online softmax. Explains why standard attention is I/O bound (not compute bound), GPU memory hierarchy (SRAM vs HBM), and implements simplified Flash Attention from scratch. Covers causal masking, memory comparison, and PyTorch's scaled_dot_product_attention.
 
+### **[kv-caching.ipynb](notebooks/kv-caching.ipynb)**
+KV Caching: efficient autoregressive inference by caching key-value tensors. Explains why naive generation recomputes attention redundantly, implements KV caching from scratch with prefill/decode phases, analyzes memory requirements for different model sizes, and covers Multi-Query Attention (MQA) and Grouped-Query Attention (GQA) for reducing cache memory.
+
 ### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
