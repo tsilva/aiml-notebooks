@@ -50,40 +50,40 @@ When notebooks are added or modified, they must be inserted in their appropriate
 
 **Start here!** These are the bare essentials before anything else.
 
-###  **[numpy-fundamentals.ipynb](notebooks/numpy-fundamentals.ipynb)**
+### **[numpy-fundamentals.ipynb](notebooks/numpy-fundamentals.ipynb)**
 NumPy arrays, indexing, broadcasting, and operations. Foundation for all numerical ML work.
 
-###  **[linear-algebra.ipynb](notebooks/linear-algebra.ipynb)** 
+### **[linear-algebra.ipynb](notebooks/linear-algebra.ipynb)**
 Vectors, matrices, dot products, norms, eigenvalues, and orthogonality. Mathematical foundation for all ML algorithms.
 
-###  **[tensors-operations.ipynb](notebooks/tensors-operations.ipynb)**
+### **[tensors-operations.ipynb](notebooks/tensors-operations.ipynb)**
 PyTorch tensor operations: shapes, broadcasting, indexing, and basic algebra.
 
-###  **[tensor-multiplication.ipynb](notebooks/tensor-multiplication.ipynb)**
+### **[tensor-multiplication.ipynb](notebooks/tensor-multiplication.ipynb)**
 Matrix multiplication and broadcasting in detail. How neural network layers compute.
 
-###  **[calculus-refresher.ipynb](notebooks/calculus-refresher.ipynb)** 
+### **[calculus-refresher.ipynb](notebooks/calculus-refresher.ipynb)**
 Derivatives, chain rule, partial derivatives, and gradients. Foundation for backpropagation and optimization.
 
-###  **[linear-regression.ipynb](notebooks/linear-regression.ipynb)**
+### **[linear-regression.ipynb](notebooks/linear-regression.ipynb)**
 Linear regression from scratch using gradient descent vs closed-form solution.
 
-###  **[metrics.ipynb](notebooks/metrics.ipynb)**
+### **[metrics.ipynb](notebooks/metrics.ipynb)**
 Evaluation metrics: accuracy, precision, recall, F1, ROC-AUC. When to use each.
 
-###  **[probability-distributions.ipynb](notebooks/probability-distributions.ipynb)** 
+### **[probability-distributions.ipynb](notebooks/probability-distributions.ipynb)**
 Discrete (Bernoulli, Categorical, Binomial) and continuous (Uniform, Normal) distributions. Foundation for loss functions and generative models.
 
-###  **[loss-functions.ipynb](notebooks/loss-functions.ipynb)**
+### **[loss-functions.ipynb](notebooks/loss-functions.ipynb)**
 MSE, MAE, cross-entropy, and hinge loss. Properties and when to use each.
 
-###  **[activation-functions.ipynb](notebooks/activation-functions.ipynb)**
+### **[activation-functions.ipynb](notebooks/activation-functions.ipynb)**
 ReLU, sigmoid, tanh and their effects on gradient flow and training.
 
-###  **[logistic-regression.ipynb](notebooks/logistic-regression.ipynb)**
+### **[logistic-regression.ipynb](notebooks/logistic-regression.ipynb)**
 Binary classification with logistic regression, gradient descent, and decision boundaries.
 
-###  **[softmax-multiclass.ipynb](notebooks/softmax-multiclass.ipynb)**
+### **[softmax-multiclass.ipynb](notebooks/softmax-multiclass.ipynb)**
 Softmax function, one-hot encoding, and categorical cross-entropy for multiclass classification.
 
 ---
@@ -92,31 +92,31 @@ Softmax function, one-hot encoding, and categorical cross-entropy for multiclass
 
 **Understanding how to build models that generalize.**
 
-###  **[overfitting-underfitting.ipynb](notebooks/overfitting-underfitting.ipynb)**
+### **[overfitting-underfitting.ipynb](notebooks/overfitting-underfitting.ipynb)**
 Overfitting vs underfitting, model capacity, learning curves, and the bias-variance tradeoff.
 
-###  **[bias-variance-tradeoff.ipynb](notebooks/bias-variance-tradeoff.ipynb)**
+### **[bias-variance-tradeoff.ipynb](notebooks/bias-variance-tradeoff.ipynb)**
 Bias-variance decomposition and how it guides model selection.
 
-###  **[train-test-val-split.ipynb](notebooks/train-test-val-split.ipynb)**
+### **[train-test-val-split.ipynb](notebooks/train-test-val-split.ipynb)**
 Train/validation/test splits, data leakage prevention, and temporal splits for time-series.
 
-###  **[cross-validation.ipynb](notebooks/cross-validation.ipynb)**
+### **[cross-validation.ipynb](notebooks/cross-validation.ipynb)**
 K-Fold, Stratified K-Fold, and Time Series cross-validation techniques.
 
-###  **[regularization.ipynb](notebooks/regularization.ipynb)**
+### **[regularization.ipynb](notebooks/regularization.ipynb)**
 L1, L2, dropout, and early stopping to prevent overfitting.
 
-###  **[confidence-intervals.ipynb](notebooks/confidence-intervals.ipynb)**
+### **[confidence-intervals.ipynb](notebooks/confidence-intervals.ipynb)**
 Quantifying uncertainty in predictions and metrics using bootstrap and hypothesis testing.
 
-###  **[hyperparameter-tuning.ipynb](notebooks/hyperparameter-tuning.ipynb)**
+### **[hyperparameter-tuning.ipynb](notebooks/hyperparameter-tuning.ipynb)**
 Grid search, random search, and Bayesian optimization for hyperparameter tuning.
 
-###  **[ensemble-methods.ipynb](notebooks/ensemble-methods.ipynb)**
+### **[ensemble-methods.ipynb](notebooks/ensemble-methods.ipynb)**
 Bagging, Random Forests, boosting (AdaBoost, Gradient Boosting), and stacking.
 
-###  **[model-interpretability.ipynb](notebooks/model-interpretability.ipynb)**
+### **[model-interpretability.ipynb](notebooks/model-interpretability.ipynb)**
 Model interpretability techniques: LIME, SHAP, permutation importance, integrated gradients, and attention visualization. Global vs local explanations for understanding model behavior and individual predictions. Applies to any ML model.
 
 ---
@@ -125,31 +125,31 @@ Model interpretability techniques: LIME, SHAP, permutation importance, integrate
 
 **Making the most of your data and training.**
 
-###  **[data-normalization.ipynb](notebooks/data-normalization.ipynb)** 
+### **[data-normalization.ipynb](notebooks/data-normalization.ipynb)**
 Min-max scaling vs standardization. Why normalization matters and avoiding data leakage.
 
-###  **[dimensionality-reduction.ipynb](notebooks/dimensionality-reduction.ipynb)**
+### **[dimensionality-reduction.ipynb](notebooks/dimensionality-reduction.ipynb)**
 PCA, t-SNE, and UMAP for reducing dimensions and visualization.
 
-###  **[feature-engineering.ipynb](notebooks/feature-engineering.ipynb)**
+### **[feature-engineering.ipynb](notebooks/feature-engineering.ipynb)**
 Encoding categorical variables, handling missing values, and creating features.
 
-###  **[data-augmentation.ipynb](notebooks/data-augmentation.ipynb)**
+### **[data-augmentation.ipynb](notebooks/data-augmentation.ipynb)**
 Augmentation techniques for images and text to expand training data.
 
-###  **[imbalanced-data.ipynb](notebooks/imbalanced-data.ipynb)**
+### **[imbalanced-data.ipynb](notebooks/imbalanced-data.ipynb)**
 Handling class imbalance: proper metrics, class weights, resampling, and SMOTE.
 
-###  **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)** 
+### **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)**
 Full-batch, mini-batch, and stochastic gradient descent. Epochs, steps, and batch sizes.
 
-###  **[optimizers.ipynb](notebooks/optimizers.ipynb)**
+### **[optimizers.ipynb](notebooks/optimizers.ipynb)**
 SGD, Momentum, RMSprop, and Adam optimizers. When to use each.
 
-###  **[learning-rate-schedules.ipynb](notebooks/learning-rate-schedules.ipynb)**
+### **[learning-rate-schedules.ipynb](notebooks/learning-rate-schedules.ipynb)**
 Learning rate schedules: step decay, exponential decay, cosine annealing, and warmup.
 
-###  **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)** 
+### **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)**
 Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-forward validation.
 
 ---
@@ -158,28 +158,28 @@ Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-fo
 
 **Now we can start with neural networks!**
 
-###  **[neural-network-fundamentals.ipynb](notebooks/neural-network-fundamentals.ipynb)**
+### **[neural-network-fundamentals.ipynb](notebooks/neural-network-fundamentals.ipynb)**
 Neurons, layers, networks, forward pass, and the Universal Approximation Theorem.
 
-###  **[computational-graphs.ipynb](notebooks/computational-graphs.ipynb)** 
+### **[computational-graphs.ipynb](notebooks/computational-graphs.ipynb)**
 Representing computations as DAGs. How graphs encode the chain rule for backpropagation.
 
-###  **[z2h-01-backprop.ipynb](notebooks/z2h-01-backprop.ipynb)** 
+### **[z2h-01-backprop.ipynb](notebooks/z2h-01-backprop.ipynb)**
 Backpropagation from scratch: building a micrograd-style autograd engine.
 
-###  **[pytorch-fundamentals.ipynb](notebooks/pytorch-fundamentals.ipynb)**
+### **[pytorch-fundamentals.ipynb](notebooks/pytorch-fundamentals.ipynb)**
 PyTorch autograd, nn.Parameter, nn.Module, and the training loop.
 
 ### ✅ **[gradient-stability.ipynb](notebooks/gradient-stability.ipynb)**
 Vanishing and exploding gradient problems in deep networks.
 
-###  **[gradient-clipping.ipynb](notebooks/gradient-clipping.ipynb)**
+### **[gradient-clipping.ipynb](notebooks/gradient-clipping.ipynb)**
 Gradient clipping to prevent exploding gradients.
 
-###  **[gradient-normalization.ipynb](notebooks/gradient-normalization.ipynb)**
+### **[gradient-normalization.ipynb](notebooks/gradient-normalization.ipynb)**
 Gradient normalization for stable training across layers.
 
-###  **[batch-normalization.ipynb](notebooks/batch-normalization.ipynb)**
+### **[batch-normalization.ipynb](notebooks/batch-normalization.ipynb)**
 Batch normalization to stabilize and accelerate training.
 
 ### ✅ **[layer-normalization.ipynb](notebooks/layer-normalization.ipynb)**
@@ -191,16 +191,16 @@ Layer normalization for RNNs and transformers.
 
 **Simple neural networks for language modeling.**
 
-###  **[z2h-02-bigram-lm.ipynb](notebooks/z2h-02-bigram-lm.ipynb)**
+### **[z2h-02-bigram-lm.ipynb](notebooks/z2h-02-bigram-lm.ipynb)**
 Character-level bigram language models using frequency counts and PyTorch.
 
-###  **[z2h-03-mlp-lm.ipynb](notebooks/z2h-03-mlp-lm.ipynb)**
+### **[z2h-03-mlp-lm.ipynb](notebooks/z2h-03-mlp-lm.ipynb)**
 Multi-layer perceptron for character-level language modeling.
 
-###  **[z2h-04-optimization-pt1.ipynb](notebooks/z2h-04-optimization-pt1.ipynb)**
+### **[z2h-04-optimization-pt1.ipynb](notebooks/z2h-04-optimization-pt1.ipynb)**
 Weight initialization (Xavier, Kaiming) and analyzing activation/gradient flow.
 
-###  **[debugging-neural-networks.ipynb](notebooks/debugging-neural-networks.ipynb)**
+### **[debugging-neural-networks.ipynb](notebooks/debugging-neural-networks.ipynb)**
 Systematic debugging: sanity checks, common failures, gradient flow, and learning curves.
 
 ---
@@ -209,61 +209,55 @@ Systematic debugging: sanity checks, common failures, gradient flow, and learnin
 
 **Computer vision fundamentals.**
 
-###  **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)** 📖 **START HERE**
+### **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)**
 Historical evolution of CNNs from LeNet (1998) → AlexNet (2012) → VGG (2014) → Inception (2014). Shows WHY each innovation mattered: ReLU activation, dropout regularization, depth with small filters, and multi-scale features. Read this overview first, then dive into individual architectures below.
 
-###  **[tensors-convolution.ipynb](notebooks/tensors-convolution.ipynb)**
+### **[tensors-convolution.ipynb](notebooks/tensors-convolution.ipynb)**
 Convolutional operations: filters, padding, stride, dilation, and transposed convolutions.
 
-###  **[pooling-operations.ipynb](notebooks/pooling-operations.ipynb)**
+### **[pooling-operations.ipynb](notebooks/pooling-operations.ipynb)**
 MaxPooling, AveragePooling, and Global pooling for downsampling feature maps.
 
-###  **[lenet-limitations.ipynb](notebooks/lenet-limitations.ipynb)**
+### **[lenet-limitations.ipynb](notebooks/lenet-limitations.ipynb)**
 LeNet-5 (1998): the first successful CNN architecture. Implementation and training on CIFAR-10 reveals fundamental limitations: insufficient depth (only 2 conv layers), minimal feature capacity (6/16 filters), no regularization, and FC layers that don't scale. Each limitation motivates specific innovations in later architectures. Essential foundation for understanding CNN evolution.
 
-###  **[alexnet-breakthrough.ipynb](notebooks/alexnet-breakthrough.ipynb)**
+### **[alexnet-breakthrough.ipynb](notebooks/alexnet-breakthrough.ipynb)**
 AlexNet (2012): the ImageNet breakthrough that started the deep learning revolution. Shows how it solves every LeNet limitation through ReLU activation, dropout, depth (5 conv layers), massive capacity (64→192→384 filters), and data augmentation. Then reveals AlexNet's own inefficiencies: large filters waste parameters, heterogeneous design is hard to scale, and FC layers still dominate. Essential for understanding why VGG chose uniform 3×3 convolutions.
 
-###  **[vgg-depth-uniformity.ipynb](notebooks/vgg-depth-uniformity.ipynb)**
+### **[vgg-depth-uniformity.ipynb](notebooks/vgg-depth-uniformity.ipynb)**
 VGG (2014): proves depth matters more than filter size through uniform 3×3 architecture. Shows mathematically that stacked 3×3 filters achieve same receptive field as large filters but with fewer parameters and more non-linearity. Demonstrates elegant systematic depth scaling (VGG-11/13/16/19). Then reveals VGG's limitations: massive parameter count (FC layers dominate), single-scale features (no multi-scale extraction), and high memory/compute costs. Motivates Inception's multi-scale parallel approach.
 
-###  **[vgg-uniform-architecture.ipynb](notebooks/vgg-uniform-architecture.ipynb)**
-VGG architecture study: training VGG-11 on CIFAR-10 and comparing to AlexNet. Demonstrates why uniform 3×3 filters are elegant and scalable, calculates parameter savings from small filters, and identifies VGG's limitations that motivated Inception.
-
-###  **[inception-multiscale.ipynb](notebooks/inception-multiscale.ipynb)**
+### **[inception-multiscale.ipynb](notebooks/inception-multiscale.ipynb)**
 Inception/GoogLeNet (2014): answers "what filter size?" with "all of them!" Shows multi-scale parallel architecture (1×1, 3×3, 5×5, pool in parallel), 1×1 bottleneck layers for 97% parameter reduction, and Global Average Pooling to eliminate FC layers entirely. Achieves better performance than VGG with 27× fewer parameters (5M vs 138M). Then reveals the final challenge: degradation problem preventing networks beyond ~20 layers. Sets up the need for ResNet's skip connections to enable 100+ layer networks.
 
-###  **[resnet-skip-connections.ipynb](notebooks/resnet-skip-connections.ipynb)** ⭐ **REVOLUTIONARY**
+### **[resnet-skip-connections.ipynb](notebooks/resnet-skip-connections.ipynb)**
 ResNet (2015): solves the degradation problem that prevented networks beyond ~20 layers. Explains mathematically why learning residuals F(x) is easier than learning direct mappings H(x), and how skip connections create gradient highways. Implements ResNet-18 with BasicBlocks, demonstrates successful training of 18+ layer networks, and shows why ResNet became the foundation for virtually all modern architectures (Transformers, U-Net, DenseNet). First architecture to exceed human-level performance on ImageNet (3.57% vs 5% error). Completes the CNN evolution story from LeNet to mature deep learning.
-
-###  **[residual-connections.ipynb](notebooks/residual-connections.ipynb)**
-Skip connections and ResNet blocks explained conceptually. Foundation for understanding modern deep architectures.
 
 ### **[why-residual-connections-work.ipynb](notebooks/why-residual-connections-work.ipynb)**
 Deep dive into why skip connections work: gradient highways preventing vanishing gradients, ResNets as implicit ensembles of 2^n paths, and feature reuse across layers.
 
-###  **[mobilenet-efficient-cnns.ipynb](notebooks/mobilenet-efficient-cnns.ipynb)**
+### **[mobilenet-efficient-cnns.ipynb](notebooks/mobilenet-efficient-cnns.ipynb)**
 MobileNet (2017): shifts focus from pure accuracy to efficiency for mobile and edge devices. Introduces depthwise separable convolutions that factorize standard convolutions into depthwise (spatial filtering per channel) and pointwise (channel mixing) operations, achieving 8-9× speedup with minimal accuracy loss. Implements width multiplier for easy model scaling (0.25×, 0.5×, 0.75×, 1.0×). Shows the efficiency vs accuracy trade-off landscape and demonstrates that architectural innovations can reduce computational cost while maintaining performance. Opens the efficiency branch of CNN evolution (MobileNet → EfficientNet → NAS).
 
-###  **[efficientnet-compound-scaling.ipynb](notebooks/efficientnet-compound-scaling.ipynb)**
+### **[efficientnet-compound-scaling.ipynb](notebooks/efficientnet-compound-scaling.ipynb)**
 EfficientNet (2019): solves the scaling problem through compound scaling that simultaneously balances depth, width, and resolution with fixed ratios (d=α^φ, w=β^φ, r=γ^φ). Shows why single-dimension scaling is suboptimal and uses Neural Architecture Search (NAS) to discover optimal base architecture. Implements MBConv blocks with Squeeze-and-Excitation for channel attention. Achieves 10× better efficiency than previous CNNs - EfficientNet-B0 matches ResNet-50 accuracy with 5× fewer parameters. Completes the efficiency branch: shows how automated search + systematic scaling creates the peak of CNN efficiency before Vision Transformers.
 
-###  **[classification-image.ipynb](notebooks/classification-image.ipynb)**
+### **[classification-image.ipynb](notebooks/classification-image.ipynb)**
 Building CNN and MLP image classifiers on CIFAR-10, MNIST, and Fashion-MNIST.
 
-###  **[transfer-learning.ipynb](notebooks/transfer-learning.ipynb)** 
+### **[transfer-learning.ipynb](notebooks/transfer-learning.ipynb)**
 Using pretrained models: feature extraction vs fine-tuning.
 
-###  **[knowledge-distillation.ipynb](notebooks/knowledge-distillation.ipynb)** 
+### **[knowledge-distillation.ipynb](notebooks/knowledge-distillation.ipynb)**
 Compressing models with teacher-student training and soft targets.
 
-###  **[unet-architecture.ipynb](notebooks/unet-architecture.ipynb)** 
+### **[unet-architecture.ipynb](notebooks/unet-architecture.ipynb)**
 U-Net encoder-decoder with skip connections for semantic segmentation.
 
-###  **[grad-cam-visualization.ipynb](notebooks/grad-cam-visualization.ipynb)** 
+### **[grad-cam-visualization.ipynb](notebooks/grad-cam-visualization.ipynb)**
 Grad-CAM for visualizing which image regions influence CNN predictions.
 
-###  **[object-detection-yolo.ipynb](notebooks/object-detection-yolo.ipynb)** 
+### **[object-detection-yolo.ipynb](notebooks/object-detection-yolo.ipynb)**
 YOLO architecture: bounding boxes, anchor boxes, and Non-Maximum Suppression.
 
 ---
@@ -272,19 +266,19 @@ YOLO architecture: bounding boxes, anchor boxes, and Non-Maximum Suppression.
 
 **Important concepts for advanced topics.**
 
-###  **[kl-divergence.ipynb](notebooks/kl-divergence.ipynb)**
+### **[kl-divergence.ipynb](notebooks/kl-divergence.ipynb)**
 Information theory from the ground up: surprisal, entropy, cross-entropy, and KL divergence. Builds intuition through analogies and visualizations. Essential for understanding VAEs, RL policy optimization, and model training.
 
-###  **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)**
+### **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)**
 Character, word, BPE, and WordPiece tokenization. Vocabulary vs sequence length tradeoff.
 
-###  **[embeddings.ipynb](notebooks/embeddings.ipynb)**
+### **[embeddings.ipynb](notebooks/embeddings.ipynb)**
 Learned vector representations for discrete objects (words, items, users).
 
-###  **[word2vec-from-scratch.ipynb](notebooks/word2vec-from-scratch.ipynb)**
+### **[word2vec-from-scratch.ipynb](notebooks/word2vec-from-scratch.ipynb)**
 Skip-gram Word2Vec with negative sampling. Semantic relationships via vector arithmetic.
 
-###  **[siamese-networks.ipynb](notebooks/siamese-networks.ipynb)** 
+### **[siamese-networks.ipynb](notebooks/siamese-networks.ipynb)**
 Twin networks with shared weights and contrastive loss for similarity learning.
 
 ---
@@ -293,13 +287,13 @@ Twin networks with shared weights and contrastive loss for similarity learning.
 
 **Learning without labels.**
 
-###  **[kmeans-from-scratch.ipynb](notebooks/kmeans-from-scratch.ipynb)**
+### **[kmeans-from-scratch.ipynb](notebooks/kmeans-from-scratch.ipynb)**
 K-means clustering: iterative assignment, k-means++, and the elbow method.
 
-###  **[gaussian-mixture-models.ipynb](notebooks/gaussian-mixture-models.ipynb)**
+### **[gaussian-mixture-models.ipynb](notebooks/gaussian-mixture-models.ipynb)**
 Gaussian Mixture Models and Expectation-Maximization for soft clustering.
 
-###  **[autoencoders.ipynb](notebooks/autoencoders.ipynb)** 
+### **[autoencoders.ipynb](notebooks/autoencoders.ipynb)**
 Encoder-decoder architecture for compression and reconstruction. Foundation for VAEs.
 
 ---
@@ -308,10 +302,10 @@ Encoder-decoder architecture for compression and reconstruction. Foundation for 
 
 **Sequential data and memory.**
 
-###  **[rnn-from-scratch.ipynb](notebooks/rnn-from-scratch.ipynb)**
+### **[rnn-from-scratch.ipynb](notebooks/rnn-from-scratch.ipynb)**
 RNN with hidden states and backpropagation through time (BPTT).
 
-###  **[lstm-from-scratch.ipynb](notebooks/lstm-from-scratch.ipynb)**
+### **[lstm-from-scratch.ipynb](notebooks/lstm-from-scratch.ipynb)**
 LSTM gates (forget, input, output) and solving vanishing gradients.
 
 ---
@@ -320,40 +314,40 @@ LSTM gates (forget, input, output) and solving vanishing gradients.
 
 **Modern sequence modeling - the revolution.**
 
-###  **[attention-mechanism.ipynb](notebooks/attention-mechanism.ipynb)**  **FOUNDATIONAL CONCEPT**
+### **[attention-mechanism.ipynb](notebooks/attention-mechanism.ipynb)**
 Scaled dot-product attention: queries, keys, values, and attention weights.
 
-###  **[seq2seq-with-attention.ipynb](notebooks/seq2seq-with-attention.ipynb)**
+### **[seq2seq-with-attention.ipynb](notebooks/seq2seq-with-attention.ipynb)**
 Seq2seq encoder-decoder with attention. Solving the bottleneck problem.
 
-###  **[positional-encodings.ipynb](notebooks/positional-encodings.ipynb)** 
+### **[positional-encodings.ipynb](notebooks/positional-encodings.ipynb)**
 Sinusoidal, Learned, Relative Position Bias, RoPE, and ALiBi positional encodings.
 
-###  **[transformer-from-scratch.ipynb](notebooks/transformer-from-scratch.ipynb)**
+### **[transformer-from-scratch.ipynb](notebooks/transformer-from-scratch.ipynb)**
 Full Transformer: self-attention, multi-head attention, encoder-decoder architecture.
 
-###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
+### **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
-###  **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)** 
+### **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)**
 BERT encoder architecture. Masked language modeling and bidirectional context.
 
-###  **[gpt2-from-scratch.ipynb](notebooks/gpt2-from-scratch.ipynb)**
+### **[gpt2-from-scratch.ipynb](notebooks/gpt2-from-scratch.ipynb)**
 Building GPT-2 from scratch in raw PyTorch. Character-level language model with transformer decoder blocks, training on Shakespeare/LoTR text. Includes tiktoken tokenizer integration and experimental configs.
 
-###  **[gpt2-keras-jax.ipynb](notebooks/gpt2-keras-jax.ipynb)**
+### **[gpt2-keras-jax.ipynb](notebooks/gpt2-keras-jax.ipynb)**
 GPT-2 style transformer built from scratch using Keras with JAX backend. Educational implementation showing token/position embeddings, self-attention, multi-head attention, and transformer blocks with residual connections. Demonstrates JAX's XLA compilation benefits.
 
-###  **[gpt2.ipynb](notebooks/gpt2.ipynb)**
+### **[gpt2.ipynb](notebooks/gpt2.ipynb)**
 Hardware-adaptive GPT-2 implementation with PyTorch Lightning. Auto-detects optimal settings for CUDA/MPS/CPU: precision, attention backend, batch size, gradient accumulation, and torch.compile. Production-ready training with checkpointing and early stopping.
 
-###  **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
+### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
-###  **[mamba-state-space-models.ipynb](notebooks/mamba-state-space-models.ipynb)** 
+### **[mamba-state-space-models.ipynb](notebooks/mamba-state-space-models.ipynb)**
 State Space Models and Mamba: linear-complexity alternative to Transformers.
 
-###  **[lora-peft.ipynb](notebooks/lora-peft.ipynb)**
+### **[lora-peft.ipynb](notebooks/lora-peft.ipynb)**
 LoRA and parameter-efficient fine-tuning. Low-rank weight updates.
 
 ---
@@ -362,34 +356,34 @@ LoRA and parameter-efficient fine-tuning. Low-rank weight updates.
 
 **Practical NLP and audio tasks end-to-end.**
 
-###  **[classification-text.ipynb](notebooks/classification-text.ipynb)**
+### **[classification-text.ipynb](notebooks/classification-text.ipynb)**
 Sentiment analysis: TF-IDF + Logistic Regression, LSTM, and BERT.
 
-###  **[generation-text.ipynb](notebooks/generation-text.ipynb)**
+### **[generation-text.ipynb](notebooks/generation-text.ipynb)**
 Text generation from bigrams to transformers. Sampling strategies.
 
-###  **[reconstruction-text.ipynb](notebooks/reconstruction-text.ipynb)**
+### **[reconstruction-text.ipynb](notebooks/reconstruction-text.ipynb)**
 Seq2seq autoencoders for text reconstruction and latent space interpolation.
 
-###  **[denoising-text.ipynb](notebooks/denoising-text.ipynb)**
+### **[denoising-text.ipynb](notebooks/denoising-text.ipynb)**
 Text correction with seq2seq and transformers. CER/WER metrics.
 
-###  **[audio-processing.ipynb](notebooks/audio-processing.ipynb)**
+### **[audio-processing.ipynb](notebooks/audio-processing.ipynb)**
 Fourier Transform, spectrograms, mel spectrograms, MFCCs, and audio augmentation.
 
 ### **[speech-recognition.ipynb](notebooks/speech-recognition.ipynb)**
 ASR with CTC loss and RNN-CTC. CER/WER evaluation.
 
-###  **[ner-token-classification.ipynb](notebooks/ner-token-classification.ipynb)** 
+### **[ner-token-classification.ipynb](notebooks/ner-token-classification.ipynb)**
 Named Entity Recognition with BIO tagging, BiLSTM-CRF, and BERT.
 
-###  **[qa-extractive.ipynb](notebooks/qa-extractive.ipynb)** 
+### **[qa-extractive.ipynb](notebooks/qa-extractive.ipynb)**
 Extractive QA with BiDAF and BERT. Span prediction for SQuAD-style tasks.
 
-###  **[rag-retrieval-augmented.ipynb](notebooks/rag-retrieval-augmented.ipynb)** 
+### **[rag-retrieval-augmented.ipynb](notebooks/rag-retrieval-augmented.ipynb)**
 RAG pipeline: chunking, embeddings, vector search, and prompt augmentation.
 
-###  **[prompt-engineering-llms.ipynb](notebooks/prompt-engineering-llms.ipynb)** 
+### **[prompt-engineering-llms.ipynb](notebooks/prompt-engineering-llms.ipynb)**
 Zero-shot, few-shot, chain-of-thought, and ReAct prompting techniques.
 
 ---
@@ -398,22 +392,22 @@ Zero-shot, few-shot, chain-of-thought, and ReAct prompting techniques.
 
 **Learning to generate and reconstruct images.**
 
-###  **[denoising-image.ipynb](notebooks/denoising-image.ipynb)**
+### **[denoising-image.ipynb](notebooks/denoising-image.ipynb)**
 Image denoising with convolutional autoencoders and Denoising Autoencoders (DAE). Simpler foundation before probabilistic models.
 
-###  **[vae.ipynb](notebooks/vae.ipynb)**
+### **[vae.ipynb](notebooks/vae.ipynb)**
 Variational Autoencoders (VAE): probabilistic latent spaces, reparameterization trick, and structured generation. Foundation for modern generative models.
 
-###  **[vqvae.ipynb](notebooks/vqvae.ipynb)**
+### **[vqvae.ipynb](notebooks/vqvae.ipynb)**
 Vector-Quantized VAE (VQ-VAE): discrete latent spaces, learned codebook, vector quantization, and straight-through estimator. Foundation for DALL-E and hierarchical generation.
 
-###  **[generation-image.ipynb](notebooks/generation-image.ipynb)**  **VAEs & GANs**
+### **[generation-image.ipynb](notebooks/generation-image.ipynb)**
 VAEs and DCGANs for image generation. Latent space exploration.
 
-###  **[diffusion-models.ipynb](notebooks/diffusion-models.ipynb)** 
+### **[diffusion-models.ipynb](notebooks/diffusion-models.ipynb)**
 Denoising Diffusion (DDPM): forward/reverse diffusion and DDIM sampling.
 
-###  **[latent-diffusion.ipynb](notebooks/latent-diffusion.ipynb)** 
+### **[latent-diffusion.ipynb](notebooks/latent-diffusion.ipynb)**
 Latent Diffusion and Stable Diffusion. VAE latents with cross-attention conditioning.
 
 ---
@@ -422,22 +416,22 @@ Latent Diffusion and Stable Diffusion. VAE latents with cross-attention conditio
 
 **Beyond standard feedforward, convolutional, and recurrent networks.**
 
-###  **[clip-architecture.ipynb](notebooks/clip-architecture.ipynb)** 
+### **[clip-architecture.ipynb](notebooks/clip-architecture.ipynb)**
 CLIP dual encoders with contrastive learning. Zero-shot classification via text.
 
-###  **[capsule-networks.ipynb](notebooks/capsule-networks.ipynb)**
+### **[capsule-networks.ipynb](notebooks/capsule-networks.ipynb)**
 CapsNets with dynamic routing by agreement. Preserving spatial information.
 
-###  **[mixture-of-experts.ipynb](notebooks/mixture-of-experts.ipynb)** 
+### **[mixture-of-experts.ipynb](notebooks/mixture-of-experts.ipynb)**
 Sparse MoE with gating networks. Efficient scaling to trillion-parameter models.
 
-###  **[graph-neural-networks.ipynb](notebooks/graph-neural-networks.ipynb)**
+### **[graph-neural-networks.ipynb](notebooks/graph-neural-networks.ipynb)**
 GNNs and message passing for graph-structured data.
 
-###  **[neural-odes.ipynb](notebooks/neural-odes.ipynb)**
+### **[neural-odes.ipynb](notebooks/neural-odes.ipynb)**
 Neural ODEs: continuous-depth networks as differential equations.
 
-###  **[energy-based-neural-networks.ipynb](notebooks/energy-based-neural-networks.ipynb)**
+### **[energy-based-neural-networks.ipynb](notebooks/energy-based-neural-networks.ipynb)**
 Hopfield Networks and RBMs. Energy functions and contrastive divergence.
 
 ---
@@ -446,13 +440,13 @@ Hopfield Networks and RBMs. Energy functions and contrastive divergence.
 
 **Interesting research findings that challenge intuitions.**
 
-###  **[adversarial-robustness.ipynb](notebooks/adversarial-robustness.ipynb)** 
+### **[adversarial-robustness.ipynb](notebooks/adversarial-robustness.ipynb)**
 Adversarial examples, FGSM/PGD attacks, and adversarial training.
 
-###  **[double-descent.ipynb](notebooks/double-descent.ipynb)**
+### **[double-descent.ipynb](notebooks/double-descent.ipynb)**
 Double descent: test error decreasing beyond interpolation threshold.
 
-###  **[grokking.ipynb](notebooks/grokking.ipynb)**
+### **[grokking.ipynb](notebooks/grokking.ipynb)**
 Grokking: sudden generalization after prolonged overfitting on algorithmic tasks.
 
 ---
@@ -461,34 +455,34 @@ Grokking: sudden generalization after prolonged overfitting on algorithmic tasks
 
 **Beyond standard supervised learning - self-supervised, meta-learning, and alternative training methods.**
 
-###  **[meta-learning-few-shot.ipynb](notebooks/meta-learning-few-shot.ipynb)** 
+### **[meta-learning-few-shot.ipynb](notebooks/meta-learning-few-shot.ipynb)**
 MAML for few-shot learning. Learning to learn with inner/outer loops.
 
-###  **[contrastive-learning.ipynb](notebooks/contrastive-learning.ipynb)** 
+### **[contrastive-learning.ipynb](notebooks/contrastive-learning.ipynb)**
 Contrastive learning with InfoNCE loss. SimCLR-style self-supervised learning.
 
-###  **[self-supervised-learning.ipynb](notebooks/self-supervised-learning.ipynb)** 
+### **[self-supervised-learning.ipynb](notebooks/self-supervised-learning.ipynb)**
 Self-supervised approaches: Rotation, Jigsaw, Masked Autoencoding, SimCLR, BERT masking.
 
-###  **[forward-forward.ipynb](notebooks/forward-forward.ipynb)**
+### **[forward-forward.ipynb](notebooks/forward-forward.ipynb)**
 Forward-Forward algorithm: layer-local learning without backpropagation.
 
-###  **[neuroevolution-tic-tac-toe.ipynb](notebooks/neuroevolution-tic-tac-toe.ipynb)**
+### **[neuroevolution-tic-tac-toe.ipynb](notebooks/neuroevolution-tic-tac-toe.ipynb)**
 Neuroevolution with genetic algorithms for tic-tac-toe.
 
-###  **[1bit-neural-networks.ipynb](notebooks/1bit-neural-networks.ipynb)**
+### **[1bit-neural-networks.ipynb](notebooks/1bit-neural-networks.ipynb)**
 Binary and ternary quantization with straight-through estimator.
 
-###  **[multi-task-learning.ipynb](notebooks/multi-task-learning.ipynb)** 
+### **[multi-task-learning.ipynb](notebooks/multi-task-learning.ipynb)**
 MTL with hard/soft parameter sharing. Loss balancing strategies.
 
-###  **[curriculum-learning.ipynb](notebooks/curriculum-learning.ipynb)** 
+### **[curriculum-learning.ipynb](notebooks/curriculum-learning.ipynb)**
 Training from easy to hard. Difficulty metrics and curriculum strategies.
 
-###  **[active-learning.ipynb](notebooks/active-learning.ipynb)** 
+### **[active-learning.ipynb](notebooks/active-learning.ipynb)**
 Query strategies for selecting data to label: uncertainty, QBC, diversity.
 
-###  **[continual-learning.ipynb](notebooks/continual-learning.ipynb)** 
+### **[continual-learning.ipynb](notebooks/continual-learning.ipynb)**
 Lifelong learning without catastrophic forgetting. Replay, EWC, and architecture methods.
 
 ---
@@ -497,25 +491,25 @@ Lifelong learning without catastrophic forgetting. Replay, EWC, and architecture
 
 **Learning through interaction with environments.**
 
-###  **[rl-q-learning.ipynb](notebooks/rl-q-learning.ipynb)**  **FOUNDATIONAL RL**
+### **[rl-q-learning.ipynb](notebooks/rl-q-learning.ipynb)**
 Q-learning, MDPs, Bellman equation, and ε-greedy exploration.
 
-###  **[mcts-simple.ipynb](notebooks/mcts-simple.ipynb)**
+### **[mcts-simple.ipynb](notebooks/mcts-simple.ipynb)**
 Monte Carlo Tree Search with UCB1 for tic-tac-toe.
 
-###  **[rl-policy-gradients.ipynb](notebooks/rl-policy-gradients.ipynb)** 
+### **[rl-policy-gradients.ipynb](notebooks/rl-policy-gradients.ipynb)**
 Policy gradients, REINFORCE, Actor-Critic, and PPO basics.
 
-###  **[rl-deep-q-networks.ipynb](notebooks/rl-deep-q-networks.ipynb)** 
+### **[rl-deep-q-networks.ipynb](notebooks/rl-deep-q-networks.ipynb)**
 DQN with experience replay and target networks.
 
-###  **[rl-advanced-policy-methods.ipynb](notebooks/rl-advanced-policy-methods.ipynb)** 
+### **[rl-advanced-policy-methods.ipynb](notebooks/rl-advanced-policy-methods.ipynb)**
 A2C/A3C, SAC, and TD3 for continuous control.
 
-###  **[rlhf-alignment.ipynb](notebooks/rlhf-alignment.ipynb)** 
+### **[rlhf-alignment.ipynb](notebooks/rlhf-alignment.ipynb)**
 RLHF pipeline: SFT, reward modeling, and PPO optimization. DPO alternative.
 
-###  **[rl-model-based.ipynb](notebooks/rl-model-based.ipynb)**
+### **[rl-model-based.ipynb](notebooks/rl-model-based.ipynb)**
 World models, Dyna algorithm, and planning for sample efficiency.
 
 ---
@@ -524,7 +518,7 @@ World models, Dyna algorithm, and planning for sample efficiency.
 
 **Unique and interesting applications.**
 
-###  **[chip8-emulator.ipynb](notebooks/chip8-emulator.ipynb)**
+### **[chip8-emulator.ipynb](notebooks/chip8-emulator.ipynb)**
 CHIP-8 emulator: fetch-decode-execute cycle and opcodes.
 
 ---
@@ -533,34 +527,34 @@ CHIP-8 emulator: fetch-decode-execute cycle and opcodes.
 
 **Incomplete notebooks not recommended for learning.**
 
-###  **[reconstruction-image.ipynb](notebooks/deprecated/reconstruction-image.ipynb)**
+### **[reconstruction-image.ipynb](notebooks/deprecated/reconstruction-image.ipynb)**
 Image reconstruction with Vanilla AE, VAE, and VQ-VAE. Replaced by focused vqvae.ipynb notebook.
 
-###  **[z2h-05-optimization-pt2-wip.ipynb](notebooks/deprecated/z2h-05-optimization-pt2-wip.ipynb)**
+### **[z2h-05-optimization-pt2-wip.ipynb](notebooks/deprecated/z2h-05-optimization-pt2-wip.ipynb)**
 PyTorch experiments with initialization and batch normalization.
 
-###  **[z2h-06-backprop-ninja-wip.ipynb](notebooks/deprecated/z2h-06-backprop-ninja-wip.ipynb)**
+### **[z2h-06-backprop-ninja-wip.ipynb](notebooks/deprecated/z2h-06-backprop-ninja-wip.ipynb)**
 Manually implementing backward passes for cross-entropy and batch normalization.
 
-###  **[z2h-07-wavenet-lm-wip.ipynb](notebooks/deprecated/z2h-07-wavenet-lm-wip.ipynb)**
+### **[z2h-07-wavenet-lm-wip.ipynb](notebooks/deprecated/z2h-07-wavenet-lm-wip.ipynb)**
 WaveNet-inspired hierarchical language model.
 
-###  **[wip-bit-parity-rnn.ipynb](notebooks/deprecated/wip-bit-parity-rnn.ipynb)**
+### **[wip-bit-parity-rnn.ipynb](notebooks/deprecated/wip-bit-parity-rnn.ipynb)**
 RNN for bit-parity classification task.
 
-###  **[wip-bit-parity-gru.ipynb](notebooks/deprecated/wip-bit-parity-gru.ipynb)**
+### **[wip-bit-parity-gru.ipynb](notebooks/deprecated/wip-bit-parity-gru.ipynb)**
 GRU with update and reset gates for bit-parity classification.
 
-###  **[wip-rl-world-model-01-repr.ipynb](notebooks/deprecated/wip-rl-world-model-01-repr.ipynb)**
+### **[wip-rl-world-model-01-repr.ipynb](notebooks/deprecated/wip-rl-world-model-01-repr.ipynb)**
 Compressing gameplay frames with convolutional autoencoders.
 
-###  **[wip-rl-world-model-02-dynamics.ipynb](notebooks/deprecated/wip-rl-world-model-02-dynamics.ipynb)**
+### **[wip-rl-world-model-02-dynamics.ipynb](notebooks/deprecated/wip-rl-world-model-02-dynamics.ipynb)**
 Learning dynamics models to predict future latent states.
 
-###  **[wip-rl-atari-pong-imitation.ipynb](notebooks/deprecated/wip-rl-atari-pong-imitation.ipynb)**
+### **[wip-rl-atari-pong-imitation.ipynb](notebooks/deprecated/wip-rl-atari-pong-imitation.ipynb)**
 Imitation learning for Atari Pong.
 
-###  **[wip-debate-generator.ipynb](notebooks/deprecated/wip-debate-generator.ipynb)**
+### **[wip-debate-generator.ipynb](notebooks/deprecated/wip-debate-generator.ipynb)**
 AI debate simulator with LangChain and multi-agent LLMs.
 
 ---
