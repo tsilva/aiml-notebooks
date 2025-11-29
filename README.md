@@ -110,11 +110,14 @@ L1, L2, dropout, and early stopping to prevent overfitting.
 ###  **[confidence-intervals.ipynb](notebooks/confidence-intervals.ipynb)**
 Quantifying uncertainty in predictions and metrics using bootstrap and hypothesis testing.
 
-### [x] **[hyperparameter-tuning.ipynb](notebooks/hyperparameter-tuning.ipynb)**
+###  **[hyperparameter-tuning.ipynb](notebooks/hyperparameter-tuning.ipynb)**
 Grid search, random search, and Bayesian optimization for hyperparameter tuning.
 
 ###  **[ensemble-methods.ipynb](notebooks/ensemble-methods.ipynb)**
 Bagging, Random Forests, boosting (AdaBoost, Gradient Boosting), and stacking.
+
+###  **[model-interpretability.ipynb](notebooks/model-interpretability.ipynb)**
+Model interpretability techniques: LIME, SHAP, permutation importance, integrated gradients, and attention visualization. Global vs local explanations for understanding model behavior and individual predictions. Applies to any ML model.
 
 ---
 
@@ -145,6 +148,9 @@ SGD, Momentum, RMSprop, and Adam optimizers. When to use each.
 
 ###  **[learning-rate-schedules.ipynb](notebooks/learning-rate-schedules.ipynb)**
 Learning rate schedules: step decay, exponential decay, cosine annealing, and warmup.
+
+###  **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)** 
+Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-forward validation.
 
 ---
 
@@ -203,6 +209,9 @@ Systematic debugging: sanity checks, common failures, gradient flow, and learnin
 
 **Computer vision fundamentals.**
 
+###  **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)** 📖 **START HERE**
+Historical evolution of CNNs from LeNet (1998) → AlexNet (2012) → VGG (2014) → Inception (2014). Shows WHY each innovation mattered: ReLU activation, dropout regularization, depth with small filters, and multi-scale features. Read this overview first, then dive into individual architectures below.
+
 ###  **[tensors-convolution.ipynb](notebooks/tensors-convolution.ipynb)**
 Convolutional operations: filters, padding, stride, dilation, and transposed convolutions.
 
@@ -218,11 +227,20 @@ AlexNet (2012): the ImageNet breakthrough that started the deep learning revolut
 ###  **[vgg-depth-uniformity.ipynb](notebooks/vgg-depth-uniformity.ipynb)**
 VGG (2014): proves depth matters more than filter size through uniform 3×3 architecture. Shows mathematically that stacked 3×3 filters achieve same receptive field as large filters but with fewer parameters and more non-linearity. Demonstrates elegant systematic depth scaling (VGG-11/13/16/19). Then reveals VGG's limitations: massive parameter count (FC layers dominate), single-scale features (no multi-scale extraction), and high memory/compute costs. Motivates Inception's multi-scale parallel approach.
 
+###  **[vgg-uniform-architecture.ipynb](notebooks/vgg-uniform-architecture.ipynb)**
+VGG architecture study: training VGG-11 on CIFAR-10 and comparing to AlexNet. Demonstrates why uniform 3×3 filters are elegant and scalable, calculates parameter savings from small filters, and identifies VGG's limitations that motivated Inception.
+
 ###  **[inception-multiscale.ipynb](notebooks/inception-multiscale.ipynb)**
 Inception/GoogLeNet (2014): answers "what filter size?" with "all of them!" Shows multi-scale parallel architecture (1×1, 3×3, 5×5, pool in parallel), 1×1 bottleneck layers for 97% parameter reduction, and Global Average Pooling to eliminate FC layers entirely. Achieves better performance than VGG with 27× fewer parameters (5M vs 138M). Then reveals the final challenge: degradation problem preventing networks beyond ~20 layers. Sets up the need for ResNet's skip connections to enable 100+ layer networks.
 
 ###  **[resnet-skip-connections.ipynb](notebooks/resnet-skip-connections.ipynb)** ⭐ **REVOLUTIONARY**
 ResNet (2015): solves the degradation problem that prevented networks beyond ~20 layers. Explains mathematically why learning residuals F(x) is easier than learning direct mappings H(x), and how skip connections create gradient highways. Implements ResNet-18 with BasicBlocks, demonstrates successful training of 18+ layer networks, and shows why ResNet became the foundation for virtually all modern architectures (Transformers, U-Net, DenseNet). First architecture to exceed human-level performance on ImageNet (3.57% vs 5% error). Completes the CNN evolution story from LeNet to mature deep learning.
+
+###  **[residual-connections.ipynb](notebooks/residual-connections.ipynb)**
+Skip connections and ResNet blocks explained conceptually. Foundation for understanding modern deep architectures.
+
+### **[why-residual-connections-work.ipynb](notebooks/why-residual-connections-work.ipynb)**
+Deep dive into why skip connections work: gradient highways preventing vanishing gradients, ResNets as implicit ensembles of 2^n paths, and feature reuse across layers.
 
 ###  **[mobilenet-efficient-cnns.ipynb](notebooks/mobilenet-efficient-cnns.ipynb)**
 MobileNet (2017): shifts focus from pure accuracy to efficiency for mobile and edge devices. Introduces depthwise separable convolutions that factorize standard convolutions into depthwise (spatial filtering per channel) and pointwise (channel mixing) operations, achieving 8-9× speedup with minimal accuracy loss. Implements width multiplier for easy model scaling (0.25×, 0.5×, 0.75×, 1.0×). Shows the efficiency vs accuracy trade-off landscape and demonstrates that architectural innovations can reduce computational cost while maintaining performance. Opens the efficiency branch of CNN evolution (MobileNet → EfficientNet → NAS).
@@ -230,14 +248,8 @@ MobileNet (2017): shifts focus from pure accuracy to efficiency for mobile and e
 ###  **[efficientnet-compound-scaling.ipynb](notebooks/efficientnet-compound-scaling.ipynb)**
 EfficientNet (2019): solves the scaling problem through compound scaling that simultaneously balances depth, width, and resolution with fixed ratios (d=α^φ, w=β^φ, r=γ^φ). Shows why single-dimension scaling is suboptimal and uses Neural Architecture Search (NAS) to discover optimal base architecture. Implements MBConv blocks with Squeeze-and-Excitation for channel attention. Achieves 10× better efficiency than previous CNNs - EfficientNet-B0 matches ResNet-50 accuracy with 5× fewer parameters. Completes the efficiency branch: shows how automated search + systematic scaling creates the peak of CNN efficiency before Vision Transformers.
 
-###  **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)**
-Historical evolution of CNNs from LeNet (1998) → AlexNet (2012) → VGG (2014) → Inception (2014). Shows WHY each innovation mattered: ReLU activation, dropout regularization, depth with small filters, and multi-scale features. Foundational for understanding modern CNN design principles.
-
 ###  **[classification-image.ipynb](notebooks/classification-image.ipynb)**
 Building CNN and MLP image classifiers on CIFAR-10, MNIST, and Fashion-MNIST.
-
-###  **[residual-connections.ipynb](notebooks/residual-connections.ipynb)**  **REVOLUTIONARY**
-Skip connections and ResNet blocks. Foundation for modern deep architectures.
 
 ###  **[transfer-learning.ipynb](notebooks/transfer-learning.ipynb)** 
 Using pretrained models: feature extraction vs fine-tuning.
@@ -320,23 +332,20 @@ Sinusoidal, Learned, Relative Position Bias, RoPE, and ALiBi positional encoding
 ###  **[transformer-from-scratch.ipynb](notebooks/transformer-from-scratch.ipynb)**
 Full Transformer: self-attention, multi-head attention, encoder-decoder architecture.
 
-###  **[karpathy-build-gpt-clean.ipynb](notebooks/karpathy-build-gpt-clean.ipynb)**
-Building GPT from scratch following Andrej Karpathy's tutorial. Character-level language model with transformer decoder blocks trained on Shakespeare text. Raw PyTorch implementation showing all training details.
-
-###  **[karpathy-build-gpt-lightning.ipynb](notebooks/karpathy-build-gpt-lightning.ipynb)**
-PyTorch Lightning version of the GPT build tutorial. Same architecture as karpathy-build-gpt-clean but with cleaner training code, automatic device management, CSV logging, and training time tracking. Great for understanding Lightning best practices.
-
-###  **[karpathy-build-gpt-optimized.ipynb](notebooks/karpathy-build-gpt-optimized.ipynb)**
-Production-grade GPT implementation with optimized batched operations for 2-3x higher throughput. Replaces iterative multi-head attention with batched tensor operations using head dimensions. Shows how to use reshape/transpose patterns for parallel computation - the approach used in all modern transformer libraries (PyTorch, Hugging Face). Essential for understanding performance optimization in deep learning.
-
-###  **[karpathy-build-gpt.ipynb](notebooks/karpathy-build-gpt.ipynb)**
-Hardware-adaptive GPT implementation that automatically detects and optimizes for your hardware (NVIDIA GPUs, Apple Silicon, or CPU). On NVIDIA datacenter GPUs (A100/H100): implements BF16 mixed precision, Flash Attention 2, torch.compile, fused optimizers for 5-8x speedup. On Apple Silicon (M1/M2/M3/M4): leverages MPS backend, FP16 precision, adaptive batch sizing, and gradient accumulation for 2-8x speedup. Single codebase that runs optimally everywhere - essential for understanding portable performance optimization. Includes detailed throughput metrics and hardware-specific explanations.
-
 ###  **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
 ###  **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)** 
 BERT encoder architecture. Masked language modeling and bidirectional context.
+
+###  **[gpt2-from-scratch.ipynb](notebooks/gpt2-from-scratch.ipynb)**
+Building GPT-2 from scratch in raw PyTorch. Character-level language model with transformer decoder blocks, training on Shakespeare/LoTR text. Includes tiktoken tokenizer integration and experimental configs.
+
+###  **[gpt2-keras-jax.ipynb](notebooks/gpt2-keras-jax.ipynb)**
+GPT-2 style transformer built from scratch using Keras with JAX backend. Educational implementation showing token/position embeddings, self-attention, multi-head attention, and transformer blocks with residual connections. Demonstrates JAX's XLA compilation benefits.
+
+###  **[gpt2.ipynb](notebooks/gpt2.ipynb)**
+Hardware-adaptive GPT-2 implementation with PyTorch Lightning. Auto-detects optimal settings for CUDA/MPS/CPU: precision, attention backend, batch size, gradient accumulation, and torch.compile. Production-ready training with checkpointing and early stopping.
 
 ###  **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
@@ -383,14 +392,14 @@ RAG pipeline: chunking, embeddings, vector search, and prompt augmentation.
 ###  **[prompt-engineering-llms.ipynb](notebooks/prompt-engineering-llms.ipynb)** 
 Zero-shot, few-shot, chain-of-thought, and ReAct prompting techniques.
 
-###  **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)** 
-Time series with MLP, LSTM, and Transformer. Temporal data splitting.
-
 ---
 
 ## TIER 12: Generative Models for Images
 
 **Learning to generate and reconstruct images.**
+
+###  **[denoising-image.ipynb](notebooks/denoising-image.ipynb)**
+Image denoising with convolutional autoencoders and Denoising Autoencoders (DAE). Simpler foundation before probabilistic models.
 
 ###  **[vae.ipynb](notebooks/vae.ipynb)**
 Variational Autoencoders (VAE): probabilistic latent spaces, reparameterization trick, and structured generation. Foundation for modern generative models.
@@ -406,9 +415,6 @@ Denoising Diffusion (DDPM): forward/reverse diffusion and DDIM sampling.
 
 ###  **[latent-diffusion.ipynb](notebooks/latent-diffusion.ipynb)** 
 Latent Diffusion and Stable Diffusion. VAE latents with cross-attention conditioning.
-
-###  **[denoising-image.ipynb](notebooks/denoising-image.ipynb)**
-Image denoising with convolutional autoencoders and DAE.
 
 ---
 
