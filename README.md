@@ -251,6 +251,9 @@ Using pretrained models: feature extraction vs fine-tuning.
 ### **[knowledge-distillation.ipynb](notebooks/knowledge-distillation.ipynb)**
 Compressing models with teacher-student training and soft targets.
 
+### **[model-pruning.ipynb](notebooks/model-pruning.ipynb)**
+Model pruning for neural network compression: unstructured and structured pruning, magnitude-based weight removal, iterative pruning with fine-tuning, and PyTorch's pruning utilities. Achieves 90%+ sparsity with minimal accuracy loss. Complements quantization and distillation for efficient deployment.
+
 ### **[unet-architecture.ipynb](notebooks/unet-architecture.ipynb)**
 U-Net encoder-decoder with skip connections for semantic segmentation.
 
