@@ -347,6 +347,9 @@ Flash Attention: memory-efficient attention with tiling and online softmax. Expl
 ### **[kv-caching.ipynb](notebooks/kv-caching.ipynb)**
 KV Caching: efficient autoregressive inference by caching key-value tensors. Explains why naive generation recomputes attention redundantly, implements KV caching from scratch with prefill/decode phases, analyzes memory requirements for different model sizes, and covers Multi-Query Attention (MQA) and Grouped-Query Attention (GQA) for reducing cache memory.
 
+### **[speculative-decoding.ipynb](notebooks/speculative-decoding.ipynb)**
+Speculative Decoding: accelerating LLM inference using a small draft model to propose multiple tokens that are verified in parallel by the target model. Explains why autoregressive generation is memory-bound, implements speculative decoding from scratch with rejection sampling, analyzes acceptance rates and expected speedup, and covers draft model selection strategies (smaller models, distillation, early exit, quantization).
+
 ### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
