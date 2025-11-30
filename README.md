@@ -419,6 +419,9 @@ Variational Autoencoders (VAE): probabilistic latent spaces, reparameterization 
 ### **[vqvae.ipynb](notebooks/vqvae.ipynb)**
 Vector-Quantized VAE (VQ-VAE): discrete latent spaces, learned codebook, vector quantization, and straight-through estimator. Foundation for DALL-E and hierarchical generation.
 
+### **[gan-fundamentals.ipynb](notebooks/gan-fundamentals.ipynb)**
+Deep dive into GANs: the minimax game formulation, generator/discriminator training loop, loss functions (BCE, Wasserstein, LSGAN), mode collapse, vanishing gradients, and training tricks. Foundation for understanding all GAN variants.
+
 ### **[generation-image.ipynb](notebooks/generation-image.ipynb)**
 VAEs and DCGANs for image generation. Latent space exploration.
 
