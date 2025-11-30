@@ -98,11 +98,8 @@ Evaluation metrics: accuracy, precision, recall, F1, ROC-AUC. When to use each.
 
 **Understanding how to build models that generalize.**
 
-### **[overfitting-underfitting.ipynb](notebooks/overfitting-underfitting.ipynb)**
-Overfitting vs underfitting, model capacity, learning curves, and the bias-variance tradeoff.
-
-### **[bias-variance-tradeoff.ipynb](notebooks/bias-variance-tradeoff.ipynb)**
-Bias-variance decomposition and how it guides model selection.
+### **[bias-variance-overfitting.ipynb](notebooks/bias-variance-overfitting.ipynb)**
+Bias-variance tradeoff, overfitting vs underfitting, model capacity, learning curves, and practical diagnosis. Comprehensive coverage of how model complexity affects generalization.
 
 ### **[train-test-val-split.ipynb](notebooks/train-test-val-split.ipynb)**
 Train/validation/test splits, data leakage prevention, and temporal splits for time-series.
@@ -170,11 +167,8 @@ PyTorch autograd, nn.Parameter, nn.Module, and the training loop.
 ### ✅ **[gradient-stability.ipynb](notebooks/gradient-stability.ipynb)**
 Vanishing and exploding gradient problems in deep networks.
 
-### **[gradient-clipping.ipynb](notebooks/gradient-clipping.ipynb)**
-Gradient clipping to prevent exploding gradients.
-
-### **[gradient-normalization.ipynb](notebooks/gradient-normalization.ipynb)**
-Gradient normalization for stable training across layers.
+### **[gradient-stabilization.ipynb](notebooks/gradient-stabilization.ipynb)**
+Gradient clipping and normalization for stable training: value vs norm clipping, geometric intuition, threshold selection, and when to use each technique.
 
 ### **[batch-normalization.ipynb](notebooks/batch-normalization.ipynb)**
 Batch normalization to stabilize and accelerate training.
