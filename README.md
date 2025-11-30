@@ -299,6 +299,9 @@ Twin networks with shared weights and contrastive loss for similarity learning.
 ### **[rnn-from-scratch.ipynb](notebooks/rnn-from-scratch.ipynb)**
 RNN with hidden states and backpropagation through time (BPTT).
 
+### **[gru-from-scratch.ipynb](notebooks/gru-from-scratch.ipynb)**
+GRU: the simpler gated architecture with 2 gates instead of 3. Update gate (combines forget+input), reset gate, gradient highways, and when to choose GRU vs LSTM.
+
 ### **[lstm-from-scratch.ipynb](notebooks/lstm-from-scratch.ipynb)**
 LSTM gates (forget, input, output) and solving vanishing gradients.
 
