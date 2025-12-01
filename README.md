@@ -213,6 +213,11 @@ Handling class imbalance: proper metrics, class weights, resampling, and SMOTE.
 
 **Neural networks from scratch.** The core of modern ML.
 
+### Hardware Foundations
+
+### **[gpu-hardware-basics.ipynb](notebooks/gpu-hardware-basics.ipynb)**
+GPU and hardware fundamentals: understanding CUDA cores, memory hierarchy (registers, shared memory, L1/L2 cache, global memory), memory bandwidth bottlenecks, coalesced vs strided access patterns, arithmetic intensity, Tensor Cores, and practical optimization guidelines. Essential for understanding why certain operations are fast/slow, why batch size matters, and how to write GPU-friendly code. Read this before diving into training and optimization to build intuition about hardware constraints.
+
 ### Core Concepts
 
 ### **[neural-network-fundamentals.ipynb](notebooks/neural-network-fundamentals.ipynb)**
