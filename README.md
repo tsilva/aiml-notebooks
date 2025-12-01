@@ -108,8 +108,14 @@ Binary classification with logistic regression, gradient descent, and decision b
 ### **[softmax-multiclass.ipynb](notebooks/softmax-multiclass.ipynb)**
 Softmax function, one-hot encoding, and categorical cross-entropy for multiclass classification.
 
+### **[decision-trees.ipynb](notebooks/decision-trees.ipynb)**
+Decision trees from scratch: recursive splitting, impurity measures (Gini, Entropy), information gain, regularization, and feature importance. Foundation for ensemble methods (Random Forests, Gradient Boosting).
+
 ### **[metrics.ipynb](notebooks/metrics.ipynb)**
 Evaluation metrics: accuracy, precision, recall, F1, ROC-AUC. When to use each.
+
+### **[naive-bayes.ipynb](notebooks/naive-bayes.ipynb)**
+Naive Bayes classifiers: Bayes' theorem for classification, the naive independence assumption, Gaussian NB (continuous features), Multinomial NB (text/counts), Bernoulli NB (binary features), and Laplace smoothing. Fast, simple, and surprisingly effective for text classification and as a baseline.
 
 ### **[support-vector-machines.ipynb](notebooks/support-vector-machines.ipynb)**
 Support Vector Machines (SVMs): maximum margin classification, support vectors, the kernel trick (linear, polynomial, RBF), C and gamma hyperparameters, and when to use SVMs vs other classifiers. A classic algorithm with elegant mathematical foundations worth understanding.
