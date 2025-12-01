@@ -111,6 +111,9 @@ Softmax function, one-hot encoding, and categorical cross-entropy for multiclass
 ### **[metrics.ipynb](notebooks/metrics.ipynb)**
 Evaluation metrics: accuracy, precision, recall, F1, ROC-AUC. When to use each.
 
+### **[support-vector-machines.ipynb](notebooks/support-vector-machines.ipynb)**
+Support Vector Machines (SVMs): maximum margin classification, support vectors, the kernel trick (linear, polynomial, RBF), C and gamma hyperparameters, and when to use SVMs vs other classifiers. A classic algorithm with elegant mathematical foundations worth understanding.
+
 ---
 
 ## TIER 4: Core ML Principles
