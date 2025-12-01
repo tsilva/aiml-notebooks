@@ -10,7 +10,7 @@ AI/ML Jupyter notebooks for learning and experimentation. This repository contai
 
 This repository provides a comprehensive, hands-on learning path through machine learning and deep learning. Each notebook is designed to build deep intuitions through progressive implementation, starting from absolute foundations and building to state-of-the-art techniques.
 
-**The learning path is organized by conceptual prerequisites** - follow the tier progression for the most effective learning experience. Notebooks marked with ✅ are foundational and critical for understanding subsequent material.
+**The learning path is organized by conceptual prerequisites** - follow the tier progression for the most effective learning experience. Notebooks marked with ✅ have been completed.
 
 ## 🚀 Quick Start
 
@@ -41,20 +41,21 @@ uv run jupyter lab
 
 **This learning path is organized by conceptual prerequisites** - each tier builds on previous tiers. The sequence is designed to take a complete AI/ML beginner to advanced mastery by following the specified order.
 
+**Legend:**
+- ✅ = Completed
+- 🔴 = Advanced/challenging material
+
 ### Critical Constraint:
 When notebooks are added or modified, they must be inserted in their appropriate tier based on conceptual prerequisites. The learning progression from foundational to advanced topics is the PRIMARY organizing principle.
 
 ---
 
-## TIER 1: Mathematical Foundations
+## TIER 1: Numerical Computing
 
-**Start here!** These are the bare essentials before anything else.
+**Start here!** Learn to work with arrays and tensors - the data structures of ML.
 
 ### **[numpy-fundamentals.ipynb](notebooks/numpy-fundamentals.ipynb)**
 NumPy arrays, indexing, broadcasting, and operations. Foundation for all numerical ML work.
-
-### **[linear-algebra.ipynb](notebooks/linear-algebra.ipynb)**
-Vectors, matrices, dot products, norms, eigenvalues, and orthogonality. Mathematical foundation for all ML algorithms.
 
 ### **[tensors-operations.ipynb](notebooks/tensors-operations.ipynb)**
 PyTorch tensor operations: shapes, broadcasting, indexing, and basic algebra.
@@ -62,8 +63,14 @@ PyTorch tensor operations: shapes, broadcasting, indexing, and basic algebra.
 ### **[tensor-multiplication.ipynb](notebooks/tensor-multiplication.ipynb)**
 Matrix multiplication and broadcasting in detail. How neural network layers compute.
 
-### **[data-normalization.ipynb](notebooks/data-normalization.ipynb)**
-Min-max scaling vs standardization. Why normalization matters and avoiding data leakage.
+---
+
+## TIER 2: Mathematical Foundations
+
+**The math you need.** Linear algebra, calculus, and probability for ML.
+
+### **[linear-algebra.ipynb](notebooks/linear-algebra.ipynb)**
+Vectors, matrices, dot products, norms, eigenvalues, and orthogonality. Mathematical foundation for all ML algorithms.
 
 ### **[calculus-refresher.ipynb](notebooks/calculus-refresher.ipynb)**
 Derivatives, chain rule, partial derivatives, and gradients. Foundation for backpropagation and optimization.
@@ -73,6 +80,18 @@ Discrete (Bernoulli, Categorical, Binomial) and continuous (Uniform, Normal) dis
 
 ### **[kl-divergence.ipynb](notebooks/kl-divergence.ipynb)**
 Information theory from the ground up: surprisal, entropy, cross-entropy, and KL divergence. Builds intuition through analogies and visualizations. Essential for understanding VAEs, RL policy optimization, and model training.
+
+### **[bayesian-ml-basics.ipynb](notebooks/bayesian-ml-basics.ipynb)**
+Bayesian machine learning fundamentals: Bayes' theorem, priors (informative, non-informative, conjugate), posteriors, credible intervals, and uncertainty quantification. Implements Bayesian linear regression from scratch. Foundation for understanding regularization as prior beliefs and uncertainty in predictions.
+
+---
+
+## TIER 3: ML Building Blocks
+
+**Core components.** The building blocks used in every ML model.
+
+### **[data-normalization.ipynb](notebooks/data-normalization.ipynb)**
+Min-max scaling vs standardization. Why normalization matters and avoiding data leakage.
 
 ### **[loss-functions.ipynb](notebooks/loss-functions.ipynb)**
 MSE, MAE, cross-entropy, and hinge loss. Properties and when to use each.
@@ -94,9 +113,9 @@ Evaluation metrics: accuracy, precision, recall, F1, ROC-AUC. When to use each.
 
 ---
 
-## TIER 2: Core ML Principles
+## TIER 4: Core ML Principles
 
-**Understanding how to build models that generalize.**
+**Understanding generalization.** How to build models that work on new data.
 
 ### **[bias-variance-overfitting.ipynb](notebooks/bias-variance-overfitting.ipynb)**
 Bias-variance tradeoff, overfitting vs underfitting, model capacity, learning curves, and practical diagnosis. Comprehensive coverage of how model complexity affects generalization.
@@ -121,7 +140,7 @@ Bagging, Random Forests, boosting (AdaBoost, Gradient Boosting), and stacking.
 
 ---
 
-## TIER 3: Data Engineering & Optimization
+## TIER 5: Data Engineering & Optimization
 
 **Making the most of your data and training.**
 
@@ -148,7 +167,7 @@ Learning rate schedules: step decay, exponential decay, cosine annealing, and wa
 
 ---
 
-## TIER 4: Deep Learning Foundations
+## TIER 6: Deep Learning Foundations
 
 **Now we can start with neural networks!**
 
@@ -178,22 +197,7 @@ Layer normalization for RNNs and transformers.
 
 ---
 
-## TIER 5: Text & Embedding Foundations
-
-**Essential text processing before language models.**
-
-### **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)**
-Character, word, BPE, and WordPiece tokenization. Vocabulary vs sequence length tradeoff.
-
-### **[embeddings.ipynb](notebooks/embeddings.ipynb)**
-Learned vector representations for discrete objects (words, items, users).
-
-### **[word2vec-from-scratch.ipynb](notebooks/word2vec-from-scratch.ipynb)**
-Skip-gram Word2Vec with negative sampling. Semantic relationships via vector arithmetic.
-
----
-
-## TIER 6: First Neural Networks
+## TIER 7: First Neural Networks
 
 **Simple neural networks for language modeling.**
 
@@ -211,9 +215,26 @@ Systematic debugging: sanity checks, common failures, gradient flow, and learnin
 
 ---
 
-## TIER 7: Convolutional Neural Networks
+## TIER 8: Text & Embedding Foundations
+
+**Essential text processing before language models.**
+
+### **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)**
+Character, word, BPE, and WordPiece tokenization. Vocabulary vs sequence length tradeoff.
+
+### **[embeddings.ipynb](notebooks/embeddings.ipynb)**
+Learned vector representations for discrete objects (words, items, users).
+
+### **[word2vec-from-scratch.ipynb](notebooks/word2vec-from-scratch.ipynb)**
+Skip-gram Word2Vec with negative sampling. Semantic relationships via vector arithmetic.
+
+---
+
+## TIER 9: Convolutional Neural Networks
 
 **Computer vision fundamentals.**
+
+### Fundamentals
 
 ### **[tensors-convolution.ipynb](notebooks/tensors-convolution.ipynb)**
 Convolutional operations: filters, padding, stride, dilation, and transposed convolutions.
@@ -223,6 +244,8 @@ MaxPooling, AveragePooling, and Global pooling for downsampling feature maps.
 
 ### **[cnn-architectures-evolution.ipynb](notebooks/cnn-architectures-evolution.ipynb)**
 Historical evolution of CNNs from LeNet (1998) → AlexNet (2012) → VGG (2014) → Inception (2014). Shows WHY each innovation mattered: ReLU activation, dropout regularization, depth with small filters, and multi-scale features. Read this overview first, then dive into individual architectures below.
+
+### Architecture Evolution
 
 ### **[lenet-limitations.ipynb](notebooks/lenet-limitations.ipynb)**
 LeNet-5 (1998): the first successful CNN architecture. Implementation and training on CIFAR-10 reveals fundamental limitations: insufficient depth (only 2 conv layers), minimal feature capacity (6/16 filters), no regularization, and FC layers that don't scale. Each limitation motivates specific innovations in later architectures. Essential foundation for understanding CNN evolution.
@@ -245,8 +268,10 @@ Deep dive into why skip connections work: gradient highways preventing vanishing
 ### **[mobilenet-efficient-cnns.ipynb](notebooks/mobilenet-efficient-cnns.ipynb)**
 MobileNet (2017): shifts focus from pure accuracy to efficiency for mobile and edge devices. Introduces depthwise separable convolutions that factorize standard convolutions into depthwise (spatial filtering per channel) and pointwise (channel mixing) operations, achieving 8-9× speedup with minimal accuracy loss. Implements width multiplier for easy model scaling (0.25×, 0.5×, 0.75×, 1.0×). Shows the efficiency vs accuracy trade-off landscape and demonstrates that architectural innovations can reduce computational cost while maintaining performance. Opens the efficiency branch of CNN evolution (MobileNet → EfficientNet → NAS).
 
-### **[efficientnet-compound-scaling.ipynb](notebooks/efficientnet-compound-scaling.ipynb)**
+### 🔴 **[efficientnet-compound-scaling.ipynb](notebooks/efficientnet-compound-scaling.ipynb)**
 EfficientNet (2019): solves the scaling problem through compound scaling that simultaneously balances depth, width, and resolution with fixed ratios (d=α^φ, w=β^φ, r=γ^φ). Shows why single-dimension scaling is suboptimal and uses Neural Architecture Search (NAS) to discover optimal base architecture. Implements MBConv blocks with Squeeze-and-Excitation for channel attention. Achieves 10× better efficiency than previous CNNs - EfficientNet-B0 matches ResNet-50 accuracy with 5× fewer parameters. Completes the efficiency branch: shows how automated search + systematic scaling creates the peak of CNN efficiency before Vision Transformers.
+
+### Applications & Techniques
 
 ### **[classification-image.ipynb](notebooks/classification-image.ipynb)**
 Building CNN and MLP image classifiers on CIFAR-10, MNIST, and Fashion-MNIST.
@@ -274,9 +299,11 @@ YOLO architecture: bounding boxes, anchor boxes, and Non-Maximum Suppression.
 
 ---
 
-## TIER 8: Unsupervised Learning
+## TIER 10: Unsupervised & Representation Learning
 
-**Learning without labels.**
+**Learning without labels and learning useful representations.**
+
+### Clustering
 
 ### **[kmeans-from-scratch.ipynb](notebooks/kmeans-from-scratch.ipynb)**
 K-means clustering: iterative assignment, k-means++, and the elbow method.
@@ -284,33 +311,41 @@ K-means clustering: iterative assignment, k-means++, and the elbow method.
 ### **[gaussian-mixture-models.ipynb](notebooks/gaussian-mixture-models.ipynb)**
 Gaussian Mixture Models and Expectation-Maximization for soft clustering.
 
+### Representation Learning
+
 ### **[autoencoders.ipynb](notebooks/autoencoders.ipynb)**
 Encoder-decoder architecture for compression and reconstruction. Foundation for VAEs.
 
 ### **[siamese-networks.ipynb](notebooks/siamese-networks.ipynb)**
 Twin networks with shared weights and contrastive loss for similarity learning.
 
+### **[contrastive-learning.ipynb](notebooks/contrastive-learning.ipynb)**
+Contrastive learning with InfoNCE loss. SimCLR-style self-supervised learning.
+
+### **[self-supervised-learning.ipynb](notebooks/self-supervised-learning.ipynb)**
+Self-supervised approaches: Rotation, Jigsaw, Masked Autoencoding, SimCLR, BERT masking.
+
 ---
 
-## TIER 9: Recurrent Neural Networks
+## TIER 11: Recurrent Neural Networks
 
 **Sequential data and memory.**
 
 ### **[rnn-from-scratch.ipynb](notebooks/rnn-from-scratch.ipynb)**
 RNN with hidden states and backpropagation through time (BPTT).
 
-### **[gru-from-scratch.ipynb](notebooks/gru-from-scratch.ipynb)**
-GRU: the simpler gated architecture with 2 gates instead of 3. Update gate (combines forget+input), reset gate, gradient highways, and when to choose GRU vs LSTM.
-
 ### **[lstm-from-scratch.ipynb](notebooks/lstm-from-scratch.ipynb)**
 LSTM gates (forget, input, output) and solving vanishing gradients.
+
+### **[gru-from-scratch.ipynb](notebooks/gru-from-scratch.ipynb)**
+GRU: the simpler gated architecture with 2 gates instead of 3. Update gate (combines forget+input), reset gate, gradient highways, and when to choose GRU vs LSTM.
 
 ### **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)**
 Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-forward validation.
 
 ---
 
-## TIER 10: Attention & Transformers
+## TIER 12: Attention & Transformers
 
 **Modern sequence modeling - the revolution.**
 
@@ -344,16 +379,16 @@ Hardware-adaptive GPT-2 implementation with PyTorch Lightning. Auto-detects opti
 ### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
-### **[mamba-state-space-models.ipynb](notebooks/mamba-state-space-models.ipynb)**
+### 🔴 **[mamba-state-space-models.ipynb](notebooks/mamba-state-space-models.ipynb)**
 State Space Models and Mamba: linear-complexity alternative to Transformers.
 
 ---
 
-## TIER 11: Efficient Transformers
+## TIER 13: Efficient Transformers
 
 **Making transformers fast and deployable.**
 
-### **[flash-attention.ipynb](notebooks/flash-attention.ipynb)**
+### 🔴 **[flash-attention.ipynb](notebooks/flash-attention.ipynb)**
 Flash Attention: memory-efficient attention with tiling and online softmax. Explains why standard attention is I/O bound (not compute bound), GPU memory hierarchy (SRAM vs HBM), and implements simplified Flash Attention from scratch. Covers causal masking, memory comparison, and PyTorch's scaled_dot_product_attention.
 
 ### **[kv-caching.ipynb](notebooks/kv-caching.ipynb)**
@@ -370,7 +405,7 @@ LoRA and parameter-efficient fine-tuning. Low-rank weight updates.
 
 ---
 
-## TIER 12: Text & Audio Applications
+## TIER 14: Text & Audio Applications
 
 **Practical NLP and audio tasks end-to-end.**
 
@@ -406,9 +441,9 @@ Zero-shot, few-shot, chain-of-thought, and ReAct prompting techniques.
 
 ---
 
-## TIER 13: Generative Models for Images
+## TIER 15: Generative Models
 
-**Learning to generate and reconstruct images.**
+**Learning to generate images and other data.**
 
 ### **[denoising-image.ipynb](notebooks/denoising-image.ipynb)**
 Image denoising with convolutional autoencoders and Denoising Autoencoders (DAE). Simpler foundation before probabilistic models.
@@ -433,59 +468,71 @@ Latent Diffusion and Stable Diffusion. VAE latents with cross-attention conditio
 
 ---
 
-## TIER 14: Advanced Architectures
+## TIER 16: Advanced Architectures
 
 **Beyond standard feedforward, convolutional, and recurrent networks.**
 
 ### **[clip-architecture.ipynb](notebooks/clip-architecture.ipynb)**
 CLIP dual encoders with contrastive learning. Zero-shot classification via text.
 
-### **[capsule-networks.ipynb](notebooks/capsule-networks.ipynb)**
+### 🔴 **[capsule-networks.ipynb](notebooks/capsule-networks.ipynb)**
 CapsNets with dynamic routing by agreement. Preserving spatial information.
 
 ### **[mixture-of-experts.ipynb](notebooks/mixture-of-experts.ipynb)**
 Sparse MoE with gating networks. Efficient scaling to trillion-parameter models.
 
-### **[graph-neural-networks.ipynb](notebooks/graph-neural-networks.ipynb)**
+### 🔴 **[graph-neural-networks.ipynb](notebooks/graph-neural-networks.ipynb)**
 GNNs and message passing for graph-structured data.
 
-### **[neural-odes.ipynb](notebooks/neural-odes.ipynb)**
+### 🔴 **[neural-odes.ipynb](notebooks/neural-odes.ipynb)**
 Neural ODEs: continuous-depth networks as differential equations.
 
-### **[energy-based-neural-networks.ipynb](notebooks/energy-based-neural-networks.ipynb)**
+### 🔴 **[energy-based-neural-networks.ipynb](notebooks/energy-based-neural-networks.ipynb)**
 Hopfield Networks and RBMs. Energy functions and contrastive divergence.
 
 ---
 
-## TIER 15: Fascinating Phenomena
+## TIER 17: Fascinating Phenomena
 
 **Interesting research findings that challenge intuitions.**
 
 ### **[adversarial-robustness.ipynb](notebooks/adversarial-robustness.ipynb)**
 Adversarial examples, FGSM/PGD attacks, and adversarial training.
 
-### **[double-descent.ipynb](notebooks/double-descent.ipynb)**
+### 🔴 **[double-descent.ipynb](notebooks/double-descent.ipynb)**
 Double descent: test error decreasing beyond interpolation threshold.
 
-### **[grokking.ipynb](notebooks/grokking.ipynb)**
+### 🔴 **[grokking.ipynb](notebooks/grokking.ipynb)**
 Grokking: sudden generalization after prolonged overfitting on algorithmic tasks.
 
 ---
 
-## TIER 16: Alternative Training Paradigms
+## TIER 18: Alternative Learning Paradigms
 
-**Beyond standard supervised learning - self-supervised, meta-learning, and alternative training methods.**
+**Beyond standard supervised learning.**
+
+### Learning Efficiency
 
 ### **[meta-learning-few-shot.ipynb](notebooks/meta-learning-few-shot.ipynb)**
 MAML for few-shot learning. Learning to learn with inner/outer loops.
 
-### **[contrastive-learning.ipynb](notebooks/contrastive-learning.ipynb)**
-Contrastive learning with InfoNCE loss. SimCLR-style self-supervised learning.
+### **[active-learning.ipynb](notebooks/active-learning.ipynb)**
+Query strategies for selecting data to label: uncertainty, QBC, diversity.
 
-### **[self-supervised-learning.ipynb](notebooks/self-supervised-learning.ipynb)**
-Self-supervised approaches: Rotation, Jigsaw, Masked Autoencoding, SimCLR, BERT masking.
+### **[curriculum-learning.ipynb](notebooks/curriculum-learning.ipynb)**
+Training from easy to hard. Difficulty metrics and curriculum strategies.
 
-### **[forward-forward.ipynb](notebooks/forward-forward.ipynb)**
+### Multi-Task & Lifelong Learning
+
+### **[multi-task-learning.ipynb](notebooks/multi-task-learning.ipynb)**
+MTL with hard/soft parameter sharing. Loss balancing strategies.
+
+### **[continual-learning.ipynb](notebooks/continual-learning.ipynb)**
+Lifelong learning without catastrophic forgetting. Replay, EWC, and architecture methods.
+
+### Experimental Methods
+
+### 🔴 **[forward-forward.ipynb](notebooks/forward-forward.ipynb)**
 Forward-Forward algorithm: layer-local learning without backpropagation.
 
 ### **[neuroevolution-tic-tac-toe.ipynb](notebooks/neuroevolution-tic-tac-toe.ipynb)**
@@ -494,29 +541,21 @@ Neuroevolution with genetic algorithms for tic-tac-toe.
 ### **[1bit-neural-networks.ipynb](notebooks/1bit-neural-networks.ipynb)**
 Binary and ternary quantization with straight-through estimator.
 
-### **[multi-task-learning.ipynb](notebooks/multi-task-learning.ipynb)**
-MTL with hard/soft parameter sharing. Loss balancing strategies.
-
-### **[curriculum-learning.ipynb](notebooks/curriculum-learning.ipynb)**
-Training from easy to hard. Difficulty metrics and curriculum strategies.
-
-### **[active-learning.ipynb](notebooks/active-learning.ipynb)**
-Query strategies for selecting data to label: uncertainty, QBC, diversity.
-
-### **[continual-learning.ipynb](notebooks/continual-learning.ipynb)**
-Lifelong learning without catastrophic forgetting. Replay, EWC, and architecture methods.
-
 ---
 
-## TIER 17: Reinforcement Learning
+## TIER 19: Reinforcement Learning
 
 **Learning through interaction with environments.**
+
+### Foundations
 
 ### **[rl-q-learning.ipynb](notebooks/rl-q-learning.ipynb)**
 Q-learning, MDPs, Bellman equation, and ε-greedy exploration.
 
 ### **[mcts-simple.ipynb](notebooks/mcts-simple.ipynb)**
 Monte Carlo Tree Search with UCB1 for tic-tac-toe.
+
+### Policy Methods
 
 ### **[rl-policy-gradients.ipynb](notebooks/rl-policy-gradients.ipynb)**
 Policy gradients, REINFORCE, Actor-Critic, and PPO basics.
@@ -527,6 +566,8 @@ DQN with experience replay and target networks.
 ### **[rl-advanced-policy-methods.ipynb](notebooks/rl-advanced-policy-methods.ipynb)**
 A2C/A3C, SAC, and TD3 for continuous control.
 
+### Applications
+
 ### **[rlhf-alignment.ipynb](notebooks/rlhf-alignment.ipynb)**
 RLHF pipeline: SFT, reward modeling, and PPO optimization. DPO alternative.
 
@@ -535,7 +576,7 @@ World models, Dyna algorithm, and planning for sample efficiency.
 
 ---
 
-## TIER 18: Fun & Specialized Applications
+## BONUS: Fun Projects
 
 **Unique and interesting applications.**
 
@@ -598,4 +639,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-**Note:** This learning progression builds conceptual dependencies systematically. Each tier assumes mastery of previous tiers. Notebooks marked as "Work in Progress" may be incomplete but are placed where they fit conceptually in the learning path.
+**Note:** This learning progression builds conceptual dependencies systematically. Each tier assumes mastery of previous tiers. Notebooks marked with ✅ have been completed. Notebooks marked with 🔴 are advanced and may require additional background. Notebooks marked as "Work in Progress" may be incomplete but are placed where they fit conceptually in the learning path.
