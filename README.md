@@ -340,6 +340,9 @@ Building CNN and MLP image classifiers on CIFAR-10, MNIST, and Fashion-MNIST.
 ### **[transfer-learning.ipynb](notebooks/transfer-learning.ipynb)**
 Using pretrained models: feature extraction vs fine-tuning.
 
+### **[neural-style-transfer.ipynb](notebooks/neural-style-transfer.ipynb)**
+Neural Style Transfer: artistic image generation with CNNs. Uses pretrained VGG-19 to extract content and style features, implements Gram matrices for capturing artistic style, and optimizes pixel space to blend content with artistic style. Shows how CNNs naturally separate content from style in their representations.
+
 ### **[unet-architecture.ipynb](notebooks/unet-architecture.ipynb)**
 U-Net encoder-decoder with skip connections for semantic segmentation.
 
