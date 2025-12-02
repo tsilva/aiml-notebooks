@@ -444,3 +444,96 @@ def compute_latent_statistics(
             }
 
     return stats
+
+
+def track_block_activations(
+    model: torch.nn.Module,
+    x: torch.Tensor,
+    layer_norm_enabled: bool = True
+) -> List[dict]:
+    """
+    Track activation statistics at the output of each transformer block.
+    
+    Useful for diagnosing training issues like vanishing/exploding activations.
+    Monitors mean, standard deviation, and maximum absolute values through the
+    forward pass of a transformer model.
+    
+    The model is expected to have:
+    - token_embedding_table: nn.Embedding for token embeddings
+    - position_embedding_table: nn.Embedding for position embeddings
+    - blocks: nn.ModuleList of transformer blocks
+    - ln_final: Optional final layer norm
+    
+    Args:
+        model: Transformer model with the expected structure
+        x: Input tensor of token ids with shape (batch_size, seq_len)
+        layer_norm_enabled: Whether final layer norm should be applied
+    
+    Returns:
+        List of dictionaries, each containing:
+        - layer: Name of the layer ('input', 'block_0', 'block_1', ..., 'final'/'final_ln')
+        - mean: Mean activation value
+        - std: Standard deviation of activations
+        - max_abs: Maximum absolute activation value
+        
+    Example:
+        >>> model = Transformer()
+        >>> x = torch.randint(0, 50257, (1, 128))  # Random tokens
+        >>> stats = track_block_activations(model, x)
+        >>> for s in stats:
+        ...     print(f"{s['layer']}: mean={s['mean']:.4f}, std={s['std']:.4f}")
+        
+        >>> # Visualize activation growth
+        >>> import matplotlib.pyplot as plt
+        >>> max_abs = [s['max_abs'] for s in stats]
+        >>> plt.semilogy(max_abs, marker='o')
+        >>> plt.xlabel('Layer')
+        >>> plt.ylabel('Max Absolute Activation')
+        >>> plt.show()
+    """
+    stats = []
+    
+    model.eval()
+    with torch.no_grad():
+        # Get embeddings
+        x_emb = model.token_embedding_table(x)
+        pos = torch.arange(x_emb.size(1), device=x.device)
+        pos_emb = model.position_embedding_table(pos).unsqueeze(0)
+        hidden = x_emb + pos_emb
+        
+        # Track initial state
+        stats.append({
+            'layer': 'input',
+            'mean': hidden.mean().item(),
+            'std': hidden.std().item(),
+            'max_abs': hidden.abs().max().item()
+        })
+        
+        # Track through each block
+        for i, block in enumerate(model.blocks):
+            hidden = block(hidden)
+            stats.append({
+                'layer': f'block_{i}',
+                'mean': hidden.mean().item(),
+                'std': hidden.std().item(),
+                'max_abs': hidden.abs().max().item()
+            })
+        
+        # Apply final layer norm if enabled
+        if layer_norm_enabled and hasattr(model, 'ln_final'):
+            hidden = model.ln_final(hidden)
+            stats.append({
+                'layer': 'final_ln',
+                'mean': hidden.mean().item(),
+                'std': hidden.std().item(),
+                'max_abs': hidden.abs().max().item()
+            })
+        else:
+            stats.append({
+                'layer': 'final',
+                'mean': hidden.mean().item(),
+                'std': hidden.std().item(),
+                'max_abs': hidden.abs().max().item()
+            })
+    
+    return stats
