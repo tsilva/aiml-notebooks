@@ -746,6 +746,92 @@ def log_confusion_matrix_callback(
     return fig
 
 
+def plot_activation_stats(
+    stats: List[Dict[str, float]],
+    figsize: Tuple[int, int] = (14, 6),
+    print_summary: bool = True,
+    show: bool = True
+) -> plt.Figure:
+    """
+    Plot activation statistics from transformer layers.
+    
+    Creates a 2-panel figure showing:
+    - Maximum absolute activation values (log scale)
+    - Standard deviation of activations
+    
+    Also optionally prints a summary table and growth rate analysis.
+    
+    Args:
+        stats: List of dictionaries from track_block_activations, each containing:
+               - layer: Name of the layer
+               - mean: Mean activation value
+               - std: Standard deviation of activations  
+               - max_abs: Maximum absolute activation value
+        figsize: Figure size (width, height)
+        print_summary: Whether to print the summary table
+        show: Whether to call plt.show()
+        
+    Returns:
+        Matplotlib figure object
+        
+    Example:
+        >>> from aiml_notebooks import track_block_activations, plot_activation_stats
+        >>> stats = track_block_activations(model, x)
+        >>> fig = plot_activation_stats(stats)
+        
+        >>> # Without showing immediately (for saving or further processing)
+        >>> fig = plot_activation_stats(stats, show=False, print_summary=False)
+        >>> fig.savefig('activations.png')
+    """
+    layers = [s['layer'] for s in stats]
+    max_abs = [s['max_abs'] for s in stats]
+    stds = [s['std'] for s in stats]
+    
+    fig, axes = plt.subplots(1, 2, figsize=figsize)
+    
+    # Plot 1: Maximum absolute values (log scale)
+    axes[0].semilogy(max_abs, marker='o', linewidth=2, markersize=8, color='red')
+    axes[0].set_title('Maximum Absolute Activation Values', fontsize=14, fontweight='bold')
+    axes[0].set_xlabel('Layer', fontsize=12)
+    axes[0].set_ylabel('Max Abs Value (log scale)', fontsize=12)
+    axes[0].grid(True, alpha=0.3)
+    axes[0].set_xticks(range(len(layers)))
+    axes[0].set_xticklabels(layers, rotation=45, ha='right')
+    
+    # Plot 2: Standard deviation
+    axes[1].plot(stds, marker='s', linewidth=2, markersize=8, color='blue')
+    axes[1].set_title('Standard Deviation of Activations', fontsize=14, fontweight='bold')
+    axes[1].set_xlabel('Layer', fontsize=12)
+    axes[1].set_ylabel('Standard Deviation', fontsize=12)
+    axes[1].grid(True, alpha=0.3)
+    axes[1].set_xticks(range(len(layers)))
+    axes[1].set_xticklabels(layers, rotation=45, ha='right')
+    
+    plt.tight_layout()
+    
+    if print_summary:
+        print("\n" + "="*70)
+        print("ACTIVATION STATISTICS")
+        print("="*70)
+        print(f"{'Layer':<15} {'Mean':>12} {'Std':>12} {'Max Abs':>12}")
+        print("-"*70)
+        for s in stats:
+            print(f"{s['layer']:<15} {s['mean']:>12.4f} {s['std']:>12.4f} {s['max_abs']:>12.4f}")
+        print("="*70)
+        
+        # Calculate growth rate
+        if len(max_abs) > 1:
+            growth_rate = max_abs[-1] / max_abs[0] if max_abs[0] != 0 else float('inf')
+            print(f"\nActivation Growth Rate (Final/Initial): {growth_rate:.2f}x")
+            print(f"Initial max abs: {max_abs[0]:.4f}")
+            print(f"Final max abs: {max_abs[-1]:.4f}")
+    
+    if show:
+        plt.show()
+    
+    return fig
+
+
 def log_prediction_grid_callback(
     images: List[torch.Tensor],
     logits: List[torch.Tensor],
