@@ -94,6 +94,31 @@ def set_seed(seed: int = 42):
         torch.mps.manual_seed(seed)
 
 
+def get_grad_norm(model: torch.nn.Module) -> float:
+    """
+    Calculate the total gradient norm of a model's parameters.
+
+    Useful for monitoring training stability and detecting exploding/vanishing gradients.
+
+    Args:
+        model: PyTorch model with computed gradients
+
+    Returns:
+        Total L2 norm of all gradients
+
+    Example:
+        >>> loss.backward()
+        >>> grad_norm = get_grad_norm(model)
+        >>> print(f"Gradient norm: {grad_norm:.4f}")
+    """
+    total_norm = 0.0
+    for p in model.parameters():
+        if p.grad is not None:
+            param_norm = p.grad.data.norm(2)
+            total_norm += param_norm.item() ** 2
+    return total_norm ** 0.5
+
+
 def count_parameters(model: torch.nn.Module, trainable_only: bool = False) -> int:
     """
     Count the number of parameters in a model.
