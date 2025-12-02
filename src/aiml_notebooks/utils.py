@@ -168,7 +168,7 @@ def print_model_summary(model: torch.nn.Module):
 def load_pretrained_gpt2_weights(
     model: torch.nn.Module,
     model_name: str = 'openai-community/gpt2',
-    n_layer: int = 12,
+    n_layer: int = None,
     verbose: bool = True
 ) -> torch.nn.Module:
     """
@@ -188,7 +188,7 @@ def load_pretrained_gpt2_weights(
     Args:
         model: Custom Transformer model instance with the expected structure
         model_name: HuggingFace model identifier (default: 'openai-community/gpt2')
-        n_layer: Number of transformer layers in the model
+        n_layer: Number of transformer layers (inferred from model.blocks if None)
         verbose: Whether to print progress messages
     
     Returns:
@@ -200,11 +200,15 @@ def load_pretrained_gpt2_weights(
         
     Example:
         >>> model = Transformer()  # Your custom GPT-2 implementation
-        >>> model = load_pretrained_gpt2_weights(model, n_layer=12)
+        >>> model = load_pretrained_gpt2_weights(model)
         >>> model.eval()
         >>> output = model.generate("Hello, world")
     """
     from transformers import GPT2LMHeadModel
+    
+    # Infer n_layer from model if not provided
+    if n_layer is None:
+        n_layer = len(model.blocks)
     
     if verbose:
         print(f"Loading pretrained weights from {model_name}...")
