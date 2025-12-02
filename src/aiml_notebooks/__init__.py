@@ -57,7 +57,7 @@ from .dataloader_benchmark import (
 from .tokenizers import CharacterTokenizer, WordTokenizer
 
 # General utilities
-from .utils import get_device, set_seed, count_parameters, print_model_summary, load_pretrained_gpt2_weights
+from .utils import get_device, set_seed, count_parameters, print_model_summary, load_pretrained_gpt2_weights, get_grad_norm
 
 # Batch size optimization (import early to avoid circular imports)
 from .optimize_batch_size import (
@@ -257,6 +257,7 @@ __all__ = [
     "set_seed",
     "count_parameters",
     "print_model_summary",
+    "get_grad_norm",
     "load_pretrained_gpt2_weights",
     # Hardware detection and configuration
     "HardwareConfig",
