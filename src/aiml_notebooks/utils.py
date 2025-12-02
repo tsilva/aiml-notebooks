@@ -206,15 +206,26 @@ def load_pretrained_gpt2_weights(
     """
     from transformers import GPT2LMHeadModel
     
-    # Infer n_layer from model if not provided
-    if n_layer is None:
-        n_layer = len(model.blocks)
-    
     if verbose:
         print(f"Loading pretrained weights from {model_name}...")
     
     hf_model = GPT2LMHeadModel.from_pretrained(model_name)
     hf_state_dict = hf_model.state_dict()
+    
+    # Get layer count from HuggingFace model
+    hf_n_layer = hf_model.config.n_layer
+    
+    # Infer n_layer from custom model if not provided
+    if n_layer is None:
+        n_layer = len(model.blocks)
+    
+    # Validate architecture compatibility
+    if n_layer != hf_n_layer:
+        raise ValueError(
+            f"Architecture mismatch: custom model has {n_layer} layers but "
+            f"{model_name} has {hf_n_layer} layers. "
+            f"Create your model with n_layer={hf_n_layer} to match."
+        )
     
     our_state_dict = model.state_dict()
     
