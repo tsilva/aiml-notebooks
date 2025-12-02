@@ -118,6 +118,7 @@ from .visualization import (
     plot_model_comparison,
     log_confusion_matrix_callback,
     log_prediction_grid_callback,
+    plot_activation_stats,
 )
 
 # Loss functions
@@ -304,6 +305,7 @@ __all__ = [
     "visualize_sample_predictions",
     "plot_interpolation",
     "plot_model_comparison",
+    "plot_activation_stats",
     # Losses
     "VAELoss",
     "VQVAELoss",
