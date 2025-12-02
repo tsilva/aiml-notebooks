@@ -757,3 +757,666 @@ def auto_learning_rate(
         raise ValueError(f"Unknown scaling_rule '{scaling_rule}'. Must be 'linear' or 'sqrt'")
 
     return scaled_lr
+
+
+# ============================================================================
+# Training Memory Estimation
+# ============================================================================
+
+def estimate_training_memory_gb(
+    config: dict,
+    vocab_size: int = 50257,
+    dtype: str = "float32",
+    optimizer: str = "adamw",
+    gradient_checkpointing: bool = False,
+    include_buffers: bool = True,
+) -> dict:
+    """
+    Comprehensive memory estimator for training a GPT-2 style transformer.
+    
+    This estimates PEAK memory usage during training, which typically occurs
+    during the backward pass through the cross-entropy loss.
+    
+    Args:
+        config: Dictionary with model configuration:
+            - n_positions: sequence length / block size
+            - batch_size: micro-batch size (actual batch per forward pass)
+            - n_embd: embedding dimension
+            - n_head: number of attention heads
+            - n_layer: number of transformer blocks
+            - gradient_accumulation_steps: (optional, for display only)
+        vocab_size: vocabulary size (default: 50257 for GPT-2)
+        dtype: "float32", "float16", "bfloat16", or "mixed" (mixed precision)
+        optimizer: "adamw", "adam", "sgd", "sgd_momentum", or "adafactor"
+        gradient_checkpointing: if True, trades compute for memory
+        include_buffers: include causal masks and other buffers
+    
+    Returns:
+        Dictionary with detailed memory breakdown in GB
+    
+    Memory Components:
+        1. Model Parameters: weights of all layers
+        2. Gradients: same size as parameters (stored for optimizer step)
+        3. Optimizer States: depends on optimizer (AdamW = 2x params)
+        4. Activations: stored during forward pass for backprop
+           - This is where most memory goes for large batch/sequence!
+        5. Peak Backward Memory: temporary tensors during backward pass
+        6. Framework Overhead: autograd graph, memory fragmentation, metadata
+        7. Buffers: causal masks, position indices (small but present)
+    
+    Key Insight:
+        Gradient accumulation does NOT multiply activation memory!
+        - Forward pass 1 → store activations → backward pass 1 → free activations
+        - Forward pass 2 → store activations → backward pass 2 → free activations
+        - ... (gradients accumulate, but activations are freed each step)
+        - Optimizer step (uses accumulated gradients)
+        
+        Peak memory occurs during a SINGLE forward-backward pass, not across
+        accumulation steps.
+
+    Example:
+        >>> config = {"n_positions": 1024, "batch_size": 32, "n_embd": 768, 
+        ...           "n_head": 12, "n_layer": 12}
+        >>> estimate = estimate_training_memory_gb(config)
+        >>> print(f"Total memory: {estimate['total_memory_gb']:.2f} GB")
+    """
+    # Extract config
+    n_positions = config["n_positions"]  # T (sequence length)
+    batch_size = config["batch_size"]     # B (micro-batch size)
+    n_embd = config["n_embd"]             # C (embedding dimension)
+    n_head = config["n_head"]             # H (number of heads)
+    n_layer = config["n_layer"]           # L (number of layers)
+    head_size = n_embd // n_head          # D (dimension per head)
+    
+    # Bytes per element based on dtype
+    DTYPE_BYTES = {
+        "float32": 4,
+        "float16": 2,
+        "bfloat16": 2,
+        "mixed": 2,  # Activations in fp16, master weights in fp32
+    }
+    bytes_per_param = DTYPE_BYTES.get(dtype, 4)
+    bytes_per_activation = 2 if dtype == "mixed" else bytes_per_param
+    
+    # =========================================================================
+    # 1. MODEL PARAMETERS (weights + biases)
+    # =========================================================================
+    
+    # Token embeddings: (vocab_size, n_embd)
+    token_emb_params = vocab_size * n_embd
+    
+    # Position embeddings: (n_positions, n_embd)
+    pos_emb_params = n_positions * n_embd
+    
+    # Per transformer block:
+    # - QKV projection: Linear(n_embd, 3 * n_embd) → weight + bias
+    attn_qkv_params = n_embd * 3 * n_embd + 3 * n_embd  # weight + bias
+    # - Output projection: Linear(n_embd, n_embd) → weight + bias
+    attn_out_params = n_embd * n_embd + n_embd
+    # - FFN up: Linear(n_embd, 4 * n_embd)
+    ffn_up_params = n_embd * 4 * n_embd + 4 * n_embd
+    # - FFN down: Linear(4 * n_embd, n_embd)
+    ffn_down_params = 4 * n_embd * n_embd + n_embd
+    # - Layer norms: 2 per block, each has weight + bias of size n_embd
+    ln_params_per_block = 2 * (n_embd + n_embd)
+    
+    params_per_block = attn_qkv_params + attn_out_params + ffn_up_params + ffn_down_params + ln_params_per_block
+    
+    # Final layer norm
+    final_ln_params = n_embd + n_embd
+    
+    # LM head: Linear(n_embd, vocab_size) - usually tied to token embeddings
+    lm_head_params = 0  # Assuming weight tying
+    
+    total_params = token_emb_params + pos_emb_params + (n_layer * params_per_block) + final_ln_params + lm_head_params
+    
+    # =========================================================================
+    # 2. GRADIENTS
+    # =========================================================================
+    gradient_elements = total_params
+    
+    # =========================================================================
+    # 3. OPTIMIZER STATES
+    # =========================================================================
+    OPTIMIZER_MULTIPLIER = {
+        "adamw": 2,
+        "adam": 2,
+        "sgd": 0,
+        "sgd_momentum": 1,
+        "adafactor": 0.5,
+    }
+    optimizer_multiplier = OPTIMIZER_MULTIPLIER.get(optimizer, 2)
+    optimizer_state_elements = total_params * optimizer_multiplier
+    
+    # =========================================================================
+    # 4. ACTIVATIONS (Forward Pass - stored for backprop)
+    # =========================================================================
+    if gradient_checkpointing:
+        activation_elements = (
+            batch_size * n_positions * n_embd * (n_layer + 2)
+        )
+    else:
+        # Input embeddings: (B, T, C)
+        input_emb_act = batch_size * n_positions * n_embd
+        
+        # Per transformer block activations:
+        attn_input = batch_size * n_positions * n_embd
+        qkv_act = 3 * batch_size * n_head * n_positions * head_size
+        attn_scores = batch_size * n_head * n_positions * n_positions
+        attn_weights = batch_size * n_head * n_positions * n_positions
+        attn_output_pre = batch_size * n_head * n_positions * head_size
+        attn_output_post = batch_size * n_positions * n_embd
+        
+        attn_act_per_block = attn_input + qkv_act + attn_scores + attn_weights + attn_output_pre + attn_output_post
+        
+        # FFN:
+        ffn_input = batch_size * n_positions * n_embd
+        ffn_expanded = batch_size * n_positions * 4 * n_embd
+        ffn_gelu_input = batch_size * n_positions * 4 * n_embd
+        ffn_output = batch_size * n_positions * n_embd
+        
+        ffn_act_per_block = ffn_input + ffn_expanded + ffn_gelu_input + ffn_output
+        
+        # Residual stream saved at each block
+        residual_per_block = 2 * batch_size * n_positions * n_embd
+        
+        act_per_block = attn_act_per_block + ffn_act_per_block + residual_per_block
+        
+        # Final layer norm input: (B, T, C)
+        final_ln_input = batch_size * n_positions * n_embd
+        
+        # LM head output / logits: (B, T, V) - THIS IS MASSIVE!
+        logits_act = batch_size * n_positions * vocab_size
+        
+        activation_elements = input_emb_act + (n_layer * act_per_block) + final_ln_input + logits_act
+    
+    # =========================================================================
+    # 5. PEAK BACKWARD MEMORY
+    # =========================================================================
+    cross_entropy_peak = 2 * batch_size * n_positions * vocab_size
+    
+    attn_backward_peak = (
+        3 * batch_size * n_head * n_positions * head_size +
+        batch_size * n_head * n_positions * n_positions
+    )
+    
+    backward_peak = max(cross_entropy_peak, attn_backward_peak)
+    
+    # =========================================================================
+    # 6. BUFFERS
+    # =========================================================================
+    if include_buffers:
+        causal_mask = n_positions * n_positions * n_layer
+        position_indices = n_positions * 2
+        buffer_elements = causal_mask + position_indices
+    else:
+        buffer_elements = 0
+    
+    # =========================================================================
+    # CONVERT TO BYTES AND GB
+    # =========================================================================
+    def to_gb(elements, bytes_each):
+        return (elements * bytes_each) / (1024**3)
+    
+    # Model weights
+    model_memory_gb = to_gb(total_params, bytes_per_param)
+    if dtype == "mixed":
+        model_memory_gb = to_gb(total_params, 2) + to_gb(total_params, 4)
+    
+    # Gradients
+    gradient_memory_gb = to_gb(gradient_elements, bytes_per_param)
+    
+    # Optimizer states (always fp32)
+    optimizer_memory_gb = to_gb(optimizer_state_elements, 4)
+    
+    # Activations
+    activation_memory_gb = to_gb(activation_elements, bytes_per_activation)
+    
+    # Peak backward memory
+    backward_peak_gb = to_gb(backward_peak, bytes_per_activation)
+    
+    # Buffers
+    buffer_memory_gb = to_gb(buffer_elements, 4)
+    
+    # =========================================================================
+    # TOTAL MEMORY CALCULATION
+    # =========================================================================
+    static_memory_gb = model_memory_gb + gradient_memory_gb + optimizer_memory_gb + buffer_memory_gb
+    dynamic_memory_gb = activation_memory_gb + backward_peak_gb * 0.7
+    
+    # Framework overhead: ~10%
+    subtotal_gb = static_memory_gb + dynamic_memory_gb
+    framework_overhead_gb = subtotal_gb * 0.10
+    
+    total_memory_gb = subtotal_gb + framework_overhead_gb
+    
+    # =========================================================================
+    # DETAILED BREAKDOWN
+    # =========================================================================
+    logits_memory_gb = to_gb(batch_size * n_positions * vocab_size, bytes_per_activation)
+    attn_matrix_per_block_gb = to_gb(2 * batch_size * n_head * n_positions * n_positions, bytes_per_activation)
+    
+    return {
+        # Summary
+        "total_memory_gb": total_memory_gb,
+        "total_params": total_params,
+        
+        # Static memory
+        "model_memory_gb": model_memory_gb,
+        "gradient_memory_gb": gradient_memory_gb,
+        "optimizer_memory_gb": optimizer_memory_gb,
+        "buffer_memory_gb": buffer_memory_gb,
+        "static_memory_gb": static_memory_gb,
+        
+        # Dynamic memory
+        "activation_memory_gb": activation_memory_gb,
+        "backward_peak_gb": backward_peak_gb,
+        "dynamic_memory_gb": dynamic_memory_gb,
+        
+        # Framework overhead
+        "framework_overhead_gb": framework_overhead_gb,
+        
+        # Detailed breakdown
+        "logits_memory_gb": logits_memory_gb,
+        "cross_entropy_peak_gb": to_gb(cross_entropy_peak, bytes_per_activation),
+        "attn_matrix_per_block_gb": attn_matrix_per_block_gb,
+        
+        # Config echo
+        "config": {
+            "batch_size": batch_size,
+            "n_positions": n_positions,
+            "n_embd": n_embd,
+            "n_head": n_head,
+            "n_layer": n_layer,
+            "vocab_size": vocab_size,
+            "dtype": dtype,
+            "optimizer": optimizer,
+            "gradient_checkpointing": gradient_checkpointing,
+        },
+        
+        # Parameter breakdown
+        "param_breakdown": {
+            "token_embeddings": token_emb_params,
+            "position_embeddings": pos_emb_params,
+            "transformer_blocks": n_layer * params_per_block,
+            "final_layer_norm": final_ln_params,
+            "lm_head": lm_head_params,
+        },
+    }
+
+
+def print_memory_estimate(estimate: dict) -> None:
+    """
+    Pretty print a memory estimate from estimate_training_memory_gb.
+    
+    Args:
+        estimate: Dictionary returned by estimate_training_memory_gb
+        
+    Example:
+        >>> estimate = estimate_training_memory_gb(config)
+        >>> print_memory_estimate(estimate)
+    """
+    print("=" * 75)
+    print("  TRAINING MEMORY ESTIMATE")
+    print("=" * 75)
+    
+    cfg = estimate["config"]
+    print(f"\n📋 Configuration:")
+    print(f"   Model: {cfg['n_layer']}L-{cfg['n_head']}H-{cfg['n_embd']}D, vocab={cfg['vocab_size']:,}")
+    print(f"   Training: batch={cfg['batch_size']}, seq_len={cfg['n_positions']}, dtype={cfg['dtype']}")
+    print(f"   Optimizer: {cfg['optimizer']}, checkpointing={cfg['gradient_checkpointing']}")
+    print(f"   Parameters: {estimate['total_params']:,} ({estimate['total_params']/1e6:.2f}M)")
+    
+    print(f"\n📊 Memory Breakdown:")
+    print(f"   ┌─ Static Memory (always allocated) ──────────────────────────────┐")
+    print(f"   │  Model weights:      {estimate['model_memory_gb']:>8.3f} GB                          │")
+    print(f"   │  Gradients:          {estimate['gradient_memory_gb']:>8.3f} GB                          │")
+    print(f"   │  Optimizer states:   {estimate['optimizer_memory_gb']:>8.3f} GB                          │")
+    print(f"   │  Buffers:            {estimate['buffer_memory_gb']:>8.3f} GB                          │")
+    print(f"   │  ─────────────────────────────────────                          │")
+    print(f"   │  Static subtotal:    {estimate['static_memory_gb']:>8.3f} GB                          │")
+    print(f"   └─────────────────────────────────────────────────────────────────┘")
+    
+    print(f"   ┌─ Dynamic Memory (forward/backward pass) ────────────────────────┐")
+    print(f"   │  Activations:        {estimate['activation_memory_gb']:>8.3f} GB                          │")
+    print(f"   │  Backward peak:      {estimate['backward_peak_gb']:>8.3f} GB                          │")
+    print(f"   │  ─────────────────────────────────────                          │")
+    print(f"   │  Dynamic subtotal:   {estimate['dynamic_memory_gb']:>8.3f} GB                          │")
+    print(f"   └─────────────────────────────────────────────────────────────────┘")
+    
+    print(f"   ┌─ Overhead ───────────────────────────────────────────────────────┐")
+    print(f"   │  Framework (10%):    {estimate['framework_overhead_gb']:>8.3f} GB                          │")
+    print(f"   └─────────────────────────────────────────────────────────────────┘")
+    
+    print(f"\n🎯 TOTAL PEAK MEMORY:     {estimate['total_memory_gb']:>8.3f} GB")
+    
+    print(f"\n⚠️  Largest Memory Consumers:")
+    print(f"   • Logits tensor (B×T×V):       {estimate['logits_memory_gb']:.3f} GB")
+    print(f"   • Cross-entropy backward:      {estimate['cross_entropy_peak_gb']:.3f} GB")
+    print(f"   • Attention matrices (per L):  {estimate['attn_matrix_per_block_gb']:.3f} GB")
+    
+    # Recommendations
+    total = estimate['total_memory_gb']
+    print(f"\n💡 Recommendations for your {cfg['batch_size']}×{cfg['n_positions']} config:")
+    if total > 14:
+        print(f"   ❌ Too large for 16GB! Reduce batch_size or use gradient accumulation")
+        safe_batch = max(1, int(cfg['batch_size'] * 12 / total))
+        print(f"   → Try batch_size={safe_batch} with gradient_accumulation_steps={cfg['batch_size']//safe_batch}")
+    elif total > 12:
+        print(f"   ⚠️  Tight fit for 16GB. May OOM under memory pressure.")
+        print(f"   → Consider reducing batch_size slightly or using gradient checkpointing")
+    elif total > 8:
+        print(f"   ✅ Should fit in 16GB with some headroom")
+    else:
+        print(f"   ✅ Comfortable fit in 16GB")
+        if cfg['batch_size'] < 128:
+            print(f"   → You could likely increase batch_size for faster training")
+    
+    print("=" * 75)
+
+
+def find_max_batch_size(
+    config: dict,
+    memory_budget_gb: float = 14.0,
+    target_effective_batch: Optional[int] = None,
+    vocab_size: int = 50257,
+    dtype: str = "float32",
+    optimizer: str = "adamw",
+    gradient_checkpointing: bool = False,
+) -> dict:
+    """
+    Find the maximum batch size that fits in memory, with gradient accumulation.
+    
+    Uses binary search to find the largest batch size that fits within the
+    memory budget, then calculates gradient accumulation steps if a target
+    effective batch size is specified.
+    
+    Args:
+        config: Base config dict (batch_size will be overridden during search)
+        memory_budget_gb: Available GPU memory (default 14GB for 16GB card with OS overhead)
+        target_effective_batch: Desired effective batch size (batch_size × grad_accum)
+        vocab_size: Vocabulary size
+        dtype: Data type for training
+        optimizer: Optimizer type
+        gradient_checkpointing: Whether using gradient checkpointing
+    
+    Returns:
+        Dictionary with recommended batch_size and gradient_accumulation_steps
+        
+    Example:
+        >>> config = {"n_positions": 1024, "n_embd": 768, "n_head": 12, 
+        ...           "n_layer": 12, "batch_size": 32}
+        >>> result = find_max_batch_size(config, memory_budget_gb=14.0, 
+        ...                               target_effective_batch=512)
+        >>> print(f"Use batch_size={result['batch_size']} with "
+        ...       f"gradient_accumulation_steps={result['gradient_accumulation_steps']}")
+    """
+    # Binary search for max batch size
+    low, high = 1, 2048
+    max_batch = 1
+    
+    test_config = config.copy()
+    
+    while low <= high:
+        mid = (low + high) // 2
+        test_config["batch_size"] = mid
+        
+        estimate = estimate_training_memory_gb(
+            test_config,
+            vocab_size=vocab_size,
+            dtype=dtype,
+            optimizer=optimizer,
+            gradient_checkpointing=gradient_checkpointing,
+        )
+        
+        if estimate["total_memory_gb"] <= memory_budget_gb:
+            max_batch = mid
+            low = mid + 1
+        else:
+            high = mid - 1
+    
+    # Calculate gradient accumulation steps if target effective batch specified
+    if target_effective_batch:
+        grad_accum = max(1, target_effective_batch // max_batch)
+        effective_batch = max_batch * grad_accum
+    else:
+        grad_accum = 1
+        effective_batch = max_batch
+    
+    # Get final memory estimate
+    test_config["batch_size"] = max_batch
+    final_estimate = estimate_training_memory_gb(
+        test_config,
+        vocab_size=vocab_size,
+        dtype=dtype,
+        optimizer=optimizer,
+        gradient_checkpointing=gradient_checkpointing,
+    )
+    
+    return {
+        "batch_size": max_batch,
+        "gradient_accumulation_steps": grad_accum,
+        "effective_batch_size": effective_batch,
+        "estimated_memory_gb": final_estimate["total_memory_gb"],
+        "memory_budget_gb": memory_budget_gb,
+        "headroom_gb": memory_budget_gb - final_estimate["total_memory_gb"],
+    }
+
+
+# ============================================================================
+# Memory Management
+# ============================================================================
+
+def free_memory(verbose: bool = True, aggressive: bool = False) -> int:
+    """
+    Free up memory by deleting large objects and clearing caches.
+    
+    Use this when you need to free memory without restarting the kernel.
+    
+    This function:
+    1. Deletes common large variables (model, optimizer, data loaders, etc.)
+    2. Clears MPS/CUDA caches multiple times
+    3. Forces multiple rounds of garbage collection
+    4. Shows memory before/after (if verbose)
+    
+    Args:
+        verbose: Show detailed output
+        aggressive: If True, also delete large objects found automatically
+    
+    Returns:
+        Number of variables deleted
+        
+    Example:
+        >>> free_memory()  # Standard cleanup
+        >>> free_memory(aggressive=True)  # More aggressive cleanup
+    """
+    import gc
+    import sys
+    
+    # Get memory before cleanup
+    mem_before = None
+    if verbose:
+        try:
+            process = psutil.Process()
+            mem_before = process.memory_info().rss / (1024**3)  # GB
+            print(f"\n🧹 Memory cleanup starting...")
+            print(f"   Memory before: {mem_before:.2f} GB")
+        except Exception:
+            print(f"\n🧹 Memory cleanup starting...")
+    
+    # Get all namespaces (Jupyter notebooks use user_ns)
+    namespaces = [globals()]
+    try:
+        from IPython import get_ipython
+        ipython = get_ipython()
+        if ipython is not None:
+            namespaces.append(ipython.user_ns)
+    except Exception:
+        pass
+    
+    # List of common variable names to delete
+    vars_to_delete = [
+        'model', 'model_pretrained',
+        'optimizer',
+        'train_loader', 'val_loader', 'test_loader',
+        'train_dataset', 'val_dataset', 'test_dataset',
+        'x', 'y', 'logits', 'loss', 'losses', 'grad_norms',
+        'stats', 'output_tokens', 'tokens_t',
+        'attention', 'Q', 'K', 'V', 'QKt', 'QKt_scaled', 'QKt_masked',
+        'mha_out', 'ffn_out', 'out',
+        'memory_estimate',
+        'token_embedding_table', 'position_embedding_table',
+        'padded', 'tokens_emb', 'positions_emb',
+    ]
+    
+    deleted_count = 0
+    deleted_vars = []
+    
+    # Delete from all namespaces
+    for namespace in namespaces:
+        for var_name in vars_to_delete:
+            if var_name in namespace:
+                try:
+                    del namespace[var_name]
+                    deleted_count += 1
+                    deleted_vars.append(var_name)
+                except Exception:
+                    pass
+    
+    # Aggressive mode: find and delete large objects
+    if aggressive:
+        if verbose:
+            print(f"   🔍 Aggressive mode: searching for large objects...")
+        
+        for namespace in namespaces:
+            for name, obj in list(namespace.items()):
+                if name.startswith('_'):
+                    continue
+                
+                try:
+                    # Check if it's a large PyTorch tensor or model
+                    size = 0
+                    if hasattr(obj, 'element_size') and hasattr(obj, 'nelement'):
+                        size = obj.element_size() * obj.nelement()
+                    elif hasattr(obj, 'parameters'):
+                        size = sum(p.numel() * (p.element_size() if hasattr(p, 'element_size') else 4)
+                                  for p in obj.parameters())
+                    elif isinstance(obj, (list, tuple)) and len(obj) > 1000:
+                        size = sys.getsizeof(obj)
+                    
+                    # Delete if > 10MB
+                    if size > 10 * 1024 * 1024:
+                        try:
+                            del namespace[name]
+                            deleted_count += 1
+                            deleted_vars.append(name)
+                            if verbose:
+                                print(f"      Deleted large object: {name} ({size / (1024**2):.1f} MB)")
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+    
+    # Clear PyTorch caches multiple times
+    if torch.backends.mps.is_available():
+        for _ in range(3):
+            torch.mps.empty_cache()
+        if verbose:
+            print(f"   ✓ Cleared MPS cache (3x)")
+    elif torch.cuda.is_available():
+        for _ in range(3):
+            torch.cuda.empty_cache()
+        if verbose:
+            print(f"   ✓ Cleared CUDA cache (3x)")
+    
+    # Multiple rounds of garbage collection
+    total_collected = 0
+    for _ in range(3):
+        collected = gc.collect()
+        total_collected += collected
+    
+    if verbose:
+        print(f"   ✓ Garbage collected {total_collected} objects (3 rounds)")
+        print(f"   ✓ Deleted {deleted_count} variables: {', '.join(deleted_vars[:10])}")
+        if len(deleted_vars) > 10:
+            print(f"      ... and {len(deleted_vars) - 10} more")
+    
+    # Get memory after cleanup
+    if verbose and mem_before is not None:
+        try:
+            process = psutil.Process()
+            mem_after = process.memory_info().rss / (1024**3)
+            freed = mem_before - mem_after
+            print(f"   Memory after:  {mem_after:.2f} GB")
+            print(f"   Memory freed:  {freed:.2f} GB")
+            if freed < 0.1:
+                print(f"   ⚠️  Warning: Little memory freed. Try aggressive=True or manual cleanup.")
+            print(f"   ✅ Memory cleanup complete!")
+        except Exception:
+            print(f"   ✅ Memory cleanup complete!")
+    
+    return deleted_count
+
+
+def show_memory_usage() -> None:
+    """
+    Show memory usage of large variables in the current namespace.
+    
+    Helps identify what's consuming memory by listing all variables
+    larger than 1MB sorted by size.
+    
+    Example:
+        >>> show_memory_usage()
+        ====================
+        MEMORY USAGE BY VARIABLE
+        ====================
+        Variable                           Size (MB)       Size (GB)
+        model                                 512.00           0.500
+        train_loader                          256.00           0.250
+        ...
+    """
+    import sys
+    
+    print("=" * 70)
+    print("MEMORY USAGE BY VARIABLE")
+    print("=" * 70)
+    
+    # Get all variables in global scope
+    vars_dict = globals()
+    
+    # Calculate size of each variable
+    var_sizes = []
+    for name, obj in vars_dict.items():
+        if not name.startswith('_'):
+            try:
+                size = sys.getsizeof(obj)
+                # For PyTorch tensors, get actual memory
+                if hasattr(obj, 'element_size') and hasattr(obj, 'nelement'):
+                    size = obj.element_size() * obj.nelement()
+                elif hasattr(obj, '__dict__'):
+                    # For models, estimate size
+                    if hasattr(obj, 'parameters'):
+                        size = sum(p.numel() * p.element_size() if hasattr(p, 'numel') else 0 
+                                  for p in obj.parameters())
+                
+                if size > 1024 * 1024:  # Only show variables > 1MB
+                    var_sizes.append((name, size / (1024**2)))  # MB
+            except Exception:
+                pass
+    
+    # Sort by size
+    var_sizes.sort(key=lambda x: x[1], reverse=True)
+    
+    if var_sizes:
+        print(f"{'Variable':<30} {'Size (MB)':>15} {'Size (GB)':>15}")
+        print("-" * 70)
+        for name, size_mb in var_sizes[:20]:  # Top 20
+            size_gb = size_mb / 1024
+            print(f"{name:<30} {size_mb:>15.2f} {size_gb:>15.3f}")
+    else:
+        print("No large variables found (>1MB)")
+    
+    print("=" * 70)
+    print("\n💡 To free memory, run: free_memory()")
+    print("💡 For aggressive cleanup: free_memory(aggressive=True)")
+    print("=" * 70)

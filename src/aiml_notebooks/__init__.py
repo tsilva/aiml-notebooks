@@ -57,7 +57,7 @@ from .dataloader_benchmark import (
 from .tokenizers import CharacterTokenizer, WordTokenizer
 
 # General utilities
-from .utils import get_device, set_seed, count_parameters, print_model_summary
+from .utils import get_device, set_seed, count_parameters, print_model_summary, load_pretrained_gpt2_weights
 
 # Batch size optimization (import early to avoid circular imports)
 from .optimize_batch_size import (
@@ -83,6 +83,11 @@ from .hardware import (
     auto_batch_size,
     auto_gradient_accumulation_steps,
     auto_learning_rate,
+    estimate_training_memory_gb,
+    print_memory_estimate,
+    find_max_batch_size,
+    free_memory,
+    show_memory_usage,
 )
 
 # Training utilities
@@ -154,6 +159,7 @@ from .analysis import (
     analyze_latent_clusters,
     latent_traversal,
     compute_latent_statistics,
+    track_block_activations,
 )
 
 # Preprocessing
@@ -251,6 +257,7 @@ __all__ = [
     "set_seed",
     "count_parameters",
     "print_model_summary",
+    "load_pretrained_gpt2_weights",
     # Hardware detection and configuration
     "HardwareConfig",
     "detect_hardware",
@@ -267,6 +274,11 @@ __all__ = [
     "auto_batch_size",
     "auto_gradient_accumulation_steps",
     "auto_learning_rate",
+    "estimate_training_memory_gb",
+    "print_memory_estimate",
+    "find_max_batch_size",
+    "free_memory",
+    "show_memory_usage",
     # Training
     "log_gradients",
     "log_model_weights",
@@ -320,6 +332,7 @@ __all__ = [
     "analyze_latent_clusters",
     "latent_traversal",
     "compute_latent_statistics",
+    "track_block_activations",
     # Preprocessing
     "TextPreprocessor",
     "simple_tokenize",
