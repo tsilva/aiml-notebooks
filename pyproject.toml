@@ -43,6 +43,7 @@ dependencies = [
     "jax[cpu]>=0.8.1",
     "keras>=3.12.0",
     "optax>=0.2.6",
+    "accelerate>=1.12.0",
 ]
 
 [build-system]
