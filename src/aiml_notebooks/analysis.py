@@ -511,7 +511,9 @@ def track_block_activations(
         
         # Track through each block
         for i, block in enumerate(model.blocks):
-            hidden = block(hidden)
+            result = block(hidden)
+            # Handle blocks that return (output, kv_cache) tuple
+            hidden = result[0] if isinstance(result, tuple) else result
             stats.append({
                 'layer': f'block_{i}',
                 'mean': hidden.mean().item(),
