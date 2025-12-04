@@ -595,6 +595,11 @@ DQN with experience replay and target networks.
 ### **[rl-advanced-policy-methods.ipynb](notebooks/rl-advanced-policy-methods.ipynb)**
 A2C/A3C, SAC, and TD3 for continuous control.
 
+### Search + Learning
+
+### **[wip-alphazero.ipynb](notebooks/wip-alphazero.ipynb)**
+AlphaZero: combines Monte Carlo Tree Search with deep neural networks for game mastery through pure self-play. Neural network with policy and value heads guides MCTS exploration, MCTS improves the policy through search, and self-play generates training data. Implements the full algorithm on Tic-Tac-Toe: MCTS with UCB, residual network architecture, iterative self-play training, and evaluation. Shows how search and learning amplify each other's strengths - the virtuous cycle that led to superhuman play in Chess, Go, and Shogi.
+
 ### Applications
 
 ### **[rlhf-alignment.ipynb](notebooks/rlhf-alignment.ipynb)**
