@@ -326,7 +326,7 @@ Inception/GoogLeNet (2014): answers "what filter size?" with "all of them!" Show
 ### **[resnet-skip-connections.ipynb](notebooks/resnet-skip-connections.ipynb)**
 ResNet (2015): solves the degradation problem that prevented networks beyond ~20 layers. Explains mathematically why learning residuals F(x) is easier than learning direct mappings H(x), and how skip connections create gradient highways. Implements ResNet-18 with BasicBlocks, demonstrates successful training of 18+ layer networks, and shows why ResNet became the foundation for virtually all modern architectures (Transformers, U-Net, DenseNet). First architecture to exceed human-level performance on ImageNet (3.57% vs 5% error). Completes the CNN evolution story from LeNet to mature deep learning.
 
-### **[why-residual-connections-work.ipynb](notebooks/why-residual-connections-work.ipynb)**
+### ✅ **[why-residual-connections-work.ipynb](notebooks/why-residual-connections-work.ipynb)**
 Deep dive into why skip connections work: gradient highways preventing vanishing gradients, ResNets as implicit ensembles of 2^n paths, and feature reuse across layers.
 
 ### Efficient Architectures
