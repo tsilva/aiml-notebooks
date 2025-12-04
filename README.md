@@ -72,7 +72,7 @@ Choose a focused path based on your goals:
 
 **Start here!** Learn to work with arrays and tensors - the data structures of ML.
 
-### **[numpy-fundamentals.ipynb](notebooks/numpy-fundamentals.ipynb)**
+### ✅ **[numpy-fundamentals.ipynb](notebooks/numpy-fundamentals.ipynb)**
 NumPy arrays, indexing, broadcasting, and operations. Foundation for all numerical ML work.
 
 ### **[tensors-operations.ipynb](notebooks/tensors-operations.ipynb)**
@@ -234,13 +234,13 @@ PyTorch autograd, nn.Parameter, nn.Module, and the training loop.
 
 ### Optimization
 
-### **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)**
+### ✅ **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)**
 Full-batch, mini-batch, and stochastic gradient descent. Epochs, steps, and batch sizes.
 
-### **[optimizers.ipynb](notebooks/optimizers.ipynb)**
+### ✅ **[optimizers.ipynb](notebooks/optimizers.ipynb)**
 SGD, Momentum, RMSprop, and Adam optimizers. When to use each.
 
-### **[learning-rate-schedules.ipynb](notebooks/learning-rate-schedules.ipynb)**
+### ✅ **[learning-rate-schedules.ipynb](notebooks/learning-rate-schedules.ipynb)**
 Learning rate schedules: step decay, exponential decay, cosine annealing, and warmup.
 
 ### Gradient Flow & Stability
@@ -326,7 +326,7 @@ Inception/GoogLeNet (2014): answers "what filter size?" with "all of them!" Show
 ### **[resnet-skip-connections.ipynb](notebooks/resnet-skip-connections.ipynb)**
 ResNet (2015): solves the degradation problem that prevented networks beyond ~20 layers. Explains mathematically why learning residuals F(x) is easier than learning direct mappings H(x), and how skip connections create gradient highways. Implements ResNet-18 with BasicBlocks, demonstrates successful training of 18+ layer networks, and shows why ResNet became the foundation for virtually all modern architectures (Transformers, U-Net, DenseNet). First architecture to exceed human-level performance on ImageNet (3.57% vs 5% error). Completes the CNN evolution story from LeNet to mature deep learning.
 
-### **[why-residual-connections-work.ipynb](notebooks/why-residual-connections-work.ipynb)**
+### ✅ **[why-residual-connections-work.ipynb](notebooks/why-residual-connections-work.ipynb)**
 Deep dive into why skip connections work: gradient highways preventing vanishing gradients, ResNets as implicit ensembles of 2^n paths, and feature reuse across layers.
 
 ### Efficient Architectures
@@ -385,7 +385,7 @@ Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-fo
 
 ### Foundations
 
-### **[attention-mechanism.ipynb](notebooks/attention-mechanism.ipynb)**
+### ✅ **[attention-mechanism.ipynb](notebooks/attention-mechanism.ipynb)**
 Scaled dot-product attention: queries, keys, values, and attention weights.
 
 ### **[seq2seq-with-attention.ipynb](notebooks/seq2seq-with-attention.ipynb)**
@@ -399,7 +399,7 @@ Full Transformer: self-attention, multi-head attention, encoder-decoder architec
 
 ### Architectures
 
-### **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
+### ✅ **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
 ### **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)**
@@ -414,9 +414,6 @@ Building GPT-2 from scratch in raw PyTorch. Character-level language model with 
 
 ### **[gpt2-keras-jax.ipynb](notebooks/gpt2-keras-jax.ipynb)** ← Alternative framework
 GPT-2 style transformer built from scratch using Keras with JAX backend. Educational implementation showing token/position embeddings, self-attention, multi-head attention, and transformer blocks with residual connections. Demonstrates JAX's XLA compilation benefits.
-
-### **[gpt2.ipynb](notebooks/gpt2.ipynb)** ← Production-ready
-Hardware-adaptive GPT-2 implementation with PyTorch Lightning. Auto-detects optimal settings for CUDA/MPS/CPU: precision, attention backend, batch size, gradient accumulation, and torch.compile. Production-ready training with checkpointing and early stopping.
 
 ### Beyond Text
 
