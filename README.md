@@ -415,9 +415,6 @@ Building GPT-2 from scratch in raw PyTorch. Character-level language model with 
 ### **[gpt2-keras-jax.ipynb](notebooks/gpt2-keras-jax.ipynb)** ← Alternative framework
 GPT-2 style transformer built from scratch using Keras with JAX backend. Educational implementation showing token/position embeddings, self-attention, multi-head attention, and transformer blocks with residual connections. Demonstrates JAX's XLA compilation benefits.
 
-### **[gpt2.ipynb](notebooks/gpt2.ipynb)** ← Production-ready
-Hardware-adaptive GPT-2 implementation with PyTorch Lightning. Auto-detects optimal settings for CUDA/MPS/CPU: precision, attention backend, batch size, gradient accumulation, and torch.compile. Production-ready training with checkpointing and early stopping.
-
 ### Beyond Text
 
 ### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
