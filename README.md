@@ -72,7 +72,7 @@ Choose a focused path based on your goals:
 
 **Start here!** Learn to work with arrays and tensors - the data structures of ML.
 
-### **[numpy-fundamentals.ipynb](notebooks/numpy-fundamentals.ipynb)**
+### ✅ **[numpy-fundamentals.ipynb](notebooks/numpy-fundamentals.ipynb)**
 NumPy arrays, indexing, broadcasting, and operations. Foundation for all numerical ML work.
 
 ### **[tensors-operations.ipynb](notebooks/tensors-operations.ipynb)**
@@ -237,10 +237,10 @@ PyTorch autograd, nn.Parameter, nn.Module, and the training loop.
 ### ✅ **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)**
 Full-batch, mini-batch, and stochastic gradient descent. Epochs, steps, and batch sizes.
 
-### **[optimizers.ipynb](notebooks/optimizers.ipynb)**
+### ✅ **[optimizers.ipynb](notebooks/optimizers.ipynb)**
 SGD, Momentum, RMSprop, and Adam optimizers. When to use each.
 
-### **[learning-rate-schedules.ipynb](notebooks/learning-rate-schedules.ipynb)**
+### ✅ **[learning-rate-schedules.ipynb](notebooks/learning-rate-schedules.ipynb)**
 Learning rate schedules: step decay, exponential decay, cosine annealing, and warmup.
 
 ### Gradient Flow & Stability
@@ -385,7 +385,7 @@ Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-fo
 
 ### Foundations
 
-### **[attention-mechanism.ipynb](notebooks/attention-mechanism.ipynb)**
+### ✅ **[attention-mechanism.ipynb](notebooks/attention-mechanism.ipynb)**
 Scaled dot-product attention: queries, keys, values, and attention weights.
 
 ### **[seq2seq-with-attention.ipynb](notebooks/seq2seq-with-attention.ipynb)**
@@ -399,7 +399,7 @@ Full Transformer: self-attention, multi-head attention, encoder-decoder architec
 
 ### Architectures
 
-### **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
+### ✅ **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
 ### **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)**
