@@ -234,7 +234,7 @@ PyTorch autograd, nn.Parameter, nn.Module, and the training loop.
 
 ### Optimization
 
-### **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)**
+### ✅ **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)**
 Full-batch, mini-batch, and stochastic gradient descent. Epochs, steps, and batch sizes.
 
 ### **[optimizers.ipynb](notebooks/optimizers.ipynb)**
