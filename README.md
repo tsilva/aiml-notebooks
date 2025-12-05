@@ -402,7 +402,7 @@ Full Transformer: self-attention, multi-head attention, encoder-decoder architec
 ### ✅ **[gpt-architecture.ipynb](notebooks/gpt-architecture.ipynb)**
 GPT decoder-only architecture. Causal masking and autoregressive generation.
 
-### **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)**
+### ✅ **[bert-architecture.ipynb](notebooks/bert-architecture.ipynb)**
 BERT encoder architecture. Masked language modeling and bidirectional context.
 
 ### GPT-2 Implementations
@@ -420,8 +420,11 @@ GPT-2 style transformer built from scratch using Keras with JAX backend. Educati
 ### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
+### **[understanding-mamba.ipynb](notebooks/understanding-mamba.ipynb)**
+Mamba intuition for Transformer experts: builds from the O(L²) attention problem to selective state spaces using simple examples and visualizations. Shows the ONE key idea (input-dependent recurrence) without control theory. Perfect first read before diving into the mathematical details. Compares directly to LSTMs and attention throughout.
+
 ### 🔴 **[mamba-state-space-models.ipynb](notebooks/mamba-state-space-models.ipynb)**
-State Space Models and Mamba: linear-complexity alternative to Transformers.
+Mamba deep dive: continuous/discrete state space models, HiPPO initialization, structured matrices, and the full mathematical formulation. Comprehensive coverage from control theory foundations to implementation. Read `understanding-mamba.ipynb` first for intuition.
 
 ---
 
