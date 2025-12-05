@@ -417,10 +417,10 @@ GPT-2 style transformer built from scratch using Keras with JAX backend. Educati
 
 ### Beyond Text
 
-### **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
+### 🔄 **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
-### **[understanding-mamba.ipynb](notebooks/understanding-mamba.ipynb)**
+### 🔄 **[understanding-mamba.ipynb](notebooks/understanding-mamba.ipynb)**
 Mamba intuition for Transformer experts: builds from the O(L²) attention problem to selective state spaces using simple examples and visualizations. Shows the ONE key idea (input-dependent recurrence) without control theory. Perfect first read before diving into the mathematical details. Compares directly to LSTMs and attention throughout.
 
 ### 🔴 **[mamba-state-space-models.ipynb](notebooks/mamba-state-space-models.ipynb)**
@@ -453,13 +453,13 @@ LoRA and parameter-efficient fine-tuning. Low-rank weight updates.
 
 **Learning without labels and learning useful representations.**
 
-### **[autoencoders.ipynb](notebooks/autoencoders.ipynb)**
+### ✅ **[autoencoders.ipynb](notebooks/autoencoders.ipynb)**
 Encoder-decoder architecture for compression and reconstruction. Foundation for VAEs.
 
 ### **[siamese-networks.ipynb](notebooks/siamese-networks.ipynb)**
 Twin networks with shared weights and contrastive loss for similarity learning.
 
-### **[contrastive-learning.ipynb](notebooks/contrastive-learning.ipynb)**
+### 🔄 **[contrastive-learning.ipynb](notebooks/contrastive-learning.ipynb)**
 Contrastive learning with InfoNCE loss. SimCLR-style self-supervised learning.
 
 ### **[self-supervised-learning.ipynb](notebooks/self-supervised-learning.ipynb)**
