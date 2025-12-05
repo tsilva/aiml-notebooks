@@ -272,7 +272,7 @@ Systematic debugging: sanity checks, common failures, gradient flow, and learnin
 ### **[tokenization-methods.ipynb](notebooks/tokenization-methods.ipynb)**
 Character, word, BPE, and WordPiece tokenization. Vocabulary vs sequence length tradeoff.
 
-### **[embeddings.ipynb](notebooks/embeddings.ipynb)**
+### ✅ **[embeddings.ipynb](notebooks/embeddings.ipynb)**
 Learned vector representations for discrete objects (words, items, users).
 
 ### **[word2vec-from-scratch.ipynb](notebooks/word2vec-from-scratch.ipynb)**
@@ -455,6 +455,9 @@ LoRA and parameter-efficient fine-tuning. Low-rank weight updates.
 
 ### ✅ **[autoencoders.ipynb](notebooks/autoencoders.ipynb)**
 Encoder-decoder architecture for compression and reconstruction. Foundation for VAEs.
+
+### **[sparse-autoencoders.ipynb](notebooks/sparse-autoencoders.ipynb)**
+Sparse autoencoders with KL divergence and L1 regularization. Learns interpretable, disentangled features by encouraging only a small fraction of neurons to be active. Implements overcomplete representations (latent_dim > input_dim) and analyzes neuron selectivity. Shows why sparsity leads to more interpretable features than regular autoencoders.
 
 ### **[siamese-networks.ipynb](notebooks/siamese-networks.ipynb)**
 Twin networks with shared weights and contrastive loss for similarity learning.
