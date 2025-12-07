@@ -417,6 +417,9 @@ GPT-2 style transformer built from scratch using Keras with JAX backend. Educati
 
 ### Beyond Text
 
+### **[wip-gpt2-time-series.ipynb](notebooks/wip-gpt2-time-series.ipynb)**
+GPT-2 for time series forecasting: adapting transformer language models for sequential numerical data. Covers value discretization via uniform binning, autoregressive multi-step forecasting, attention pattern analysis over temporal sequences, and comparison with persistence baselines. Demonstrates how transformers generalize beyond text to any sequential prediction task. Includes bonus regression head alternative to discretization.
+
 ### 🔄 **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
 
