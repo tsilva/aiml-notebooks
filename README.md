@@ -573,6 +573,9 @@ CLIP dual encoders with contrastive learning. Zero-shot classification via text.
 ### **[mixture-of-experts.ipynb](notebooks/mixture-of-experts.ipynb)**
 Sparse MoE with gating networks. Efficient scaling to trillion-parameter models.
 
+### **[neural-turing-machines.ipynb](notebooks/neural-turing-machines.ipynb)**
+Neural Turing Machines: RNNs with external differentiable memory. Combines content-based and location-based addressing for learning algorithms like copying, sorting, and associative recall. Shows how networks can explicitly read/write memory like a computer program.
+
 ### 🔴 **[capsule-networks.ipynb](notebooks/capsule-networks.ipynb)**
 CapsNets with dynamic routing by agreement. Preserving spatial information.
 
