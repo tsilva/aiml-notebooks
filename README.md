@@ -375,6 +375,9 @@ GRU: the simpler gated architecture with 2 gates instead of 3. Update gate (comb
 ### **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)**
 Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-forward validation.
 
+### **[wip-linear-rnns.ipynb](notebooks/wip-linear-rnns.ipynb)**
+Linear RNNs: solving RNN limitations through linear state transitions and parallel scan algorithms. Explains why traditional RNNs have sequential processing bottlenecks and vanishing gradients, then shows how Linear RNNs (S4, Mamba) enable parallelized training while maintaining RNN inference efficiency. Implements both architectures, compares training speed and memory stability, and analyzes learned state dynamics. Foundation for understanding modern efficient alternatives to Transformers.
+
 ---
 
 ## TIER 12: Attention & Transformers ⏱️ ~12-16 hours
