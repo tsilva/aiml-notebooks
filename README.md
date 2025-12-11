@@ -372,6 +372,9 @@ LSTM gates (forget, input, output) and solving vanishing gradients.
 ### **[gru-from-scratch.ipynb](notebooks/gru-from-scratch.ipynb)**
 GRU: the simpler gated architecture with 2 gates instead of 3. Update gate (combines forget+input), reset gate, gradient highways, and when to choose GRU vs LSTM.
 
+### ✅ **[rnn-binary-operations.ipynb](notebooks/rnn-binary-operations.ipynb)**
+RNN learning binary logic operations (AND, OR, NOT, XOR) over bit strings. Clean PyTorch Lightning implementation demonstrating sequence-to-sequence learning, comparing learning difficulty across operations, and serving as a minimal test bed for hyperparameter experimentation. Shows how non-linear separability (XOR) affects RNN learning dynamics.
+
 ### **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)**
 Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-forward validation.
 
