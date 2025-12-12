@@ -232,6 +232,9 @@ Backpropagation from scratch: building a micrograd-style autograd engine.
 ### **[pytorch-fundamentals.ipynb](notebooks/pytorch-fundamentals.ipynb)**
 PyTorch autograd, nn.Parameter, nn.Module, and the training loop.
 
+### ✅ **[learning-xor-with-mlp.ipynb](notebooks/learning-xor-with-mlp.ipynb)**
+Learning XOR with Multi-Layer Perceptron: demonstrates why multi-layer networks are necessary for non-linearly separable problems. Implements MLP from scratch with PyTorch, trains on boolean logic operations (AND, OR, XOR), and covers activation functions (tanh), weight initialization (Kaiming), and the training loop. Classic first example showing the power of hidden layers.
+
 ### Optimization
 
 ### ✅ **[mini-batch-gradient-descent.ipynb](notebooks/mini-batch-gradient-descent.ipynb)**
