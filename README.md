@@ -248,8 +248,8 @@ Learning rate schedules: step decay, exponential decay, cosine annealing, and wa
 
 ### Gradient Flow & Stability
 
-### ✅ **[gradient-stability.ipynb](notebooks/gradient-stability.ipynb)**
-Vanishing and exploding gradient problems in deep networks.
+### **[gradient-flow-and-stabilization.ipynb](notebooks/gradient-flow-and-stabilization.ipynb)**
+Test
 
 ### **[gradient-stabilization.ipynb](notebooks/gradient-stabilization.ipynb)**
 Gradient clipping and normalization for stable training: value vs norm clipping, geometric intuition, threshold selection, and when to use each technique.
