@@ -378,6 +378,9 @@ GRU: the simpler gated architecture with 2 gates instead of 3. Update gate (comb
 ### ✅ **[rnn-binary-operations.ipynb](notebooks/rnn-binary-operations.ipynb)**
 RNN learning binary logic operations (AND, OR, NOT, XOR) over bit strings. Clean PyTorch Lightning implementation demonstrating sequence-to-sequence learning, comparing learning difficulty across operations, and serving as a minimal test bed for hyperparameter experimentation. Shows how non-linear separability (XOR) affects RNN learning dynamics.
 
+### ✅ **[rwkv-from-scratch.ipynb](notebooks/rwkv-from-scratch.ipynb)**
+RWKV (Receptance Weighted Key Value): a novel architecture that bridges RNNs and Transformers by reformulating attention as a recurrent operation. Implements time-mixing and channel-mixing blocks with learnable interpolation between timesteps, exponential decay for selective memory, and linear O(T) complexity instead of quadratic O(T²). Shows how to achieve transformer-like expressiveness while maintaining RNN-style sequential processing and constant memory during inference. Essential for understanding modern efficient alternatives to standard attention.
+
 ### **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)**
 Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-forward validation.
 
