@@ -378,8 +378,14 @@ GRU: the simpler gated architecture with 2 gates instead of 3. Update gate (comb
 ### ✅ **[rnn-binary-operations.ipynb](notebooks/rnn-binary-operations.ipynb)**
 RNN learning binary logic operations (AND, OR, NOT, XOR) over bit strings. Clean PyTorch Lightning implementation demonstrating sequence-to-sequence learning, comparing learning difficulty across operations, and serving as a minimal test bed for hyperparameter experimentation. Shows how non-linear separability (XOR) affects RNN learning dynamics.
 
-### ✅ **[rwkv-from-scratch.ipynb](notebooks/rwkv-from-scratch.ipynb)**
-RWKV (Receptance Weighted Key Value): a novel architecture that bridges RNNs and Transformers by reformulating attention as a recurrent operation. Implements time-mixing and channel-mixing blocks with learnable interpolation between timesteps, exponential decay for selective memory, and linear O(T) complexity instead of quadratic O(T²). Shows how to achieve transformer-like expressiveness while maintaining RNN-style sequential processing and constant memory during inference. Essential for understanding modern efficient alternatives to standard attention.
+### ✅ **[rwkv4-from-scratch.ipynb](notebooks/rwkv4-from-scratch.ipynb)**
+RWKV-4 (Receptance Weighted Key Value): a novel architecture that bridges RNNs and Transformers by reformulating attention as a recurrent operation. Implements time-mixing and channel-mixing blocks with learnable interpolation between timesteps, exponential decay for selective memory, and linear O(T) complexity instead of quadratic O(T²). Shows how to achieve transformer-like expressiveness while maintaining RNN-style sequential processing and constant memory during inference. Essential foundation for understanding modern efficient alternatives to standard attention.
+
+### ✅ **[rwkv7-from-scratch.ipynb](notebooks/rwkv7-from-scratch.ipynb)**
+RWKV-7 "Goose": the latest evolution of RWKV with expressive state dynamics. Implements the generalized delta rule with vector-valued gating, multi-head matrix-valued states, and diagonal + rank-one updates for meta-learning. Shows how RWKV-7 performs in-context gradient descent at every token while maintaining linear complexity. Achieves spike-free training (major improvement over RWKV-5/6) with simplified architecture. Demonstrates why RWKV-7 can recognize all regular languages and exceed Transformer capabilities under standard complexity assumptions.
+
+### **[mamba1-from-scratch.ipynb](notebooks/mamba1-from-scratch.ipynb)**
+Mamba: selective state space models that achieve transformer-like performance with linear complexity. Implements the selection mechanism that makes SSM parameters (B, C, Δ) input-dependent, enabling the model to filter irrelevant information and focus on important features. Shows how selective scan replaces attention through recurrent computation with data-dependent dynamics. Includes SSM discretization, selective scan algorithm, and comparison with RWKV and transformers. Demonstrates how selection is crucial for sequence modeling without sacrificing expressiveness.
 
 ### **[time-series-forecasting.ipynb](notebooks/time-series-forecasting.ipynb)**
 Time series with MLP, LSTM, and Transformer. Temporal data splitting and walk-forward validation.
@@ -434,12 +440,6 @@ GPT-2 for time series forecasting: adapting transformer language models for sequ
 
 ### 🔄 **[vision-transformers.ipynb](notebooks/vision-transformers.ipynb)**
 Vision Transformers (ViT): patch embeddings and 2D positional encodings.
-
-### 🔄 **[understanding-mamba.ipynb](notebooks/understanding-mamba.ipynb)**
-Mamba intuition for Transformer experts: builds from the O(L²) attention problem to selective state spaces using simple examples and visualizations. Shows the ONE key idea (input-dependent recurrence) without control theory. Perfect first read before diving into the mathematical details. Compares directly to LSTMs and attention throughout.
-
-### 🔴 **[mamba-state-space-models.ipynb](notebooks/mamba-state-space-models.ipynb)**
-Mamba deep dive: continuous/discrete state space models, HiPPO initialization, structured matrices, and the full mathematical formulation. Comprehensive coverage from control theory foundations to implementation. Read `understanding-mamba.ipynb` first for intuition.
 
 ---
 
