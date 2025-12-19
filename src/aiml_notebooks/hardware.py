@@ -1361,10 +1361,10 @@ def free_memory(verbose: bool = True, aggressive: bool = False) -> int:
 def show_memory_usage() -> None:
     """
     Show memory usage of large variables in the current namespace.
-    
+
     Helps identify what's consuming memory by listing all variables
     larger than 1MB sorted by size.
-    
+
     Example:
         >>> show_memory_usage()
         ====================
@@ -1376,14 +1376,14 @@ def show_memory_usage() -> None:
         ...
     """
     import sys
-    
+
     print("=" * 70)
     print("MEMORY USAGE BY VARIABLE")
     print("=" * 70)
-    
+
     # Get all variables in global scope
     vars_dict = globals()
-    
+
     # Calculate size of each variable
     var_sizes = []
     for name, obj in vars_dict.items():
@@ -1396,17 +1396,17 @@ def show_memory_usage() -> None:
                 elif hasattr(obj, '__dict__'):
                     # For models, estimate size
                     if hasattr(obj, 'parameters'):
-                        size = sum(p.numel() * p.element_size() if hasattr(p, 'numel') else 0 
+                        size = sum(p.numel() * p.element_size() if hasattr(p, 'numel') else 0
                                   for p in obj.parameters())
-                
+
                 if size > 1024 * 1024:  # Only show variables > 1MB
                     var_sizes.append((name, size / (1024**2)))  # MB
             except Exception:
                 pass
-    
+
     # Sort by size
     var_sizes.sort(key=lambda x: x[1], reverse=True)
-    
+
     if var_sizes:
         print(f"{'Variable':<30} {'Size (MB)':>15} {'Size (GB)':>15}")
         print("-" * 70)
@@ -1415,8 +1415,157 @@ def show_memory_usage() -> None:
             print(f"{name:<30} {size_mb:>15.2f} {size_gb:>15.3f}")
     else:
         print("No large variables found (>1MB)")
-    
+
     print("=" * 70)
     print("\n💡 To free memory, run: free_memory()")
     print("💡 For aggressive cleanup: free_memory(aggressive=True)")
     print("=" * 70)
+
+
+# ============================================================================
+# Configuration Initialization
+# ============================================================================
+
+def init_training(config: dict, verbose: bool = True) -> dict:
+    """
+    Initialize training environment with automatic hardware detection and seeding.
+
+    This function:
+    1. Sets random seed for reproducibility using Lightning's seed_everything
+    2. Detects hardware capabilities (CUDA, MPS, or CPU)
+    3. Resolves "auto" fields in config based on hardware detection
+    4. Prints the final configuration
+    5. Returns a new config dict with all "auto" fields resolved
+
+    Supported "auto" fields:
+        - device: "auto" -> "cuda"/"mps"/"cpu"
+        - precision: "auto" -> "bf16-mixed"/"16-mixed"/"32-true"
+        - batch_size: "auto" -> hardware-optimized batch size
+        - pin_memory: "auto" -> True for CUDA, False for MPS/CPU
+        - num_workers: "auto" -> 0-4 based on hardware
+        - gradient_accumulation_steps: "auto" -> 1-4 based on memory
+        - use_compile: "auto" -> True for CUDA, False for MPS/CPU
+        - use_flash_attention: "auto" -> True if available on CUDA
+        - use_fused_optimizer: "auto" -> True for CUDA, False otherwise
+
+    Args:
+        config: Configuration dictionary with training hyperparameters
+                Must include "seed" key for reproducibility
+        verbose: Print configuration details (default: True)
+
+    Returns:
+        New configuration dictionary with all "auto" fields resolved
+
+    Example:
+        >>> CONFIG = {
+        ...     "seed": 42,
+        ...     "device": "auto",
+        ...     "precision": "auto",
+        ...     "batch_size": "auto",
+        ...     "learning_rate": 1e-3,
+        ... }
+        >>> CONFIG = init_training(CONFIG)
+
+        🌱 Initializing Training Environment
+        ═══════════════════════════════════════════════════════════════
+
+        🎲 Random Seed: 42
+           ✓ Seed set using Lightning's seed_everything()
+
+        🍎 Apple Silicon Detected
+           Architecture: arm64
+           ...
+
+        📊 Final Configuration:
+           Device: mps
+           Precision: 16-mixed
+           Batch size: 32
+           ...
+
+        >>> # All auto fields are now resolved
+        >>> CONFIG["device"]  # "mps" instead of "auto"
+        >>> CONFIG["precision"]  # "16-mixed" instead of "auto"
+    """
+    try:
+        import lightning as L
+    except ImportError:
+        raise ImportError(
+            "PyTorch Lightning is required for init_training. "
+            "Install with: uv pip install lightning"
+        )
+
+    if verbose:
+        print("\n🌱 Initializing Training Environment")
+        print("═" * 75)
+
+    # Create a copy to avoid modifying the original
+    resolved_config = config.copy()
+
+    # 1. Set random seed
+    if "seed" not in config:
+        raise ValueError("Config must include 'seed' field for reproducibility")
+
+    seed = config["seed"]
+    L.seed_everything(seed, workers=True)
+
+    if verbose:
+        print(f"\n🎲 Random Seed: {seed}")
+        print(f"   ✓ Seed set using Lightning's seed_everything()")
+
+    # 2. Check if we need to detect hardware (any "auto" fields present)
+    auto_fields = {
+        k: v for k, v in config.items()
+        if isinstance(v, str) and v == "auto"
+    }
+
+    if not auto_fields:
+        if verbose:
+            print("\n✓ No 'auto' fields detected. Configuration ready.")
+            print("═" * 75)
+        return resolved_config
+
+    # 3. Detect hardware
+    if verbose:
+        print("\n🔍 Detecting hardware for auto-resolution...")
+        print()
+
+    hw_config = detect_hardware(
+        base_batch_size=config.get("base_batch_size", 64),
+        enable_tf32=config.get("enable_tf32", True),
+        enable_mps_fallback=config.get("enable_mps_fallback", True),
+        verbose=verbose
+    )
+
+    # 4. Resolve auto fields
+    if verbose:
+        print(f"\n⚙️  Resolving {len(auto_fields)} 'auto' field(s):")
+
+    field_mapping = {
+        "device": lambda: str(hw_config.device),
+        "precision": lambda: hw_config.precision,
+        "batch_size": lambda: hw_config.batch_size,
+        "pin_memory": lambda: hw_config.pin_memory,
+        "num_workers": lambda: auto_num_workers(hw_config),
+        "gradient_accumulation_steps": lambda: hw_config.gradient_accumulation_steps,
+        "use_compile": lambda: hw_config.use_compile,
+        "use_flash_attention": lambda: hw_config.use_flash_attention,
+        "use_fused_optimizer": lambda: hw_config.use_fused_optimizer,
+    }
+
+    for field in auto_fields:
+        if field in field_mapping:
+            resolved_value = field_mapping[field]()
+            resolved_config[field] = resolved_value
+            if verbose:
+                print(f"   {field}: auto → {resolved_value}")
+        else:
+            if verbose:
+                print(f"   ⚠️  Unknown auto field '{field}' - leaving as 'auto'")
+
+    # 5. Print final configuration summary
+    if verbose:
+        print("\n" + "═" * 75)
+        print("✓ Initialization complete!")
+        print("═" * 75)
+
+    return resolved_config
