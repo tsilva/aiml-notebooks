@@ -45,6 +45,7 @@ dependencies = [
     "optax>=0.2.6",
     "accelerate>=1.12.0",
     "mamba-ssm>=2.2.6.post3",
+    "litmodels>=0.1.8",
 ]
 
 [build-system]
