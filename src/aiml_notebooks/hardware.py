@@ -610,18 +610,19 @@ def auto_pin_memory(hw_config: Optional[HardwareConfig] = None) -> bool:
     return hw_config.pin_memory
 
 
-def auto_num_workers(hw_config: Optional[HardwareConfig] = None, max_workers: int = 4) -> int:
+def auto_num_workers(hw_config: Optional[HardwareConfig] = None, max_workers: int = 16, streaming: bool = False) -> int:
     """
     Auto-detect optimal number of DataLoader workers based on hardware.
 
     Returns optimal worker count for data loading:
-    - CUDA: 2-4 workers for parallel data loading
+    - CUDA: 4-12 workers for parallel data loading (more for streaming)
     - MPS: 0 workers (multiprocessing issues on some PyTorch/MPS versions)
     - CPU: 2 workers for basic parallelism
 
     Args:
         hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
-        max_workers: Maximum number of workers to return (default: 4)
+        max_workers: Maximum number of workers to return (default: 16)
+        streaming: Whether using streaming dataset (default: False)
 
     Returns:
         Optimal number of DataLoader workers
@@ -636,7 +637,11 @@ def auto_num_workers(hw_config: Optional[HardwareConfig] = None, max_workers: in
 
     if hw_config.device_type == 'cuda':
         # CUDA benefits from parallel data loading
-        return min(max_workers, 4)
+        # Use more workers for streaming datasets (more I/O bound)
+        if streaming:
+            return min(max_workers, 12)
+        else:
+            return min(max_workers, 8)
     elif hw_config.device_type == 'mps':
         # MPS can have issues with multiprocessing workers in some PyTorch versions
         # Using 0 workers (main process) is safest
@@ -644,6 +649,100 @@ def auto_num_workers(hw_config: Optional[HardwareConfig] = None, max_workers: in
     else:  # CPU
         # CPU can benefit from some parallelism but keep it modest
         return min(max_workers, 2)
+
+
+def auto_persistent_workers(hw_config: Optional[HardwareConfig] = None, num_workers: Optional[int] = None) -> bool:
+    """
+    Auto-detect whether to use persistent workers in DataLoader.
+
+    Persistent workers keep worker processes alive between epochs, avoiding
+    startup overhead. Only works when num_workers > 0.
+
+    Returns:
+        - True for CUDA with num_workers > 0 (faster epoch transitions)
+        - False for MPS (num_workers=0) or num_workers=0
+        - False for CPU (minimal benefit)
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+        num_workers: Number of workers (if None, will auto-detect)
+
+    Returns:
+        True if persistent workers should be used, False otherwise
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> num_workers = auto_num_workers(hw)
+        >>> persistent_workers = auto_persistent_workers(hw, num_workers)
+        >>> dataloader = DataLoader(dataset, num_workers=num_workers,
+        ...                         persistent_workers=persistent_workers)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    if num_workers is None:
+        num_workers = auto_num_workers(hw_config)
+
+    # Persistent workers only work with num_workers > 0
+    if num_workers == 0:
+        return False
+
+    # Enable for CUDA (faster epoch transitions)
+    if hw_config.device_type == 'cuda':
+        return True
+
+    # Disable for MPS and CPU (minimal benefit or not supported)
+    return False
+
+
+def auto_prefetch_factor(hw_config: Optional[HardwareConfig] = None, num_workers: Optional[int] = None, streaming: bool = False) -> Optional[int]:
+    """
+    Auto-detect optimal prefetch factor for DataLoader.
+
+    Prefetch factor controls how many batches each worker pre-loads.
+    Higher values use more memory but reduce waiting time.
+    Only applies when num_workers > 0.
+
+    Returns:
+        - 4 for CUDA with fast GPUs (overlap compute and I/O)
+        - 2 for streaming datasets (more I/O intensive)
+        - None for num_workers=0 (parameter not applicable)
+
+    Args:
+        hw_config: HardwareConfig from detect_hardware(). If None, will auto-detect.
+        num_workers: Number of workers (if None, will auto-detect)
+        streaming: Whether using streaming dataset (default: False)
+
+    Returns:
+        Prefetch factor (int) or None if num_workers=0
+
+    Example:
+        >>> hw = detect_hardware()
+        >>> num_workers = auto_num_workers(hw)
+        >>> prefetch_factor = auto_prefetch_factor(hw, num_workers)
+        >>> if prefetch_factor is not None:
+        ...     dataloader = DataLoader(dataset, num_workers=num_workers,
+        ...                            prefetch_factor=prefetch_factor)
+    """
+    if hw_config is None:
+        hw_config = detect_hardware(verbose=False)
+
+    if num_workers is None:
+        num_workers = auto_num_workers(hw_config, streaming=streaming)
+
+    # Prefetch factor only applies when num_workers > 0
+    if num_workers == 0:
+        return None
+
+    if hw_config.device_type == 'cuda':
+        # Use more prefetching for streaming (I/O bound)
+        if streaming:
+            return 2
+        else:
+            return 4
+
+    # Conservative for CPU
+    return 2
 
 
 def auto_batch_size(hw_config: Optional[HardwareConfig] = None) -> int:
@@ -1442,7 +1541,9 @@ def init_training(config: dict, verbose: bool = True) -> dict:
         - precision: "auto" -> "bf16-mixed"/"16-mixed"/"32-true"
         - batch_size: "auto" -> hardware-optimized batch size
         - pin_memory: "auto" -> True for CUDA, False for MPS/CPU
-        - num_workers: "auto" -> 0-4 based on hardware
+        - num_workers: "auto" -> 0-12 based on hardware and dataset mode
+        - persistent_workers: "auto" -> True for CUDA (if num_workers > 0), False otherwise
+        - prefetch_factor: "auto" -> 2-4 based on hardware, None if num_workers=0
         - gradient_accumulation_steps: "auto" -> 1-4 based on memory
         - use_compile: "auto" -> True for CUDA, False for MPS/CPU
         - use_flash_attention: "auto" -> True if available on CUDA
@@ -1540,12 +1641,23 @@ def init_training(config: dict, verbose: bool = True) -> dict:
     if verbose:
         print(f"\n⚙️  Resolving {len(auto_fields)} 'auto' field(s):")
 
+    # Check if using streaming mode
+    is_streaming = resolved_config.get("_use_streaming", False)
+
+    # Resolve num_workers first (needed for other dataloader settings)
+    num_workers = None
+    if "num_workers" in auto_fields:
+        num_workers = auto_num_workers(hw_config, streaming=is_streaming)
+        resolved_config["num_workers"] = num_workers
+
     field_mapping = {
         "device": lambda: str(hw_config.device),
         "precision": lambda: hw_config.precision,
         "batch_size": lambda: hw_config.batch_size,
         "pin_memory": lambda: hw_config.pin_memory,
-        "num_workers": lambda: auto_num_workers(hw_config),
+        "num_workers": lambda: auto_num_workers(hw_config, streaming=is_streaming),
+        "persistent_workers": lambda: auto_persistent_workers(hw_config, num_workers),
+        "prefetch_factor": lambda: auto_prefetch_factor(hw_config, num_workers, streaming=is_streaming),
         "gradient_accumulation_steps": lambda: hw_config.gradient_accumulation_steps,
         "use_compile": lambda: hw_config.use_compile,
         "use_flash_attention": lambda: hw_config.use_flash_attention,
