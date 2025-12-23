@@ -1548,6 +1548,8 @@ def init_training(config: dict, verbose: bool = True) -> dict:
         - use_compile: "auto" -> True for CUDA, False for MPS/CPU
         - use_flash_attention: "auto" -> True if available on CUDA
         - use_fused_optimizer: "auto" -> True for CUDA, False otherwise
+        - torch_compile: "auto" -> "max-autotune" for CUDA, False for MPS/CPU
+        - use_fused_adamw: "auto" -> True for CUDA, False otherwise
 
     Args:
         config: Configuration dictionary with training hyperparameters
@@ -1662,6 +1664,8 @@ def init_training(config: dict, verbose: bool = True) -> dict:
         "use_compile": lambda: hw_config.use_compile,
         "use_flash_attention": lambda: hw_config.use_flash_attention,
         "use_fused_optimizer": lambda: hw_config.use_fused_optimizer,
+        "torch_compile": lambda: "max-autotune" if hw_config.use_compile else False,
+        "use_fused_adamw": lambda: hw_config.use_fused_optimizer,
     }
 
     for field in auto_fields:
