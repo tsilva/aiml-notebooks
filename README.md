@@ -1,4 +1,4 @@
-<div align="center">
+√<div align="center">
   <img src="logo.png" alt="aiml-notebooks" width="280"/>
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
