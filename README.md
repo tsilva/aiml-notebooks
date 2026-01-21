@@ -1,5 +1,5 @@
-√<div align="center">
-  <img src="logo.png" alt="aiml-notebooks" width="280"/>
+<div align="center">
+  <img src="logo.png" alt="aiml-notebooks" width="512"/>
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
   [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB.svg)](https://www.python.org/)
