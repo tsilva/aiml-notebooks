@@ -1,6 +1,8 @@
 <div align="center">
   <img src="logo.png" alt="aiml-notebooks" width="512"/>
 
+  # aiml-notebooks
+
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
   [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB.svg)](https://www.python.org/)
   [![uv](https://img.shields.io/badge/uv-package%20manager-5C4EE5.svg)](https://docs.astral.sh/uv/)
