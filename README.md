@@ -8,7 +8,7 @@
   [![uv](https://img.shields.io/badge/uv-package%20manager-5C4EE5.svg)](https://docs.astral.sh/uv/)
   [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg)](https://pytorch.org/)
 
-  **🧠 A complete AI/ML learning path from absolute beginner to advanced practitioner, organized by conceptual prerequisites**
+  **📚 AI/ML Jupyter notebooks for learning deep learning concepts 🧠**
 
   [Learning Path](#-learning-path) · [Quick Start](#-quick-start) · [Learning Tracks](#-learning-tracks)
 </div>
