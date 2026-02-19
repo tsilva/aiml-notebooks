@@ -1,102 +1,79 @@
-names.txt*
+# >>> MANAGED BY GITGUARD - DO NOT EDIT THIS SECTION <<<
+.claude/*.local.json
+.claude/*.local.json.bak
+.claude-sandbox.json
 .env
-tmp/
-notebooks/tmp
-notebooks/lightning_logs
-notebooks/output
-notebooks/wandb
-notebooks/gymnasium-ppo
-
-# Virtual environments
-.venv/
-venv/
-env/
-
-# uv
-# Note: uv.lock should be committed for reproducible installations
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Jupyter
-.ipynb_checkpoints
-*/.ipynb_checkpoints/*
-
-*.ckpt
-
-wandb/
-notebooks/data/
-data/
-lightning_logs/
-notebooks/logs/
-checkpoints/
-# Sensitive data - credentials and secrets
 .env.*
-.env.local
+!.env.example
 .env.*.local
+.env.local
 *.pem
 *.key
 *.p12
 *.pfx
+*.gpg
+*.secret
+*-credentials.json
+service-account*.json
 credentials.json
 secrets.json
-service-account*.json
-*-credentials.json
+.secrets/
 .aws/
 .ssh/
-*.gpg
-
-# API keys and tokens often in these
 config.local.*
-*.secret
-.secrets/
-
-# Logs (may contain sensitive data)
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Build artifacts and caches
-node_modules/
-.npm/
-
-# OS files
 .DS_Store
 Thumbs.db
-
-# IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# Claude Code
-.claude-sandbox.json
 *.code-workspace
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+node_modules/
+.npm/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+logs/
+*.log
+# >>> END MANAGED <<<
 
-
-# Managed by tsilva/.github
-# Do not remove - synced automatically
-.claude/
-*.pyc
+# Project-specific rules
+*$py.class
+*.ckpt
+*.egg
+*.so
+*/.ipynb_checkpoints/*
+.eggs/
+.installed.cfg
+.ipynb_checkpoints
+.Python
+checkpoints/
+data/
+develop-eggs/
+downloads/
+eggs/
+lib/
+lib64/
+lightning_logs/
+names.txt*
+notebooks/data/
+notebooks/gymnasium-ppo
+notebooks/lightning_logs
+notebooks/logs/
+notebooks/output
+notebooks/tmp
+notebooks/wandb
+parts/
+sdist/
+tmp/
+var/
+wandb/
+wheels/
