@@ -63,3 +63,9 @@ packages = ["src/aiml_notebooks"]
 # Note: PyTorch on macOS uses MPS (Metal Performance Shaders) for GPU acceleration
 # CUDA is only available on Linux/Windows. For cross-platform compatibility,
 # we use the standard PyPI packages which include MPS support on macOS.
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
