@@ -370,14 +370,14 @@ These notebooks are useful synthesis exercises or historical overviews, but they
 | [generation-text](notebooks/deprecated/generation-text.ipynb) | Survey notebook spanning bigrams → RNNs → transformers |
 | [gpt2-keras-jax](notebooks/deprecated/gpt2-keras-jax.ipynb) | GPT-2 implementation variant using Keras/JAX |
 
-### APPLIED LLM SYSTEMS
+### ARCHIVED APPLIED LLM SYSTEMS
 
-These notebooks focus more on workflows and systems behavior than on the core from-scratch curriculum.
+These notebooks focus more on workflows and systems behavior than on the core from-scratch curriculum, so they are archived alongside other non-core material.
 
 | Notebook | Description |
 |----------|-------------|
-| [prompt-engineering-llms](notebooks/prompt-engineering-llms.ipynb) | Zero-shot, few-shot, CoT, ReAct |
-| [rlhf-alignment](notebooks/rlhf-alignment.ipynb) | RLHF: SFT, reward modeling, PPO, DPO |
+| [prompt-engineering-llms](notebooks/deprecated/prompt-engineering-llms.ipynb) | Zero-shot, few-shot, CoT, ReAct |
+| [rlhf-alignment](notebooks/deprecated/rlhf-alignment.ipynb) | RLHF: SFT, reward modeling, PPO, DPO |
 
 ### ARCHIVED EXPERIMENTAL
 
