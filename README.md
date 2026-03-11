@@ -163,8 +163,7 @@ Neural networks from scratch—the core of modern ML.
 | ✅ [mini-batch-gradient-descent](notebooks/mini-batch-gradient-descent.ipynb) | Full-batch, mini-batch, and SGD |
 | ✅ [optimizers](notebooks/optimizers.ipynb) | SGD, Momentum, RMSprop, Adam |
 | ✅ [learning-rate-schedules](notebooks/learning-rate-schedules.ipynb) | Step decay, cosine annealing, warmup |
-| [gradient-flow-and-stabilization](notebooks/gradient-flow-and-stabilization.ipynb) | Gradient flow analysis |
-| [gradient-stabilization](notebooks/gradient-stabilization.ipynb) | Gradient clipping and normalization |
+| [gradient-flow-and-stabilization](notebooks/gradient-flow-and-stabilization.ipynb) | Gradient flow, clipping, and normalization |
 | [batch-normalization](notebooks/batch-normalization.ipynb) | BatchNorm for stable training |
 | ✅ [layer-normalization](notebooks/layer-normalization.ipynb) | LayerNorm for RNNs and transformers |
 | [z2h-04-optimization-pt1](notebooks/z2h-04-optimization-pt1.ipynb) | Xavier/Kaiming initialization, activation flow |
@@ -225,10 +224,7 @@ Sequential data and memory.
 | ✅ [rnn-binary-operations](notebooks/rnn-binary-operations.ipynb) | RNN learning binary logic operations |
 | ✅ [rwkv4-from-scratch](notebooks/rwkv4-from-scratch.ipynb) | RWKV-4: bridging RNNs and Transformers |
 | ✅ [rwkv7-from-scratch](notebooks/rwkv7-from-scratch.ipynb) | RWKV-7 "Goose": expressive state dynamics |
-| [mamba1-gentle-intro](notebooks/mamba1-gentle-intro.ipynb) ⭐ | Gentle introduction to Mamba from RNNs |
-| [mamba1-from-scratch](notebooks/mamba1-from-scratch.ipynb) | Mamba: selective state space models |
 | [time-series-forecasting](notebooks/time-series-forecasting.ipynb) | MLP, LSTM, Transformer for time series |
-| [wip-linear-rnns](notebooks/wip-linear-rnns.ipynb) | Linear RNNs and parallel scan |
 
 ### TIER 12: Attention & Transformers
 
@@ -384,7 +380,7 @@ Beyond standard supervised learning.
 ### Hyperparameter Sweeps
 
 ```bash
-uv run python run_sweep.py sweeps/config.yaml notebooks/notebook.ipynb --count 10
+uv run python run_sweep.py sweeps/config.yaml notebooks/your-notebook.ipynb --count 10
 ```
 
 See `sweeps/*.yaml` for configuration examples (bayes, grid, random).
