@@ -54,10 +54,10 @@ Choose a focused path based on your goals:
 
 | Track | Tiers | Focus |
 |-------|-------|-------|
-| **Fast Track to LLMs** | 1 → 2 → 3 → 6 → 7 → 8 → 11 → 12 → 13 | Quickest path to understanding modern language models |
-| **Computer Vision** | 1 → 2 → 3 → 6 → 7 → 9 → 10 → 15 | CNNs, architectures, and image generation |
+| **Fast Track to LLMs** | 1 → 2 → 3 → 7 → 8 → 9 → 12 → 13 | Quickest path to understanding modern language models |
+| **Computer Vision** | 1 → 2 → 3 → 6 → 7 → 10 → 17 → 18 | CNNs, architectures, image generation, and interpretability |
 | **Classical ML Mastery** | 1 → 2 → 3 → 4 → 5 → 6 | Strong foundations before deep learning |
-| **Reinforcement Learning** | 1 → 2 → 3 → 4 → 5A → 6 → 7 → 19 | Decision-making and game-playing agents |
+| **Reinforcement Learning** | 1 → 2 → 3 → 4 → 5A → 7 → 20 | Decision-making and game-playing agents |
 | **Complete Curriculum** | All tiers in order | Comprehensive understanding (~180-220 hours) |
 
 ---
@@ -65,6 +65,8 @@ Choose a focused path based on your goals:
 ## Learning Path
 
 **Legend:** ✅ Completed · 🔴 Advanced · 🔄 In Progress
+
+Archived notebooks live in `notebooks/deprecated/` and are intentionally excluded from the core curriculum below.
 
 ### TIER 1: Numerical Computing
 
@@ -145,7 +147,7 @@ Making the most of your data.
 |----------|-------------|
 | [dimensionality-reduction](notebooks/dimensionality-reduction.ipynb) | PCA, t-SNE, UMAP |
 | [feature-engineering](notebooks/feature-engineering.ipynb) | Encoding, missing values, feature creation |
-| [data-augmentation](notebooks/data-augmentation.ipynb) | Augmentation for images and text |
+| [data-augmentation](notebooks/data-augmentation.ipynb) | Augmentation for image data |
 | [imbalanced-data](notebooks/imbalanced-data.ipynb) | Class weights, resampling, SMOTE |
 
 ### TIER 7: Deep Learning Foundations
@@ -159,7 +161,6 @@ Neural networks from scratch—the core of modern ML.
 | [computational-graphs](notebooks/computational-graphs.ipynb) | DAGs and the chain rule for backpropagation |
 | [z2h-01-backprop](notebooks/z2h-01-backprop.ipynb) | Backprop from scratch: micrograd-style autograd |
 | [pytorch-fundamentals](notebooks/pytorch-fundamentals.ipynb) | Autograd, nn.Parameter, nn.Module, training loop |
-| ✅ [learning-xor-with-mlp](notebooks/learning-xor-with-mlp.ipynb) | MLP for non-linearly separable problems |
 | ✅ [mini-batch-gradient-descent](notebooks/mini-batch-gradient-descent.ipynb) | Full-batch, mini-batch, and SGD |
 | ✅ [optimizers](notebooks/optimizers.ipynb) | SGD, Momentum, RMSprop, Adam |
 | ✅ [learning-rate-schedules](notebooks/learning-rate-schedules.ipynb) | Step decay, cosine annealing, warmup |
@@ -196,7 +197,6 @@ Computer vision fundamentals.
 |----------|-------------|
 | [tensors-convolution](notebooks/tensors-convolution.ipynb) | Filters, padding, stride, dilation |
 | [pooling-operations](notebooks/pooling-operations.ipynb) | MaxPool, AvgPool, GlobalPool |
-| [cnn-architectures-evolution](notebooks/cnn-architectures-evolution.ipynb) | LeNet → AlexNet → VGG → Inception evolution |
 | [lenet-limitations](notebooks/lenet-limitations.ipynb) | LeNet-5: the first successful CNN |
 | [alexnet-breakthrough](notebooks/alexnet-breakthrough.ipynb) | AlexNet: the ImageNet breakthrough |
 | [vgg-depth-uniformity](notebooks/vgg-depth-uniformity.ipynb) | VGG: uniform 3×3 architecture |
@@ -205,7 +205,6 @@ Computer vision fundamentals.
 | ✅ [why-residual-connections-work](notebooks/why-residual-connections-work.ipynb) | Deep dive into skip connections |
 | [mobilenet-efficient-cnns](notebooks/mobilenet-efficient-cnns.ipynb) | Depthwise separable convolutions |
 | 🔴 [efficientnet-compound-scaling](notebooks/efficientnet-compound-scaling.ipynb) | Compound scaling with NAS |
-| [classification-image](notebooks/classification-image.ipynb) | CNN/MLP on CIFAR-10, MNIST |
 | [transfer-learning](notebooks/transfer-learning.ipynb) | Feature extraction vs fine-tuning |
 | [neural-style-transfer](notebooks/neural-style-transfer.ipynb) | Artistic image generation with CNNs |
 | [unet-architecture](notebooks/unet-architecture.ipynb) | U-Net for semantic segmentation |
@@ -238,9 +237,6 @@ Modern sequence modeling—the revolution.
 | [transformer-from-scratch](notebooks/transformer-from-scratch.ipynb) | Full Transformer architecture |
 | ✅ [gpt-architecture](notebooks/gpt-architecture.ipynb) | GPT decoder-only, causal masking |
 | ✅ [bert-architecture](notebooks/bert-architecture.ipynb) | BERT encoder, masked LM |
-| [gpt2-from-scratch](notebooks/gpt2-from-scratch.ipynb) | GPT-2 in raw PyTorch (educational) |
-| [gpt2-keras-jax](notebooks/gpt2-keras-jax.ipynb) | GPT-2 with Keras/JAX backend |
-| [wip-gpt2-time-series](notebooks/wip-gpt2-time-series.ipynb) | GPT-2 for time series forecasting |
 | 🔄 [vision-transformers](notebooks/vision-transformers.ipynb) | ViT: patch embeddings, 2D positional encodings |
 
 ### TIER 13: Efficient Transformers
@@ -252,7 +248,6 @@ Making transformers fast and deployable.
 | 🔴 [flash-attention](notebooks/flash-attention.ipynb) | Memory-efficient attention with tiling |
 | [kv-caching](notebooks/kv-caching.ipynb) | KV caching for efficient inference |
 | [speculative-decoding](notebooks/speculative-decoding.ipynb) | Accelerating LLM inference |
-| [int8-fp16-quantization](notebooks/int8-fp16-quantization.ipynb) | INT8/FP16 quantization techniques |
 | [lora-peft](notebooks/lora-peft.ipynb) | LoRA and parameter-efficient fine-tuning |
 
 ### TIER 14: Representation Learning
@@ -263,9 +258,9 @@ Learning without labels and useful representations.
 |----------|-------------|
 | ✅ [autoencoders](notebooks/autoencoders.ipynb) | Encoder-decoder for compression |
 | 🔄 [sparse-autoencoders](notebooks/sparse-autoencoders.ipynb) | Sparse AEs with KL/L1 for interpretability |
-| 🔄 [siamese-networks](notebooks/siamese-networks.ipynb) | Twin networks with contrastive loss |
-| 🔄 [contrastive-learning](notebooks/contrastive-learning.ipynb) | InfoNCE loss, SimCLR-style SSL |
 | [self-supervised-learning](notebooks/self-supervised-learning.ipynb) | Rotation, Jigsaw, MAE, SimCLR, BERT masking |
+| 🔄 [contrastive-learning](notebooks/contrastive-learning.ipynb) | InfoNCE loss, SimCLR-style SSL |
+| 🔄 [siamese-networks](notebooks/siamese-networks.ipynb) | Twin networks with contrastive loss |
 
 ### TIER 15: NLP Applications
 
@@ -274,13 +269,11 @@ Practical NLP tasks end-to-end.
 | Notebook | Description |
 |----------|-------------|
 | [classification-text](notebooks/classification-text.ipynb) | Sentiment: TF-IDF, LSTM, BERT |
-| [generation-text](notebooks/generation-text.ipynb) | Text generation and sampling strategies |
 | [reconstruction-text](notebooks/reconstruction-text.ipynb) | Seq2seq autoencoders |
 | [denoising-text](notebooks/denoising-text.ipynb) | Text correction, CER/WER |
 | [ner-token-classification](notebooks/ner-token-classification.ipynb) | NER with BIO tagging, BiLSTM-CRF, BERT |
 | [qa-extractive](notebooks/qa-extractive.ipynb) | Extractive QA with BiDAF and BERT |
 | [rag-retrieval-augmented](notebooks/rag-retrieval-augmented.ipynb) | RAG: chunking, embeddings, vector search |
-| [prompt-engineering-llms](notebooks/prompt-engineering-llms.ipynb) | Zero-shot, few-shot, CoT, ReAct |
 
 ### TIER 16: Audio Processing
 
@@ -301,7 +294,6 @@ Learning to generate images and data.
 | [vae](notebooks/vae.ipynb) | VAE: reparameterization trick |
 | [vqvae](notebooks/vqvae.ipynb) | VQ-VAE: discrete latent spaces |
 | [gan-fundamentals](notebooks/gan-fundamentals.ipynb) | GANs: minimax game, mode collapse |
-| [generation-image](notebooks/generation-image.ipynb) | VAEs and DCGANs |
 | [diffusion-models](notebooks/diffusion-models.ipynb) | DDPM and DDIM sampling |
 | [latent-diffusion](notebooks/latent-diffusion.ipynb) | Latent Diffusion and Stable Diffusion |
 
@@ -314,6 +306,7 @@ Making models efficient and understandable.
 | [model-interpretability](notebooks/model-interpretability.ipynb) | LIME, SHAP, integrated gradients |
 | [knowledge-distillation](notebooks/knowledge-distillation.ipynb) | Teacher-student training |
 | [model-pruning](notebooks/model-pruning.ipynb) | Unstructured/structured pruning |
+| [int8-fp16-quantization](notebooks/int8-fp16-quantization.ipynb) | INT8/FP16 quantization techniques |
 | [1bit-neural-networks](notebooks/1bit-neural-networks.ipynb) | Binary/ternary quantization |
 
 ### TIER 19: Advanced Architectures
@@ -339,8 +332,6 @@ Learning through interaction.
 | [rl-policy-gradients](notebooks/rl-policy-gradients.ipynb) | REINFORCE, Actor-Critic, PPO |
 | [rl-deep-q-networks](notebooks/rl-deep-q-networks.ipynb) | DQN with experience replay |
 | [rl-advanced-policy-methods](notebooks/rl-advanced-policy-methods.ipynb) | A2C/A3C, SAC, TD3 |
-| [wip-alphazero](notebooks/wip-alphazero.ipynb) | AlphaZero: MCTS + neural networks |
-| [rlhf-alignment](notebooks/rlhf-alignment.ipynb) | RLHF: SFT, reward modeling, PPO, DPO |
 | [rl-model-based](notebooks/rl-model-based.ipynb) | World models, Dyna, planning |
 
 ### TIER 21: Fascinating Phenomena
@@ -366,6 +357,36 @@ Beyond standard supervised learning.
 | [continual-learning](notebooks/continual-learning.ipynb) | Avoiding catastrophic forgetting |
 | 🔴 [forward-forward](notebooks/forward-forward.ipynb) | Layer-local learning without backprop |
 | [neuroevolution-tic-tac-toe](notebooks/neuroevolution-tic-tac-toe.ipynb) | Genetic algorithms for neural nets |
+
+### CAPSTONES & SURVEYS
+
+These notebooks are useful synthesis exercises or historical overviews, but they intentionally sit outside the main prerequisite chain.
+
+| Notebook | Description |
+|----------|-------------|
+| [classification-image](notebooks/classification-image.ipynb) | End-to-end configurable image classification project |
+| [cnn-architectures-evolution](notebooks/cnn-architectures-evolution.ipynb) | Historical survey of LeNet → AlexNet → VGG → Inception |
+| [generation-image](notebooks/generation-image.ipynb) | Survey notebook spanning VAEs and GANs |
+| [generation-text](notebooks/generation-text.ipynb) | Survey notebook spanning bigrams → RNNs → transformers |
+| [gpt2-keras-jax](notebooks/gpt2-keras-jax.ipynb) | GPT-2 implementation variant using Keras/JAX |
+
+### APPLIED LLM SYSTEMS
+
+These notebooks focus more on workflows and systems behavior than on the core from-scratch curriculum.
+
+| Notebook | Description |
+|----------|-------------|
+| [prompt-engineering-llms](notebooks/prompt-engineering-llms.ipynb) | Zero-shot, few-shot, CoT, ReAct |
+| [rlhf-alignment](notebooks/rlhf-alignment.ipynb) | RLHF: SFT, reward modeling, PPO, DPO |
+
+### EXPERIMENTAL
+
+In-progress notebooks that are useful for exploration but not part of the stable learning path.
+
+| Notebook | Description |
+|----------|-------------|
+| [wip-alphazero](notebooks/wip-alphazero.ipynb) | AlphaZero: MCTS + neural networks |
+| [wip-gpt2-time-series](notebooks/wip-gpt2-time-series.ipynb) | GPT-2 for time series forecasting |
 
 ### BONUS: Fun Projects
 
