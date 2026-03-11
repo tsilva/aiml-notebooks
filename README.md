@@ -221,9 +221,6 @@ Sequential data and memory.
 | [lstm-from-scratch](notebooks/lstm-from-scratch.ipynb) | LSTM gates and vanishing gradients |
 | [gru-from-scratch](notebooks/gru-from-scratch.ipynb) | GRU: simpler gated architecture |
 | ✅ [rnn-binary-operations](notebooks/rnn-binary-operations.ipynb) | RNN learning binary logic operations |
-| ✅ [rwkv4-from-scratch](notebooks/rwkv4-from-scratch.ipynb) | RWKV-4: bridging RNNs and Transformers |
-| ✅ [rwkv7-from-scratch](notebooks/rwkv7-from-scratch.ipynb) | RWKV-7 "Goose": expressive state dynamics |
-| [time-series-forecasting](notebooks/time-series-forecasting.ipynb) | MLP, LSTM, Transformer for time series |
 
 ### TIER 12: Attention & Transformers
 
@@ -269,7 +266,6 @@ Practical NLP tasks end-to-end.
 | Notebook | Description |
 |----------|-------------|
 | [classification-text](notebooks/classification-text.ipynb) | Sentiment: TF-IDF, LSTM, BERT |
-| [reconstruction-text](notebooks/reconstruction-text.ipynb) | Seq2seq autoencoders |
 | [denoising-text](notebooks/denoising-text.ipynb) | Text correction, CER/WER |
 | [ner-token-classification](notebooks/ner-token-classification.ipynb) | NER with BIO tagging, BiLSTM-CRF, BERT |
 | [qa-extractive](notebooks/qa-extractive.ipynb) | Extractive QA with BiDAF and BERT |
@@ -358,9 +354,9 @@ Beyond standard supervised learning.
 | 🔴 [forward-forward](notebooks/forward-forward.ipynb) | Layer-local learning without backprop |
 | [neuroevolution-tic-tac-toe](notebooks/neuroevolution-tic-tac-toe.ipynb) | Genetic algorithms for neural nets |
 
-### ARCHIVED CAPSTONES & SURVEYS
+### ARCHIVED SUPPLEMENTS & SURVEYS
 
-These notebooks are useful synthesis exercises or historical overviews, but they are archived to keep the main notebook track focused.
+These notebooks are useful synthesis exercises, historical overviews, or specialized side paths, but they are archived to keep the main notebook track focused.
 
 | Notebook | Description |
 |----------|-------------|
@@ -369,6 +365,10 @@ These notebooks are useful synthesis exercises or historical overviews, but they
 | [generation-image](notebooks/deprecated/generation-image.ipynb) | Survey notebook spanning VAEs and GANs |
 | [generation-text](notebooks/deprecated/generation-text.ipynb) | Survey notebook spanning bigrams → RNNs → transformers |
 | [gpt2-keras-jax](notebooks/deprecated/gpt2-keras-jax.ipynb) | GPT-2 implementation variant using Keras/JAX |
+| [reconstruction-text](notebooks/deprecated/reconstruction-text.ipynb) | Seq2seq autoencoder application notebook |
+| [rwkv4-from-scratch](notebooks/deprecated/rwkv4-from-scratch.ipynb) | RWKV-4 sequence-model variant |
+| [rwkv7-from-scratch](notebooks/deprecated/rwkv7-from-scratch.ipynb) | RWKV-7 sequence-model variant |
+| [time-series-forecasting](notebooks/deprecated/time-series-forecasting.ipynb) | Sequence-model application to forecasting |
 
 ### ARCHIVED APPLIED LLM SYSTEMS
 
