@@ -37,7 +37,10 @@ This repository provides **100+ hands-on Jupyter notebooks** covering machine le
 git clone https://github.com/tsilva/aiml-notebooks.git
 cd aiml-notebooks
 uv sync
+git config core.hooksPath .githooks
 ```
+
+The tracked pre-commit hook strips outputs and execution counts from staged `.ipynb` files before each commit.
 
 ### Run Jupyter Lab
 

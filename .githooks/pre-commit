@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -eu
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+if ! git diff --cached --name-only --diff-filter=ACMR -- '*.ipynb' | grep -q .; then
+  exit 0
+fi
+
+git diff --cached --name-only -z --diff-filter=ACMR -- '*.ipynb' \
+  | python3 scripts/strip_notebook_outputs.py --read-null-stdin
+
+git diff --cached --name-only -z --diff-filter=ACMR -- '*.ipynb' \
+  | xargs -0 git add --
