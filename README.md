@@ -146,7 +146,7 @@ Making the most of your data.
 | Notebook | Description |
 |----------|-------------|
 | [dimensionality-reduction](notebooks/dimensionality-reduction.ipynb) | PCA, t-SNE, UMAP |
-| [feature-engineering](notebooks/feature-engineering.ipynb) | Encoding, missing values, feature creation |
+| [feature-engineering](notebooks/feature-engineering.ipynb) | Encoding, binning, and feature pipeline design |
 | [data-augmentation](notebooks/data-augmentation.ipynb) | Augmentation for image data |
 | [imbalanced-data](notebooks/imbalanced-data.ipynb) | Class weights, resampling, SMOTE |
 
@@ -255,9 +255,8 @@ Learning without labels and useful representations.
 |----------|-------------|
 | ✅ [autoencoders](notebooks/autoencoders.ipynb) | Encoder-decoder for compression |
 | 🔄 [sparse-autoencoders](notebooks/sparse-autoencoders.ipynb) | Sparse AEs with KL/L1 for interpretability |
-| [self-supervised-learning](notebooks/self-supervised-learning.ipynb) | Rotation, Jigsaw, MAE, SimCLR, BERT masking |
-| 🔄 [contrastive-learning](notebooks/contrastive-learning.ipynb) | InfoNCE loss, SimCLR-style SSL |
-| 🔄 [siamese-networks](notebooks/siamese-networks.ipynb) | Twin networks with contrastive loss |
+| [self-supervised-learning](notebooks/self-supervised-learning.ipynb) | Overview of rotation, jigsaw, masking, and SimCLR |
+| 🔄 [contrastive-learning](notebooks/contrastive-learning.ipynb) | Deep dive on InfoNCE loss and SimCLR-style SSL |
 
 ### TIER 15: NLP Applications
 
@@ -368,6 +367,7 @@ These notebooks are useful synthesis exercises, historical overviews, or special
 | [reconstruction-text](notebooks/deprecated/reconstruction-text.ipynb) | Seq2seq autoencoder application notebook |
 | [rwkv4-from-scratch](notebooks/deprecated/rwkv4-from-scratch.ipynb) | RWKV-4 sequence-model variant |
 | [rwkv7-from-scratch](notebooks/deprecated/rwkv7-from-scratch.ipynb) | RWKV-7 sequence-model variant |
+| [siamese-networks](notebooks/deprecated/siamese-networks.ipynb) | Supervised metric-learning variant |
 | [time-series-forecasting](notebooks/deprecated/time-series-forecasting.ipynb) | Sequence-model application to forecasting |
 
 ### ARCHIVED APPLIED LLM SYSTEMS
