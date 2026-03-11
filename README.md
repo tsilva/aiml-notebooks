@@ -358,17 +358,17 @@ Beyond standard supervised learning.
 | 🔴 [forward-forward](notebooks/forward-forward.ipynb) | Layer-local learning without backprop |
 | [neuroevolution-tic-tac-toe](notebooks/neuroevolution-tic-tac-toe.ipynb) | Genetic algorithms for neural nets |
 
-### CAPSTONES & SURVEYS
+### ARCHIVED CAPSTONES & SURVEYS
 
-These notebooks are useful synthesis exercises or historical overviews, but they intentionally sit outside the main prerequisite chain.
+These notebooks are useful synthesis exercises or historical overviews, but they are archived to keep the main notebook track focused.
 
 | Notebook | Description |
 |----------|-------------|
-| [classification-image](notebooks/classification-image.ipynb) | End-to-end configurable image classification project |
-| [cnn-architectures-evolution](notebooks/cnn-architectures-evolution.ipynb) | Historical survey of LeNet → AlexNet → VGG → Inception |
-| [generation-image](notebooks/generation-image.ipynb) | Survey notebook spanning VAEs and GANs |
-| [generation-text](notebooks/generation-text.ipynb) | Survey notebook spanning bigrams → RNNs → transformers |
-| [gpt2-keras-jax](notebooks/gpt2-keras-jax.ipynb) | GPT-2 implementation variant using Keras/JAX |
+| [classification-image](notebooks/deprecated/classification-image.ipynb) | End-to-end configurable image classification project |
+| [cnn-architectures-evolution](notebooks/deprecated/cnn-architectures-evolution.ipynb) | Historical survey of LeNet → AlexNet → VGG → Inception |
+| [generation-image](notebooks/deprecated/generation-image.ipynb) | Survey notebook spanning VAEs and GANs |
+| [generation-text](notebooks/deprecated/generation-text.ipynb) | Survey notebook spanning bigrams → RNNs → transformers |
+| [gpt2-keras-jax](notebooks/deprecated/gpt2-keras-jax.ipynb) | GPT-2 implementation variant using Keras/JAX |
 
 ### APPLIED LLM SYSTEMS
 
@@ -379,14 +379,14 @@ These notebooks focus more on workflows and systems behavior than on the core fr
 | [prompt-engineering-llms](notebooks/prompt-engineering-llms.ipynb) | Zero-shot, few-shot, CoT, ReAct |
 | [rlhf-alignment](notebooks/rlhf-alignment.ipynb) | RLHF: SFT, reward modeling, PPO, DPO |
 
-### EXPERIMENTAL
+### ARCHIVED EXPERIMENTAL
 
 In-progress notebooks that are useful for exploration but not part of the stable learning path.
 
 | Notebook | Description |
 |----------|-------------|
-| [wip-alphazero](notebooks/wip-alphazero.ipynb) | AlphaZero: MCTS + neural networks |
-| [wip-gpt2-time-series](notebooks/wip-gpt2-time-series.ipynb) | GPT-2 for time series forecasting |
+| [wip-alphazero](notebooks/deprecated/wip-alphazero.ipynb) | AlphaZero: MCTS + neural networks |
+| [wip-gpt2-time-series](notebooks/deprecated/wip-gpt2-time-series.ipynb) | GPT-2 for time series forecasting |
 
 ### BONUS: Fun Projects
 
