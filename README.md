@@ -22,7 +22,7 @@ This repository provides **100+ hands-on Jupyter notebooks** covering machine le
 **Why this repository?**
 - **Conceptual ordering**: Notebooks are sequenced by prerequisites, not topics—each tier builds on previous tiers
 - **Implementation-first**: Learn by building everything from scratch before using frameworks
-- **Complete coverage**: From linear algebra to GPT-2, from decision trees to RLHF
+- **Broad coverage**: From linear algebra to transformers, diffusion, GPT-2, and RLHF, with advanced systems notebooks archived as supplements
 
 ## Quick Start
 
@@ -55,7 +55,7 @@ Choose a focused path based on your goals:
 | Track | Tiers | Focus |
 |-------|-------|-------|
 | **Fast Track to LLMs** | 1 → 2 → 3 → 7 → 8 → 9 → 12 → 13 | Quickest path to understanding modern language models |
-| **Computer Vision** | 1 → 2 → 3 → 6 → 7 → 10 → 17 → 18 | CNNs, architectures, image generation, and interpretability |
+| **Computer Vision** | 1 → 2 → 3 → 6 → 7 → 10 → 12 → 17 → 18 | CNNs, ViTs, image generation, and interpretability |
 | **Classical ML Mastery** | 1 → 2 → 3 → 4 → 5 → 6 | Strong foundations before deep learning |
 | **Reinforcement Learning** | 1 → 2 → 3 → 4 → 5A → 7 → 20 | Decision-making and game-playing agents |
 | **Complete Curriculum** | All tiers in order | Comprehensive understanding (~180-220 hours) |
@@ -202,13 +202,10 @@ Computer vision fundamentals.
 | [vgg-depth-uniformity](notebooks/vgg-depth-uniformity.ipynb) | VGG: uniform 3×3 architecture |
 | [inception-multiscale](notebooks/inception-multiscale.ipynb) | Inception: multi-scale parallel processing |
 | [resnet-skip-connections](notebooks/resnet-skip-connections.ipynb) | ResNet: solving the degradation problem |
-| ✅ [why-residual-connections-work](notebooks/why-residual-connections-work.ipynb) | Deep dive into skip connections |
 | [mobilenet-efficient-cnns](notebooks/mobilenet-efficient-cnns.ipynb) | Depthwise separable convolutions |
 | 🔴 [efficientnet-compound-scaling](notebooks/efficientnet-compound-scaling.ipynb) | Compound scaling with NAS |
 | [transfer-learning](notebooks/transfer-learning.ipynb) | Feature extraction vs fine-tuning |
-| [neural-style-transfer](notebooks/neural-style-transfer.ipynb) | Artistic image generation with CNNs |
 | [unet-architecture](notebooks/unet-architecture.ipynb) | U-Net for semantic segmentation |
-| [grad-cam-visualization](notebooks/grad-cam-visualization.ipynb) | Visualizing CNN decisions |
 | [object-detection-yolo](notebooks/object-detection-yolo.ipynb) | YOLO: bounding boxes, anchor boxes, NMS |
 
 ### TIER 11: Recurrent Neural Networks
@@ -220,7 +217,6 @@ Sequential data and memory.
 | [rnn-from-scratch](notebooks/rnn-from-scratch.ipynb) | RNN with BPTT |
 | [lstm-from-scratch](notebooks/lstm-from-scratch.ipynb) | LSTM gates and vanishing gradients |
 | [gru-from-scratch](notebooks/gru-from-scratch.ipynb) | GRU: simpler gated architecture |
-| ✅ [rnn-binary-operations](notebooks/rnn-binary-operations.ipynb) | RNN learning binary logic operations |
 
 ### TIER 12: Attention & Transformers
 
@@ -289,6 +285,7 @@ Learning to generate images and data.
 | [vae](notebooks/vae.ipynb) | VAE: reparameterization trick |
 | [vqvae](notebooks/vqvae.ipynb) | VQ-VAE: discrete latent spaces |
 | [gan-fundamentals](notebooks/gan-fundamentals.ipynb) | GANs: minimax game, mode collapse |
+| [neural-style-transfer](notebooks/neural-style-transfer.ipynb) | Artistic image generation with CNNs |
 | [diffusion-models](notebooks/diffusion-models.ipynb) | DDPM and DDIM sampling |
 | [latent-diffusion](notebooks/latent-diffusion.ipynb) | Latent Diffusion and Stable Diffusion |
 
@@ -299,6 +296,7 @@ Making models efficient and understandable.
 | Notebook | Description |
 |----------|-------------|
 | [model-interpretability](notebooks/model-interpretability.ipynb) | LIME, SHAP, integrated gradients |
+| [grad-cam-visualization](notebooks/grad-cam-visualization.ipynb) | Visualizing CNN decisions |
 | [knowledge-distillation](notebooks/knowledge-distillation.ipynb) | Teacher-student training |
 | [model-pruning](notebooks/model-pruning.ipynb) | Unstructured/structured pruning |
 | [int8-fp16-quantization](notebooks/int8-fp16-quantization.ipynb) | INT8/FP16 quantization techniques |
@@ -365,10 +363,12 @@ These notebooks are useful synthesis exercises, historical overviews, or special
 | [generation-text](notebooks/deprecated/generation-text.ipynb) | Survey notebook spanning bigrams → RNNs → transformers |
 | [gpt2-keras-jax](notebooks/deprecated/gpt2-keras-jax.ipynb) | GPT-2 implementation variant using Keras/JAX |
 | [reconstruction-text](notebooks/deprecated/reconstruction-text.ipynb) | Seq2seq autoencoder application notebook |
+| [rnn-binary-operations](notebooks/deprecated/rnn-binary-operations.ipynb) | Sequence-learning side quest on binary logic |
 | [rwkv4-from-scratch](notebooks/deprecated/rwkv4-from-scratch.ipynb) | RWKV-4 sequence-model variant |
 | [rwkv7-from-scratch](notebooks/deprecated/rwkv7-from-scratch.ipynb) | RWKV-7 sequence-model variant |
 | [siamese-networks](notebooks/deprecated/siamese-networks.ipynb) | Supervised metric-learning variant |
 | [time-series-forecasting](notebooks/deprecated/time-series-forecasting.ipynb) | Sequence-model application to forecasting |
+| [why-residual-connections-work](notebooks/deprecated/why-residual-connections-work.ipynb) | Conceptual deep dive on skip connections |
 
 ### ARCHIVED APPLIED LLM SYSTEMS
 
