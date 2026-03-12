@@ -228,11 +228,11 @@ Modern sequence modeling—the revolution.
 
 ### TIER 12: LLM Adaptation, Inference & Systems
 
-Advanced transformer adaptation, inference, and deployment topics after Tier 11. Until `transformer-fine-tuning-basics` is added, treat this tier as an advanced branch rather than a prerequisite for Tier 14 NLP applications.
+Advanced transformer adaptation, inference, and deployment topics after Tier 11. This tier now includes the fine-tuning bridge between transformer foundations, PEFT, and downstream NLP applications.
 
 | Notebook | Description |
 |----------|-------------|
-| 🔜 transformer-fine-tuning-basics | Full fine-tuning vs frozen backbones, task heads, supervised fine-tuning flow, evaluation/overfitting pitfalls, and when PEFT becomes necessary |
+| [transformer-fine-tuning-basics](notebooks/transformer-fine-tuning-basics.ipynb) | Full fine-tuning vs frozen backbones, task heads, supervised fine-tuning flow, evaluation/overfitting pitfalls, and when PEFT becomes necessary |
 | [lora-peft](notebooks/lora-peft.ipynb) | LoRA, QLoRA, and PEFT tradeoffs across full fine-tuning, adapters, and prompt tuning |
 | [gpu-hardware-basics](notebooks/gpu-hardware-basics.ipynb) | CUDA cores, memory hierarchy, Tensor Cores, and why hardware shapes LLM systems |
 | 🔴 [flash-attention](notebooks/flash-attention.ipynb) | Memory-efficient attention with tiling |
