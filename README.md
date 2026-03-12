@@ -138,6 +138,7 @@ Core RL concepts that don't require deep learning.
 |----------|-------------|
 | [rl-q-learning](notebooks/rl-q-learning.ipynb) | Q-learning, MDPs, Bellman equation, ε-greedy |
 | [mcts-simple](notebooks/mcts-simple.ipynb) | Monte Carlo Tree Search with UCB1 |
+| [rl-model-based](notebooks/rl-model-based.ipynb) | Tabular world models, Dyna, prioritized sweeping |
 
 ### TIER 6: Data Engineering
 
@@ -325,7 +326,6 @@ Learning through interaction.
 | [rl-policy-gradients](notebooks/rl-policy-gradients.ipynb) | REINFORCE, Actor-Critic, PPO |
 | [rl-deep-q-networks](notebooks/rl-deep-q-networks.ipynb) | DQN with experience replay |
 | [rl-advanced-policy-methods](notebooks/rl-advanced-policy-methods.ipynb) | A2C/A3C, SAC, TD3 |
-| [rl-model-based](notebooks/rl-model-based.ipynb) | World models, Dyna, planning |
 
 ### TIER 21: Fascinating Phenomena
 
