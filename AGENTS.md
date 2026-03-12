@@ -15,7 +15,8 @@ uv lock --upgrade && uv sync  # Update dependencies
 ## Repository Structure
 
 ```
-notebooks/              # ONLY work with these (ignore deprecated dirs)
+notebooks/              # ONLY work with active notebooks here
+├── archive/            # Archived notebooks for reference only; do not edit
 ├── <prefix>-NNN-*.ipynb  # Numbered course recreations
 ├── wip-*.ipynb           # Work in progress
 └── *.ipynb               # Completed standalone
@@ -95,8 +96,8 @@ uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebo
 
 ```bash
 # Hyperparameter sweep
-uv run python run_sweep.py sweeps/config.yaml notebooks/notebook.ipynb --count 10
-# See sweeps/*.yaml for config examples (bayes, grid, random)
+uv run python sweep.py path/to/config.yaml notebooks/notebook.ipynb --count 10
+# Provide a W&B sweep config that matches your notebook parameters
 ```
 
 **Git**: Main branch is `main`. `uv.lock` is committed for reproducibility.
