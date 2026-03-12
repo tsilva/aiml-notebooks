@@ -22,7 +22,7 @@ This repository provides **100+ hands-on Jupyter notebooks** covering machine le
 **Why this repository?**
 - **Conceptual ordering**: Notebooks are sequenced by prerequisites, not topics—each tier builds on previous tiers
 - **Implementation-first**: Learn by building everything from scratch before using frameworks
-- **Broad coverage**: From linear algebra to transformers, diffusion, GPT-2, and RLHF, with advanced systems notebooks archived as supplements
+- **Broad coverage**: From linear algebra to transformers, diffusion, and reinforcement learning
 
 ## Quick Start
 
@@ -54,19 +54,18 @@ Choose a focused path based on your goals:
 
 | Track | Tiers | Focus |
 |-------|-------|-------|
-| **Fast Track to LLMs** | 1 → 2 → 3 → 7 → 8 → 9 → 12 → 13 | Quickest path to understanding modern language models |
-| **Computer Vision** | 1 → 2 → 3 → 6 → 7 → 10 → 12 → 17 → 18 | CNNs, ViTs, image generation, and interpretability |
+| **Fast Track to LLMs** | 1 → 2 → 3 → 7 → 8 → 9 → 11 → 12 | Quickest path to understanding modern language models |
+| **Computer Vision** | 1 → 2 → 3 → 6 → 7 → 10 → 11 → 13 → 16 → 17 | CNNs, ViTs, image generation, and interpretability |
 | **Classical ML Mastery** | 1 → 2 → 3 → 4 → 5 → 6 | Strong foundations before deep learning |
-| **Reinforcement Learning** | 1 → 2 → 3 → 4 → 5A → 7 → 20 | Decision-making and game-playing agents |
+| **Reinforcement Learning** | 1 → 2 → 3 → 4 → 5A → 7 → 19 | Decision-making and game-playing agents |
+| **NLP Applications** | 1 → 2 → 3 → 7 → 8 → 9 → 11 → 12 → 14 | Language modeling, transformers, retrieval, and downstream tasks |
 | **Complete Curriculum** | All tiers in order | Comprehensive understanding (~180-220 hours) |
 
 ---
 
 ## Learning Path
 
-**Legend:** ✅ Completed · 🔴 Advanced · 🔄 In Progress
-
-Archived notebooks live in `notebooks/deprecated/` and are intentionally excluded from the core curriculum below.
+**Legend:** ✅ Completed · 🔴 Advanced · 🔄 In Progress · 🔜 Planned
 
 ### TIER 1: Numerical Computing
 
@@ -157,7 +156,6 @@ Neural networks from scratch—the core of modern ML.
 
 | Notebook | Description |
 |----------|-------------|
-| [gpu-hardware-basics](notebooks/gpu-hardware-basics.ipynb) | CUDA cores, memory hierarchy, Tensor Cores |
 | [neural-network-fundamentals](notebooks/neural-network-fundamentals.ipynb) | Neurons, layers, Universal Approximation Theorem |
 | [computational-graphs](notebooks/computational-graphs.ipynb) | DAGs and the chain rule for backpropagation |
 | [z2h-01-backprop](notebooks/z2h-01-backprop.ipynb) | Backprop from scratch: micrograd-style autograd |
@@ -165,10 +163,10 @@ Neural networks from scratch—the core of modern ML.
 | ✅ [mini-batch-gradient-descent](notebooks/mini-batch-gradient-descent.ipynb) | Full-batch, mini-batch, and SGD |
 | ✅ [optimizers](notebooks/optimizers.ipynb) | SGD, Momentum, RMSprop, Adam |
 | ✅ [learning-rate-schedules](notebooks/learning-rate-schedules.ipynb) | Step decay, cosine annealing, warmup |
+| [z2h-04-optimization-pt1](notebooks/z2h-04-optimization-pt1.ipynb) | Xavier/Kaiming initialization, activation flow |
 | [gradient-flow-and-stabilization](notebooks/gradient-flow-and-stabilization.ipynb) | Gradient flow, clipping, and normalization |
 | [batch-normalization](notebooks/batch-normalization.ipynb) | BatchNorm for stable training |
 | ✅ [layer-normalization](notebooks/layer-normalization.ipynb) | LayerNorm for RNNs and transformers |
-| [z2h-04-optimization-pt1](notebooks/z2h-04-optimization-pt1.ipynb) | Xavier/Kaiming initialization, activation flow |
 | [debugging-neural-networks](notebooks/debugging-neural-networks.ipynb) | Systematic debugging and sanity checks |
 
 ### TIER 8: Text & Embedding Foundations
@@ -181,14 +179,18 @@ Essential text processing before language models.
 | ✅ [embeddings](notebooks/embeddings.ipynb) | Learned vector representations |
 | 🔄 [word2vec-from-scratch](notebooks/word2vec-from-scratch.ipynb) | Skip-gram with negative sampling |
 
-### TIER 9: First Neural Networks
+### TIER 9: Sequence Modeling Foundations
 
-Simple neural networks for language modeling.
+Early neural sequence models before full transformers.
 
 | Notebook | Description |
 |----------|-------------|
 | [z2h-02-bigram-lm](notebooks/z2h-02-bigram-lm.ipynb) | Character-level bigram language models |
 | [z2h-03-mlp-lm](notebooks/z2h-03-mlp-lm.ipynb) | MLP for character-level language modeling |
+| [rnn-from-scratch](notebooks/rnn-from-scratch.ipynb) | RNN with BPTT |
+| [lstm-from-scratch](notebooks/lstm-from-scratch.ipynb) | LSTM gates and vanishing gradients |
+| [gru-from-scratch](notebooks/gru-from-scratch.ipynb) | GRU: simpler gated architecture |
+| [seq2seq-with-attention](notebooks/seq2seq-with-attention.ipynb) | Encoder-decoder sequence modeling with attention |
 
 ### TIER 10: Convolutional Neural Networks
 
@@ -209,42 +211,33 @@ Computer vision fundamentals.
 | [unet-architecture](notebooks/unet-architecture.ipynb) | U-Net for semantic segmentation |
 | [object-detection-yolo](notebooks/object-detection-yolo.ipynb) | YOLO: bounding boxes, anchor boxes, NMS |
 
-### TIER 11: Recurrent Neural Networks
-
-Sequential data and memory.
-
-| Notebook | Description |
-|----------|-------------|
-| [rnn-from-scratch](notebooks/rnn-from-scratch.ipynb) | RNN with BPTT |
-| [lstm-from-scratch](notebooks/lstm-from-scratch.ipynb) | LSTM gates and vanishing gradients |
-| [gru-from-scratch](notebooks/gru-from-scratch.ipynb) | GRU: simpler gated architecture |
-
-### TIER 12: Attention & Transformers
+### TIER 11: Attention & Transformer Foundations
 
 Modern sequence modeling—the revolution.
 
 | Notebook | Description |
 |----------|-------------|
 | ✅ [attention-mechanism](notebooks/attention-mechanism.ipynb) | Scaled dot-product attention: Q, K, V |
-| [seq2seq-with-attention](notebooks/seq2seq-with-attention.ipynb) | Encoder-decoder with attention |
 | [positional-encodings](notebooks/positional-encodings.ipynb) | Sinusoidal, Learned, RoPE, ALiBi |
 | [transformer-from-scratch](notebooks/transformer-from-scratch.ipynb) | Full Transformer architecture |
-| ✅ [gpt-architecture](notebooks/gpt-architecture.ipynb) | GPT decoder-only, causal masking |
+| ✅ [gpt-architecture](notebooks/gpt-architecture.ipynb) | GPT decoder-only transformers, autoregressive generation, and greedy/temperature/top-k/top-p sampling |
 | ✅ [bert-architecture](notebooks/bert-architecture.ipynb) | BERT encoder, masked LM |
 | 🔄 [vision-transformers](notebooks/vision-transformers.ipynb) | ViT: patch embeddings, 2D positional encodings |
 
-### TIER 13: Efficient Transformers
+### TIER 12: LLM Inference, Fine-Tuning & Systems
 
-Making transformers fast and deployable.
+Making transformers adaptable, efficient, and deployable.
 
 | Notebook | Description |
 |----------|-------------|
+| 🔜 transformer-fine-tuning-basics | Full fine-tuning vs frozen backbones, task heads, supervised fine-tuning flow, evaluation/overfitting pitfalls, and when PEFT becomes necessary |
+| [lora-peft](notebooks/lora-peft.ipynb) | LoRA, QLoRA, and PEFT tradeoffs across full fine-tuning, adapters, and prompt tuning |
+| [gpu-hardware-basics](notebooks/gpu-hardware-basics.ipynb) | CUDA cores, memory hierarchy, Tensor Cores, and why hardware shapes LLM systems |
 | 🔴 [flash-attention](notebooks/flash-attention.ipynb) | Memory-efficient attention with tiling |
 | [kv-caching](notebooks/kv-caching.ipynb) | KV caching for efficient inference |
 | [speculative-decoding](notebooks/speculative-decoding.ipynb) | Accelerating LLM inference |
-| [lora-peft](notebooks/lora-peft.ipynb) | LoRA and parameter-efficient fine-tuning |
 
-### TIER 14: Representation Learning
+### TIER 13: Representation Learning
 
 Learning without labels and useful representations.
 
@@ -255,7 +248,7 @@ Learning without labels and useful representations.
 | [self-supervised-learning](notebooks/self-supervised-learning.ipynb) | Overview of rotation, jigsaw, masking, and SimCLR |
 | 🔄 [contrastive-learning](notebooks/contrastive-learning.ipynb) | Deep dive on InfoNCE loss and SimCLR-style SSL |
 
-### TIER 15: NLP Applications
+### TIER 14: NLP Applications
 
 Practical NLP tasks end-to-end.
 
@@ -263,11 +256,12 @@ Practical NLP tasks end-to-end.
 |----------|-------------|
 | [classification-text](notebooks/classification-text.ipynb) | Sentiment: TF-IDF, LSTM, BERT |
 | [denoising-text](notebooks/denoising-text.ipynb) | Text correction, CER/WER |
-| [ner-token-classification](notebooks/ner-token-classification.ipynb) | NER with BIO tagging, BiLSTM-CRF, BERT |
-| [qa-extractive](notebooks/qa-extractive.ipynb) | Extractive QA with BiDAF and BERT |
-| [rag-retrieval-augmented](notebooks/rag-retrieval-augmented.ipynb) | RAG: chunking, embeddings, vector search |
+| [ner-token-classification](notebooks/ner-token-classification.ipynb) | NER with BIO tagging, BiLSTM-CRF sequence constraints, and Viterbi decoding |
+| [qa-extractive](notebooks/qa-extractive.ipynb) | Extractive QA with BiDAF, BERT, answer span decoding, and retrieval-backed QA context |
+| 🔜 retrieval-fundamentals | Sparse vs dense retrieval, BM25, ANN/vector indexes, chunking tradeoffs, and retrieval metrics like recall@k / MRR / nDCG |
+| [rag-retrieval-augmented](notebooks/rag-retrieval-augmented.ipynb) | RAG with chunking, vector search, dense vs sparse retrieval, and BM25 |
 
-### TIER 16: Audio Processing
+### TIER 15: Audio Processing
 
 Speech and audio applications.
 
@@ -276,7 +270,7 @@ Speech and audio applications.
 | [audio-processing](notebooks/audio-processing.ipynb) | FFT, spectrograms, mel, MFCCs |
 | [speech-recognition](notebooks/speech-recognition.ipynb) | ASR with CTC loss |
 
-### TIER 17: Generative Models
+### TIER 16: Generative Models
 
 Learning to generate images and data.
 
@@ -290,7 +284,7 @@ Learning to generate images and data.
 | [diffusion-models](notebooks/diffusion-models.ipynb) | DDPM and DDIM sampling |
 | [latent-diffusion](notebooks/latent-diffusion.ipynb) | Latent Diffusion and Stable Diffusion |
 
-### TIER 18: Model Optimization & Interpretability
+### TIER 17: Model Optimization & Interpretability
 
 Making models efficient and understandable.
 
@@ -303,7 +297,7 @@ Making models efficient and understandable.
 | [int8-fp16-quantization](notebooks/int8-fp16-quantization.ipynb) | INT8/FP16 quantization techniques |
 | [1bit-neural-networks](notebooks/1bit-neural-networks.ipynb) | Binary/ternary quantization |
 
-### TIER 19: Advanced Architectures
+### TIER 18: Advanced Architectures
 
 Beyond standard networks.
 
@@ -317,17 +311,17 @@ Beyond standard networks.
 | 🔴 [neural-odes](notebooks/neural-odes.ipynb) | Continuous-depth networks as ODEs |
 | 🔴 [energy-based-neural-networks](notebooks/energy-based-neural-networks.ipynb) | Hopfield Networks, RBMs |
 
-### TIER 20: Deep Reinforcement Learning
+### TIER 19: Deep Reinforcement Learning
 
 Learning through interaction.
 
 | Notebook | Description |
 |----------|-------------|
-| [rl-policy-gradients](notebooks/rl-policy-gradients.ipynb) | REINFORCE, Actor-Critic, PPO |
 | [rl-deep-q-networks](notebooks/rl-deep-q-networks.ipynb) | DQN with experience replay |
+| [rl-policy-gradients](notebooks/rl-policy-gradients.ipynb) | REINFORCE, Actor-Critic, PPO |
 | [rl-advanced-policy-methods](notebooks/rl-advanced-policy-methods.ipynb) | A2C/A3C, SAC, TD3 |
 
-### TIER 21: Fascinating Phenomena
+### TIER 20: Fascinating Phenomena
 
 Research findings that challenge intuitions.
 
@@ -337,7 +331,7 @@ Research findings that challenge intuitions.
 | 🔴 [double-descent](notebooks/double-descent.ipynb) | Test error decreasing beyond interpolation |
 | 🔴 [grokking](notebooks/grokking.ipynb) | Sudden generalization after overfitting |
 
-### TIER 22: Alternative Learning Paradigms
+### TIER 21: Alternative Learning Paradigms
 
 Beyond standard supervised learning.
 
@@ -350,43 +344,6 @@ Beyond standard supervised learning.
 | [continual-learning](notebooks/continual-learning.ipynb) | Avoiding catastrophic forgetting |
 | 🔴 [forward-forward](notebooks/forward-forward.ipynb) | Layer-local learning without backprop |
 | [neuroevolution-tic-tac-toe](notebooks/neuroevolution-tic-tac-toe.ipynb) | Genetic algorithms for neural nets |
-
-### ARCHIVED SUPPLEMENTS & SURVEYS
-
-These notebooks are useful synthesis exercises, historical overviews, or specialized side paths, but they are archived to keep the main notebook track focused.
-
-| Notebook | Description |
-|----------|-------------|
-| [classification-image](notebooks/deprecated/classification-image.ipynb) | End-to-end configurable image classification project |
-| [cnn-architectures-evolution](notebooks/deprecated/cnn-architectures-evolution.ipynb) | Historical survey of LeNet → AlexNet → VGG → Inception |
-| [generation-image](notebooks/deprecated/generation-image.ipynb) | Survey notebook spanning VAEs and GANs |
-| [generation-text](notebooks/deprecated/generation-text.ipynb) | Survey notebook spanning bigrams → RNNs → transformers |
-| [gpt2-keras-jax](notebooks/deprecated/gpt2-keras-jax.ipynb) | GPT-2 implementation variant using Keras/JAX |
-| [reconstruction-text](notebooks/deprecated/reconstruction-text.ipynb) | Seq2seq autoencoder application notebook |
-| [rnn-binary-operations](notebooks/deprecated/rnn-binary-operations.ipynb) | Sequence-learning side quest on binary logic |
-| [rwkv4-from-scratch](notebooks/deprecated/rwkv4-from-scratch.ipynb) | RWKV-4 sequence-model variant |
-| [rwkv7-from-scratch](notebooks/deprecated/rwkv7-from-scratch.ipynb) | RWKV-7 sequence-model variant |
-| [siamese-networks](notebooks/deprecated/siamese-networks.ipynb) | Supervised metric-learning variant |
-| [time-series-forecasting](notebooks/deprecated/time-series-forecasting.ipynb) | Sequence-model application to forecasting |
-| [why-residual-connections-work](notebooks/deprecated/why-residual-connections-work.ipynb) | Conceptual deep dive on skip connections |
-
-### ARCHIVED APPLIED LLM SYSTEMS
-
-These notebooks focus more on workflows and systems behavior than on the core from-scratch curriculum, so they are archived alongside other non-core material.
-
-| Notebook | Description |
-|----------|-------------|
-| [prompt-engineering-llms](notebooks/deprecated/prompt-engineering-llms.ipynb) | Zero-shot, few-shot, CoT, ReAct |
-| [rlhf-alignment](notebooks/deprecated/rlhf-alignment.ipynb) | RLHF: SFT, reward modeling, PPO, DPO |
-
-### ARCHIVED EXPERIMENTAL
-
-In-progress notebooks that are useful for exploration but not part of the stable learning path.
-
-| Notebook | Description |
-|----------|-------------|
-| [wip-alphazero](notebooks/deprecated/wip-alphazero.ipynb) | AlphaZero: MCTS + neural networks |
-| [wip-gpt2-time-series](notebooks/deprecated/wip-gpt2-time-series.ipynb) | GPT-2 for time series forecasting |
 
 ### BONUS: Fun Projects
 
