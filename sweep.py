@@ -3,19 +3,19 @@
 Generic W&B Sweep Runner
 
 This script runs W&B hyperparameter sweeps on Jupyter notebooks by:
-1. Converting the notebook to a Python script (saved to nbscripts/)
+1. Converting the notebook to a Python script (saved to tmp/sweeps/scripts/)
 2. Loading sweep configuration from a YAML file
 3. Running the sweep with the specified configuration
 
 Usage:
     # Run sweep with config file and notebook
-    uv run python run_sweep.py sweeps/name-rnn-test.yaml notebooks/name-generation-rnn.ipynb
+    uv run python sweep.py path/to/config.yaml notebooks/your-notebook.ipynb
 
     # Initialize sweep only (don't run agent)
-    uv run python run_sweep.py sweeps/name-rnn-test.yaml notebooks/name-generation-rnn.ipynb --init-only
+    uv run python sweep.py path/to/config.yaml notebooks/your-notebook.ipynb --init-only
 
     # Run specific number of trials
-    uv run python run_sweep.py sweeps/name-rnn-test.yaml notebooks/name-generation-rnn.ipynb --count 5
+    uv run python sweep.py path/to/config.yaml notebooks/your-notebook.ipynb --count 5
 """
 
 import argparse
@@ -287,16 +287,16 @@ def main():
         epilog="""
 Examples:
   # Run sweep with config and notebook
-  python run_sweep.py sweeps/config.yaml notebooks/model.ipynb
+  python sweep.py path/to/config.yaml notebooks/your-notebook.ipynb
 
   # Initialize only (don't run agents)
-  python run_sweep.py sweeps/config.yaml notebooks/model.ipynb --init-only
+  python sweep.py path/to/config.yaml notebooks/your-notebook.ipynb --init-only
 
   # Run 5 trials
-  python run_sweep.py sweeps/config.yaml notebooks/model.ipynb --count 5
+  python sweep.py path/to/config.yaml notebooks/your-notebook.ipynb --count 5
 
   # Use existing Python script instead of notebook
-  python run_sweep.py sweeps/config.yaml tmp/sweeps/scripts/model.py --no-convert
+  python sweep.py path/to/config.yaml tmp/sweeps/scripts/model.py --no-convert
         """
     )
 

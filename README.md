@@ -260,7 +260,7 @@ Practical NLP tasks end-to-end.
 | [denoising-text](notebooks/denoising-text.ipynb) | Text correction, CER/WER |
 | [ner-token-classification](notebooks/ner-token-classification.ipynb) | NER with BIO tagging, BiLSTM-CRF sequence constraints, and Viterbi decoding |
 | [qa-extractive](notebooks/qa-extractive.ipynb) | Extractive QA with BiDAF, BERT, answer span decoding, and retrieval-backed QA context |
-| 🔜 retrieval-fundamentals | Sparse vs dense retrieval, BM25, ANN/vector indexes, chunking tradeoffs, and retrieval metrics like recall@k / MRR / nDCG |
+| [retrieval-fundamentals](notebooks/retrieval-fundamentals.ipynb) | Sparse vs dense retrieval, BM25, ANN/vector indexes, chunking tradeoffs, and retrieval metrics like recall@k / MRR / nDCG |
 | [rag-retrieval-augmented](notebooks/rag-retrieval-augmented.ipynb) | RAG with chunking, vector search, dense vs sparse retrieval, and BM25 |
 
 ### TIER 15: Audio Processing
@@ -360,10 +360,10 @@ Beyond standard supervised learning.
 ### Hyperparameter Sweeps
 
 ```bash
-uv run python run_sweep.py sweeps/config.yaml notebooks/your-notebook.ipynb --count 10
+uv run python sweep.py path/to/config.yaml notebooks/your-notebook.ipynb --count 10
 ```
 
-See `sweeps/*.yaml` for configuration examples (bayes, grid, random).
+Use any W&B sweep YAML that matches the parameters exposed by your notebook.
 
 ### Shared Library
 

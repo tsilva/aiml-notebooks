@@ -1,4 +1,0 @@
-create this notebook: basics-optimizers - SGD, Momentum, Adam, RMSprop side-by-side comparison --- must be step by step, highly 
-engaging, highly interactive, objective is to make reader 
-end up with strong solid intuitions about the subject matter
- by the end of the notebook and to arrive at them easily 

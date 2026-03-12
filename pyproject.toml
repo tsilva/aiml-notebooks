@@ -38,7 +38,6 @@ dependencies = [
     "shap",
     "scikit-image",
     "jiwer>=4.0.0",
-    "modal>=1.2.3",
     "tiktoken",
     "jax[cpu]>=0.8.1",
     "keras>=3.12.0",

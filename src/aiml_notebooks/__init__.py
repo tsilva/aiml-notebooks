@@ -57,14 +57,7 @@ from .dataloader_benchmark import (
 from .tokenizers import CharacterTokenizer, WordTokenizer
 
 # General utilities
-from .utils import get_device, set_seed, count_parameters, print_model_summary, load_pretrained_gpt2_weights, get_grad_norm
-
-# Batch size optimization (import early to avoid circular imports)
-from .optimize_batch_size import (
-    BatchConfig,
-    BatchSizeOptimizer,
-    find_optimal_batch_config,
-)
+from .utils import get_device, set_seed, count_parameters, print_model_summary
 
 # Hardware detection and configuration
 from .hardware import (
@@ -118,7 +111,6 @@ from .visualization import (
     plot_model_comparison,
     log_confusion_matrix_callback,
     log_prediction_grid_callback,
-    plot_activation_stats,
 )
 
 # Loss functions
@@ -160,7 +152,6 @@ from .analysis import (
     analyze_latent_clusters,
     latent_traversal,
     compute_latent_statistics,
-    track_block_activations,
 )
 
 # Preprocessing
@@ -258,8 +249,6 @@ __all__ = [
     "set_seed",
     "count_parameters",
     "print_model_summary",
-    "get_grad_norm",
-    "load_pretrained_gpt2_weights",
     # Hardware detection and configuration
     "HardwareConfig",
     "detect_hardware",
@@ -305,7 +294,6 @@ __all__ = [
     "visualize_sample_predictions",
     "plot_interpolation",
     "plot_model_comparison",
-    "plot_activation_stats",
     # Losses
     "VAELoss",
     "VQVAELoss",
@@ -335,7 +323,6 @@ __all__ = [
     "analyze_latent_clusters",
     "latent_traversal",
     "compute_latent_statistics",
-    "track_block_activations",
     # Preprocessing
     "TextPreprocessor",
     "simple_tokenize",
@@ -383,8 +370,4 @@ __all__ = [
     "create_padding_mask",
     "create_attention_mask",
     "get_positional_encoding",
-    # Batch size optimization
-    "BatchConfig",
-    "BatchSizeOptimizer",
-    "find_optimal_batch_config",
 ]
