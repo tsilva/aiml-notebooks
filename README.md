@@ -17,10 +17,10 @@
 
 ## Overview
 
-This repository provides **100+ hands-on Jupyter notebooks** covering machine learning and deep learning. Each notebook builds deep intuitions through progressive implementation—from NumPy fundamentals to transformers, diffusion models, and reinforcement learning.
+This repository provides **100+ hands-on Jupyter notebooks** covering machine learning and deep learning. The curriculum starts with a shared foundation, then branches into focused domains like transformers, computer vision, generative models, and reinforcement learning.
 
 **Why this repository?**
-- **Conceptual ordering**: Notebooks are sequenced by prerequisites, not topics—each tier builds on previous tiers
+- **Conceptual ordering**: Core tiers are sequenced by prerequisites, then later tiers branch into domain-specific tracks
 - **Implementation-first**: Learn by building everything from scratch before using frameworks
 - **Broad coverage**: From linear algebra to transformers, diffusion, and reinforcement learning
 
@@ -54,18 +54,20 @@ Choose a focused path based on your goals:
 
 | Track | Tiers | Focus |
 |-------|-------|-------|
-| **Fast Track to LLMs** | 1 → 2 → 3 → 7 → 8 → 9 → 11 → 12 | Quickest path to understanding modern language models |
+| **Fast Track to LLMs** | 1 → 2 → 3 → 7 → 8 → 9 → 11 | Quickest path to transformer and LLM foundations |
 | **Computer Vision** | 1 → 2 → 3 → 6 → 7 → 10 → 11 → 13 → 16 → 17 | CNNs, ViTs, image generation, and interpretability |
 | **Classical ML Mastery** | 1 → 2 → 3 → 4 → 5 → 6 | Strong foundations before deep learning |
-| **Reinforcement Learning** | 1 → 2 → 3 → 4 → 5A → 7 → 19 | Decision-making and game-playing agents |
-| **NLP Applications** | 1 → 2 → 3 → 7 → 8 → 9 → 11 → 12 → 14 | Language modeling, transformers, retrieval, and downstream tasks |
-| **Complete Curriculum** | All tiers in order | Comprehensive understanding (~180-220 hours) |
+| **Reinforcement Learning** | 1 → 2 → 3 → 5 → 5A → 7 → 19 | RL foundations, deep RL, and the evaluation discipline needed to train them well |
+| **NLP Applications** | 1 → 2 → 3 → 7 → 8 → 9 → 11 → 14 → 12 | Language modeling, transformers, downstream NLP tasks, then advanced LLM systems |
+| **Complete Curriculum** | 1 → 12 core, then 13-21 by interest | Comprehensive understanding across the core and advanced branches (~180-220 hours) |
 
 ---
 
 ## Learning Path
 
 **Legend:** ✅ Completed · 🔴 Advanced · 🔄 In Progress · 🔜 Planned
+
+**Structure note:** Tiers 1-12 form the core prerequisite spine. Tiers 13-21 are advanced branches and electives that can be taken after the relevant foundations rather than as one strict linear chain.
 
 ### TIER 1: Numerical Computing
 
@@ -224,9 +226,9 @@ Modern sequence modeling—the revolution.
 | ✅ [bert-architecture](notebooks/bert-architecture.ipynb) | BERT encoder, masked LM |
 | 🔄 [vision-transformers](notebooks/vision-transformers.ipynb) | ViT: patch embeddings, 2D positional encodings |
 
-### TIER 12: LLM Inference, Fine-Tuning & Systems
+### TIER 12: LLM Adaptation, Inference & Systems
 
-Making transformers adaptable, efficient, and deployable.
+Advanced transformer adaptation, inference, and deployment topics after Tier 11. Until `transformer-fine-tuning-basics` is added, treat this tier as an advanced branch rather than a prerequisite for Tier 14 NLP applications.
 
 | Notebook | Description |
 |----------|-------------|
