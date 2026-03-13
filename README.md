@@ -271,7 +271,7 @@ Practical NLP tasks end-to-end.
 | [ner-token-classification](notebooks/ner-token-classification.ipynb) | NER with BIO tagging, BiLSTM-CRF sequence constraints, and Viterbi decoding | |
 | [qa-extractive](notebooks/qa-extractive.ipynb) | Extractive QA with BiDAF, BERT, answer span decoding, and retrieval-backed QA context | |
 | [retrieval-fundamentals](notebooks/retrieval-fundamentals.ipynb) | Sparse vs dense retrieval, BM25, ANN/vector indexes, chunking tradeoffs, and retrieval metrics like recall@k / MRR / nDCG | |
-| hybrid-retrieval-and-reranking | BM25+dense hybrids, score fusion, rerankers, query rewriting, and retrieval failure analysis | Planned bridge |
+| [hybrid-retrieval-and-reranking](notebooks/hybrid-retrieval-and-reranking.ipynb) | BM25+dense hybrids, score fusion, rerankers, query rewriting, and retrieval failure analysis | |
 | [rag-retrieval-augmented](notebooks/rag-retrieval-augmented.ipynb) | RAG with chunking, vector search, dense vs sparse retrieval, and BM25 | |
 
 ### TIER 15: Audio Processing
