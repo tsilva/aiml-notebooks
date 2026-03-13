@@ -215,7 +215,7 @@ Computer vision fundamentals.
 | [inception-multiscale](notebooks/inception-multiscale.ipynb) | Inception: multi-scale parallel processing | |
 | [resnet-skip-connections](notebooks/resnet-skip-connections.ipynb) | ResNet: solving the degradation problem | |
 | [mobilenet-efficient-cnns](notebooks/mobilenet-efficient-cnns.ipynb) | Depthwise separable convolutions | |
-| image-classification-basics | End-to-end supervised image classification with training loops, diagnostics, and error analysis | Planned bridge |
+| [image-classification-basics](notebooks/image-classification-basics.ipynb) | End-to-end supervised image classification with training loops, diagnostics, and error analysis | |
 | [efficientnet-compound-scaling](notebooks/efficientnet-compound-scaling.ipynb) | Compound scaling with NAS | Advanced |
 | [transfer-learning](notebooks/transfer-learning.ipynb) | Feature extraction vs fine-tuning | |
 | [unet-architecture](notebooks/unet-architecture.ipynb) | U-Net for semantic segmentation | |

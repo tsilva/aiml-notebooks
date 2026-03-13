@@ -116,3 +116,5 @@ Update this file with high-frequency, easily preventable workflow patterns (NOT 
 ```markdown
 **Pattern**: [Summary] - Why: [Explanation] - Fix: [Approach]
 ```
+
+**Pattern**: Probe notebook execution early with `uv run` before investing in edits - Why: platform-specific lock or wheel issues can block validation late in the task - Fix: verify the runner up front and, if project resolution is broken, use `uv run --no-project --python <known-good-interpreter>` for notebook execution while keeping the repository unchanged.
