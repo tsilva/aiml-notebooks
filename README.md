@@ -133,8 +133,8 @@ Build models that work on new data.
 | [cross-validation](notebooks/cross-validation.ipynb) | K-Fold, Stratified K-Fold, Time Series CV | |
 | [regularization](notebooks/regularization.ipynb) | L1, L2, dropout, early stopping | |
 | [confidence-intervals](notebooks/confidence-intervals.ipynb) | Bootstrap, hypothesis testing | |
-| calibration-and-thresholding | Probability calibration, threshold selection, reliability diagrams, and cost-sensitive decision rules | Planned bridge |
-| reproducibility-and-experiment-tracking | Seeds, deterministic settings, config capture, checkpointing, and fair experiment comparison | Planned bridge |
+| [calibration-and-thresholding](notebooks/calibration-and-thresholding.ipynb) | Probability calibration, threshold selection, reliability diagrams, and cost-sensitive decision rules | |
+| [reproducibility-and-experiment-tracking](notebooks/reproducibility-and-experiment-tracking.ipynb) | Seeds, deterministic settings, config capture, checkpointing, and fair experiment comparison | |
 | [hyperparameter-tuning](notebooks/hyperparameter-tuning.ipynb) | Grid, random, and Bayesian optimization | |
 | [ensemble-methods](notebooks/ensemble-methods.ipynb) | Bagging, Random Forests, boosting, stacking | |
 
