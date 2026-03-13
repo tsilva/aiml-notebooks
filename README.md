@@ -247,7 +247,7 @@ Advanced transformer adaptation, inference, and deployment topics after Tier 11.
 | [flash-attention](notebooks/flash-attention.ipynb) | Memory-efficient attention with tiling | Advanced |
 | [kv-caching](notebooks/kv-caching.ipynb) | KV caching for efficient inference | |
 | [speculative-decoding](notebooks/speculative-decoding.ipynb) | Accelerating LLM inference | |
-| llm-evaluation-and-guardrails | Task evals, hallucination checks, retrieval-aware evals, and practical guardrail patterns | Planned bridge |
+| [llm-evaluation-and-guardrails](notebooks/llm-evaluation-and-guardrails.ipynb) | Task evals, hallucination checks, retrieval-aware evals, and practical guardrail patterns | |
 
 ### TIER 13: Representation Learning
 
