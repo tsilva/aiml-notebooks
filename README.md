@@ -70,6 +70,7 @@ Choose a focused path based on your goals:
 **Legend:** Personal progress: `✅` = went through it, `🔄` = currently going through / revisiting it, blank = not yet marked. Curriculum metadata lives in the `Notes` column.
 
 All linked notebooks in this roadmap already exist. Personal markers are reading/progress markers, not repository completion markers.
+Planned bridges are listed as plain text until they are implemented.
 
 **Structure note:** Tiers 1-12 form the core prerequisite spine. Tiers 13-21 are advanced branches and electives that can be taken after the relevant foundations rather than as one strict linear chain.
 
@@ -132,6 +133,8 @@ Build models that work on new data.
 | [cross-validation](notebooks/cross-validation.ipynb) | K-Fold, Stratified K-Fold, Time Series CV | |
 | [regularization](notebooks/regularization.ipynb) | L1, L2, dropout, early stopping | |
 | [confidence-intervals](notebooks/confidence-intervals.ipynb) | Bootstrap, hypothesis testing | |
+| calibration-and-thresholding | Probability calibration, threshold selection, reliability diagrams, and cost-sensitive decision rules | Planned bridge |
+| reproducibility-and-experiment-tracking | Seeds, deterministic settings, config capture, checkpointing, and fair experiment comparison | Planned bridge |
 | [hyperparameter-tuning](notebooks/hyperparameter-tuning.ipynb) | Grid, random, and Bayesian optimization | |
 | [ensemble-methods](notebooks/ensemble-methods.ipynb) | Bagging, Random Forests, boosting, stacking | |
 
@@ -212,6 +215,7 @@ Computer vision fundamentals.
 | [inception-multiscale](notebooks/inception-multiscale.ipynb) | Inception: multi-scale parallel processing | |
 | [resnet-skip-connections](notebooks/resnet-skip-connections.ipynb) | ResNet: solving the degradation problem | |
 | [mobilenet-efficient-cnns](notebooks/mobilenet-efficient-cnns.ipynb) | Depthwise separable convolutions | |
+| image-classification-basics | End-to-end supervised image classification with training loops, diagnostics, and error analysis | Planned bridge |
 | [efficientnet-compound-scaling](notebooks/efficientnet-compound-scaling.ipynb) | Compound scaling with NAS | Advanced |
 | [transfer-learning](notebooks/transfer-learning.ipynb) | Feature extraction vs fine-tuning | |
 | [unet-architecture](notebooks/unet-architecture.ipynb) | U-Net for semantic segmentation | |
@@ -238,10 +242,12 @@ Advanced transformer adaptation, inference, and deployment topics after Tier 11.
 |----------|-------------|-------|
 | [transformer-fine-tuning-basics](notebooks/transformer-fine-tuning-basics.ipynb) | Full fine-tuning vs frozen backbones, task heads, supervised fine-tuning flow, evaluation/overfitting pitfalls, and when PEFT becomes necessary | |
 | [lora-peft](notebooks/lora-peft.ipynb) | LoRA, QLoRA, and PEFT tradeoffs across full fine-tuning, adapters, and prompt tuning | |
+| instruction-tuning-and-alignment | Instruction tuning, chat formatting, preference optimization concepts, and where DPO/RLHF fit | Planned bridge |
 | [gpu-hardware-basics](notebooks/gpu-hardware-basics.ipynb) | CUDA cores, memory hierarchy, Tensor Cores, and why hardware shapes LLM systems | |
 | [flash-attention](notebooks/flash-attention.ipynb) | Memory-efficient attention with tiling | Advanced |
 | [kv-caching](notebooks/kv-caching.ipynb) | KV caching for efficient inference | |
 | [speculative-decoding](notebooks/speculative-decoding.ipynb) | Accelerating LLM inference | |
+| llm-evaluation-and-guardrails | Task evals, hallucination checks, retrieval-aware evals, and practical guardrail patterns | Planned bridge |
 
 ### TIER 13: Representation Learning
 
@@ -265,6 +271,7 @@ Practical NLP tasks end-to-end.
 | [ner-token-classification](notebooks/ner-token-classification.ipynb) | NER with BIO tagging, BiLSTM-CRF sequence constraints, and Viterbi decoding | |
 | [qa-extractive](notebooks/qa-extractive.ipynb) | Extractive QA with BiDAF, BERT, answer span decoding, and retrieval-backed QA context | |
 | [retrieval-fundamentals](notebooks/retrieval-fundamentals.ipynb) | Sparse vs dense retrieval, BM25, ANN/vector indexes, chunking tradeoffs, and retrieval metrics like recall@k / MRR / nDCG | |
+| hybrid-retrieval-and-reranking | BM25+dense hybrids, score fusion, rerankers, query rewriting, and retrieval failure analysis | Planned bridge |
 | [rag-retrieval-augmented](notebooks/rag-retrieval-augmented.ipynb) | RAG with chunking, vector search, dense vs sparse retrieval, and BM25 | |
 
 ### TIER 15: Audio Processing
