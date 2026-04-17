@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="aiml-notebooks" width="512"/>
+  <img src="https://raw.githubusercontent.com/tsilva/aiml-notebooks/main/logo.png" alt="aiml-notebooks" width="512"/>
 
   # aiml-notebooks
 
