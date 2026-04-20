@@ -71,11 +71,12 @@ except ModuleNotFoundError as exc:
         raise
 
     branch = os.environ.get("AIML_NOTEBOOKS_BRANCH", "main")
-    bootstrap_url = (
-        f"https://raw.githubusercontent.com/tsilva/aiml-notebooks/{branch}/"
-        "src/aiml_notebooks/bootstrap.py"
+    request = urllib.request.Request(
+        "https://api.github.com/repos/tsilva/aiml-notebooks/"
+        f"contents/src/aiml_notebooks/bootstrap.py?ref={branch}",
+        headers={"Accept": "application/vnd.github.raw", "User-Agent": "aiml-notebooks-bootstrap"},
     )
-    exec(urllib.request.urlopen(bootstrap_url).read().decode("utf-8"), globals())
+    exec(urllib.request.urlopen(request).read().decode("utf-8"), globals())
 
 
 bootstrap_notebook(namespace=globals())

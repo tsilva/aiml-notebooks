@@ -83,9 +83,11 @@ Use the shared bootstrap before importing `aiml_notebooks` in notebooks that may
 ```python
 import urllib.request
 
-exec(urllib.request.urlopen(
-    "https://raw.githubusercontent.com/tsilva/aiml-notebooks/main/scripts/bootstrap_notebook.py"
-).read().decode("utf-8"), globals())
+request = urllib.request.Request(
+    "https://api.github.com/repos/tsilva/aiml-notebooks/contents/scripts/bootstrap_notebook.py?ref=main",
+    headers={"Accept": "application/vnd.github.raw", "User-Agent": "aiml-notebooks-bootstrap"},
+)
+exec(urllib.request.urlopen(request).read().decode("utf-8"), globals())
 ```
 
 This finds an existing repo checkout when local, otherwise clones into a writable remote path (`/workspace/aiml-notebooks` on Runpod or `/content/aiml-notebooks` on Colab), adds `src/` to `sys.path`, and changes the working directory to the repo root.
