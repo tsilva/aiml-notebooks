@@ -90,6 +90,16 @@ exec(urllib.request.urlopen(
 
 This finds an existing repo checkout when local, otherwise clones into a writable remote path (`/workspace/aiml-notebooks` on Runpod or `/content/aiml-notebooks` on Colab), adds `src/` to `sys.path`, and changes the working directory to the repo root.
 
+If the package is already installed or the repo's `src/` path is already importable, the bootstrap can be called without the remote loader:
+
+```python
+from aiml_notebooks.bootstrap import bootstrap_notebook
+
+bootstrap_notebook(namespace=globals())
+```
+
+Do not use this import-only form in standalone Colab/Runpod notebooks unless the package is already installed there; a fresh remote kernel needs either the remote loader above or a package install step first.
+
 Do **not** duplicate per-notebook clone/install cells such as `%cd /content`, `git clone ...`, or `%pip install -e .` unless the task explicitly needs a different repository source. Use environment variables instead:
 * `AIML_NOTEBOOKS_BRANCH=<branch>` to clone/fetch repo code from a non-`main` branch
 * `AIML_NOTEBOOKS_REPO=<path>` to choose the checkout directory
@@ -101,9 +111,10 @@ Do **not** duplicate per-notebook clone/install cells such as `%cd /content`, `g
 ```python
 from aiml_notebooks import CharacterTokenizer, create_dataset, get_device, set_seed
 
-%load_ext autoreload
-%autoreload 2
+enable_autoreload()
 ```
+
+Use `enable_autoreload()` from the bootstrap instead of raw `%load_ext autoreload` / `%autoreload 2` magics. Some hosted kernels, including Colab configurations, may not provide the autoreload extension; the helper keeps the notebook running and prints a short warning when autoreload is unavailable.
 
 #### **6. Random Seed & Device**
 ```python

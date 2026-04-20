@@ -46,6 +46,9 @@ _SYMBOL_MODULES = {
     "set_seed": "utils",
     "count_parameters": "utils",
     "print_model_summary": "utils",
+    # Notebook bootstrap
+    "bootstrap_notebook": "bootstrap",
+    "enable_autoreload": "bootstrap",
     # Hardware detection and configuration
     "HardwareConfig": "hardware",
     "detect_hardware": "hardware",
