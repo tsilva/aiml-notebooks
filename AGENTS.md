@@ -42,6 +42,27 @@ README.md               # Optimal learning order (MUST update after notebook cha
   - `wip-description.ipynb` (work in progress)
   - `description.ipynb` (completed standalone)
 
+### Paired Python Editing with Jupytext
+Prefer Jupytext paired notebooks when editing `.ipynb` files. The repo config pairs notebooks
+as `ipynb,py:percent`, so the `.py` file is the safe editing surface and the `.ipynb`
+remains the runnable artifact.
+
+For an existing notebook:
+```bash
+uv run jupytext --set-formats ipynb,py:percent notebooks/your-notebook.ipynb
+```
+
+Normal edit loop:
+```bash
+uv run jupytext --sync notebooks/your-notebook.ipynb
+# edit notebooks/your-notebook.py
+uv run jupytext --sync notebooks/your-notebook.py
+uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebook.ipynb
+```
+
+Keep both paired files committed when a notebook is paired. Do not bulk-pair or sync archived
+notebooks unless the task explicitly asks for it.
+
 ### After Creation/Modification
 1. **Test end-to-end**: `uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebook.ipynb`
 2. **Update README.md**: Insert based on conceptual prerequisites (not alphabetically)

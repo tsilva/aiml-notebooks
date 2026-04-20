@@ -9,6 +9,7 @@ dependencies = [
     "matplotlib>=3.10.8",
     "numpy>=2.4.4",
     "torch>=2.11.0",
+    "torchvision>=0.26.0",
 ]
 
 [build-system]
@@ -18,7 +19,9 @@ build-backend = "hatchling.build"
 [tool.uv]
 # Package enabled to allow shared utilities to be imported from notebooks
 package = true
-dev-dependencies = []
+
+[tool.jupytext]
+formats = "ipynb,py:percent"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/aiml_notebooks"]
@@ -32,3 +35,10 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "jupytext>=1.19.1",
+    "nbconvert>=7.17.1",
+]

@@ -73,6 +73,7 @@ notebooks/logs/
 notebooks/output
 notebooks/tmp
 notebooks/wandb
+notebooks/*.py
 parts/
 sdist/
 tmp/
