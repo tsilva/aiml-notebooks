@@ -11,6 +11,7 @@ LOCAL_ROOT = pathlib.Path(__file__).resolve().parents[1]
 REMOTE_ROOT = pathlib.Path("/workspace/aiml-notebooks")
 
 app = modal.App("aiml-notebook-runner")
+wandb_secret = modal.Secret.from_name("wandb-secret")
 
 
 def default_output_path(notebook_path: str) -> str:
@@ -27,6 +28,9 @@ image = (
         "nbconvert==7.17.1",
         "numpy==2.4.4",
         "torch==2.11.0",
+        "torchvision==0.26.0",
+        "unsloth",
+        "wandb",
     )
     .env(
         {
@@ -78,12 +82,12 @@ def _execute_notebook(notebook_path: str, timeout_seconds: int) -> bytes:
     return (output_dir / notebook.name).read_bytes()
 
 
-@app.function(image=image, timeout=4 * 60 * 60, cpu=4.0, memory=8192)
+@app.function(image=image, secrets=[wandb_secret], timeout=4 * 60 * 60, cpu=4.0, memory=8192)
 def run_notebook_cpu(notebook_path: str, timeout_seconds: int = 3600) -> bytes:
     return _execute_notebook(notebook_path, timeout_seconds)
 
 
-@app.function(image=image, gpu="A10G", timeout=4 * 60 * 60, cpu=4.0, memory=16384)
+@app.function(image=image, secrets=[wandb_secret], gpu="A10G", timeout=4 * 60 * 60, cpu=4.0, memory=16384)
 def run_notebook_gpu(notebook_path: str, timeout_seconds: int = 3600) -> bytes:
     return _execute_notebook(notebook_path, timeout_seconds)
 

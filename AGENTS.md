@@ -95,6 +95,18 @@ uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebo
 # Prefix PYTORCH_ENABLE_MPS_FALLBACK=1 for Transformer notebooks on macOS
 ```
 
+**Remote CUDA notebooks with Modal**:
+Use Modal for notebooks that intentionally require CUDA and cannot be validated locally on
+Apple Silicon or CPU-only machines.
+
+```bash
+./run_modal.sh notebooks/your-notebook.ipynb
+```
+
+This runs `scripts/run_modal_notebook.py` with `--gpu` and writes the executed notebook as
+`notebooks/your-notebook.modal.ipynb` unless an explicit output path is provided. Prefer this
+for CUDA-only notebooks such as Unsloth training demos instead of adding CPU/MPS fallbacks.
+
 **Defensive programming** (testing is expensive):
 - Document expected shapes in comments
 - Assert intermediate shapes
