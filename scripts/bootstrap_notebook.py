@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 
 
@@ -55,11 +56,26 @@ if root is None:
             check=True,
         )
 
+bootstrap_module = root / "src" / "aiml_notebooks" / "bootstrap.py"
+if not bootstrap_module.exists() and (root / ".git").exists():
+    subprocess.run(["git", "-C", str(root), "pull", "--ff-only"], check=True)
+
 src_dir = root / "src"
 if str(src_dir) not in sys.path:
     sys.path.insert(0, str(src_dir))
 
-from aiml_notebooks.bootstrap import bootstrap_notebook  # noqa: E402
+try:
+    from aiml_notebooks.bootstrap import bootstrap_notebook  # noqa: E402
+except ModuleNotFoundError as exc:
+    if exc.name != "aiml_notebooks.bootstrap":
+        raise
+
+    branch = os.environ.get("AIML_NOTEBOOKS_BRANCH", "main")
+    bootstrap_url = (
+        f"https://raw.githubusercontent.com/tsilva/aiml-notebooks/{branch}/"
+        "src/aiml_notebooks/bootstrap.py"
+    )
+    exec(urllib.request.urlopen(bootstrap_url).read().decode("utf-8"), globals())
 
 
 bootstrap_notebook(namespace=globals())

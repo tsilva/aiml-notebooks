@@ -242,6 +242,7 @@ Advanced transformer adaptation, inference, and deployment topics after Tier 11.
 |----------|-------------|-------|
 | [transformer-fine-tuning-basics](notebooks/transformer-fine-tuning-basics.ipynb) | Full fine-tuning vs frozen backbones, task heads, supervised fine-tuning flow, evaluation/overfitting pitfalls, and when PEFT becomes necessary | |
 | [lora-peft](notebooks/lora-peft.ipynb) | LoRA, QLoRA, and PEFT tradeoffs across full fine-tuning, adapters, and prompt tuning | |
+| [unsloth-minimal-training](notebooks/unsloth-minimal-training.ipynb) | Mac-safe Unsloth-style LoRA smoke test with a tiny causal LM, explicit runtime checks, and a minimal training loop sized for Apple Silicon laptops | |
 | [instruction-tuning-and-alignment](notebooks/instruction-tuning-and-alignment.ipynb) | Instruction tuning, chat formatting, preference optimization concepts, and where DPO/RLHF fit | |
 | [gpu-hardware-basics](notebooks/gpu-hardware-basics.ipynb) | CUDA cores, memory hierarchy, Tensor Cores, and why hardware shapes LLM systems | |
 | [flash-attention](notebooks/flash-attention.ipynb) | Memory-efficient attention with tiling | Advanced |
