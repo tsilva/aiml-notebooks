@@ -1,373 +1,187 @@
-"""
-aiml_notebooks - Shared utilities for AI/ML notebooks
+"""Shared utilities for the AI/ML notebooks.
 
-This package contains reusable components for multiple notebooks:
-- tokenizers: Character-level and word-level tokenizer implementations
-- datasets: PyTorch Dataset classes for various tasks
-- create_dataset: Factory function for creating datasets with automatic splits
-- create_dataloaders: Factory function for creating DataLoaders
-- training: PyTorch Lightning training utilities (W&B logger, trainer setup, training loops, TrainingHistory)
-- visualization: Plotting and visualization utilities
-- losses: Loss functions (VAE, VQ-VAE, GAN)
-- evaluation: Metrics and evaluation utilities
-- generation: Sampling strategies and generation utilities
-- analysis: Latent space analysis and visualization
-- preprocessing: Text preprocessing utilities
-- models: Common encoder/decoder architectures
-- utils: General utilities (device selection, seeding, model info)
-- hardware: Hardware detection and optimal configuration (CUDA, MPS, CPU)
-- augmentation: Data augmentation (text and image noise)
-- image_utils: Image normalization and transform utilities
-- positional_encoding: Positional encodings for transformers
+The package exports a broad convenience API, but many notebooks only need a
+small subset of it. Keep imports lazy so lightweight helpers such as
+`get_device` and `set_seed` still work in remote kernels that do not have every
+optional dependency installed.
 """
+
+from __future__ import annotations
+
+from importlib import import_module
+from typing import Any
 
 __version__ = "0.2.0"
 
-# Core datasets and data utilities
-from .datasets import (
-    NamesDataset,
-    collate_fn,
-    create_dataset,
-    create_dataloaders,
-    create_seq2seq_collate_fn,
-    create_classification_collate_fn,
-    create_variable_length_collate_fn,
-    get_dataset_config,
-    CIFAR10_CLASSES,
-    CIFAR10_MEAN,
-    CIFAR10_STD,
-    MNIST_CLASSES,
-    MNIST_MEAN,
-    MNIST_STD,
-    FASHIONMNIST_CLASSES,
-    FASHIONMNIST_MEAN,
-    FASHIONMNIST_STD,
-)
-
-# DataLoader benchmarking
-from .dataloader_benchmark import (
-    DataLoaderConfig,
-    BenchmarkResult,
-    benchmark_dataloader,
-    find_optimal_dataloader_config,
-    quick_benchmark_dataloader,
-)
-
-# Tokenizers
-from .tokenizers import CharacterTokenizer, WordTokenizer
-
-# General utilities
-from .utils import get_device, set_seed, count_parameters, print_model_summary
-
-# Hardware detection and configuration
-from .hardware import (
-    HardwareConfig,
-    detect_hardware,
-    check_flash_attention,
-    configure_cuda_optimizations,
-    apply_torch_compile,
-    flash_attention_func,
-    auto_optimizer,
-    auto_precision,
-    auto_attention_backend,
-    auto_compile_model,
-    auto_pin_memory,
-    auto_num_workers,
-    auto_batch_size,
-    auto_gradient_accumulation_steps,
-    auto_learning_rate,
-    estimate_training_memory_gb,
-    print_memory_estimate,
-    find_max_batch_size,
-    free_memory,
-    show_memory_usage,
-)
-
-# Training utilities
-from .logging import log_gradients, log_model_weights, log_gradient_flow
-from .training import (
-    create_wandb_logger,
-    watch_model,
-    create_trainer,
-    setup_papermill_params,
-    train_epoch_classification,
-    evaluate_classification,
-    train_epoch_seq2seq,
-    evaluate_seq2seq,
-    TrainingHistory,
-)
-
-# Visualization
-from .visualization import (
-    imshow_normalized,
-    show_image_grid_normalized,
-    plot_image_grid,
-    log_images_to_wandb,
-    plot_training_curves,
-    plot_confusion_matrix,
-    visualize_reconstructions,
-    visualize_sample_predictions,
-    plot_interpolation,
-    plot_model_comparison,
-    log_confusion_matrix_callback,
-    log_prediction_grid_callback,
-)
-
-# Loss functions
-from .losses import (
-    VAELoss,
-    VQVAELoss,
-    GANLoss,
-    perplexity,
-)
-
-# Evaluation
-from .evaluation import (
-    compute_classification_metrics,
-    compute_per_class_metrics,
-    print_classification_report,
-    compute_top_k_accuracy,
-    compute_confusion_matrix,
-    compare_models,
-    print_model_comparison,
-    calculate_reconstruction_error,
-)
-
-# Generation
-from .generation import (
-    sample_with_temperature,
-    sample_top_k,
-    sample_nucleus,
-    generate_text,
-    interpolate_latents,
-    spherical_interpolation,
-    latent_arithmetic,
-)
-
-# Analysis
-from .analysis import (
-    extract_latent_representations,
-    reduce_dimensions,
-    visualize_latent_space,
-    analyze_latent_clusters,
-    latent_traversal,
-    compute_latent_statistics,
-)
-
-# Preprocessing
-from .preprocessing import (
-    TextPreprocessor,
-    simple_tokenize,
-    tokenize_with_punctuation,
-    build_vocabulary_from_texts,
-    encode_text,
-    decode_text,
-    pad_sequence,
-    batch_encode_texts,
-    remove_stopwords,
-    normalize_text,
-)
-
-# Models
-from .models import (
-    MLPEncoder,
-    ConvEncoder,
-    RNNEncoder,
-    MLPDecoder,
-    ConvDecoder,
-    RNNDecoder,
-    VectorQuantizer,
-    ImageClassifier,
-    CNNArchitecture,
-    MLPArchitecture,
-    create_image_classifier,
-)
-
-# Augmentation
-from .augmentation import (
-    TextNoiser,
-    ImageNoiser,
-    RandomNoise,
-    add_gaussian_noise_numpy,
-    random_dropout_pixels,
-    add_random_occlusion,
-)
-
-# Image utilities
-from .image_utils import (
-    normalize_image,
-    denormalize_image,
-    create_standard_transforms,
-    create_denoising_transforms,
-    prepare_for_visualization,
-    batch_normalize,
-    batch_denormalize,
-    get_dataset_stats,
-)
-
-# Positional encoding
-from .positional_encoding import (
-    SinusoidalPositionalEncoding,
-    LearnablePositionalEmbedding,
-    RelativePositionalEncoding,
-    create_causal_mask,
-    create_padding_mask,
-    create_attention_mask,
-    get_positional_encoding,
-)
-
-__all__ = [
+_SYMBOL_MODULES = {
     # Datasets
-    "NamesDataset",
-    "collate_fn",
-    "create_dataset",
-    "create_dataloaders",
-    "create_seq2seq_collate_fn",
-    "create_classification_collate_fn",
-    "create_variable_length_collate_fn",
-    "get_dataset_config",
-    "CIFAR10_CLASSES",
-    "CIFAR10_MEAN",
-    "CIFAR10_STD",
-    "MNIST_CLASSES",
-    "MNIST_MEAN",
-    "MNIST_STD",
-    "FASHIONMNIST_CLASSES",
-    "FASHIONMNIST_MEAN",
-    "FASHIONMNIST_STD",
+    "NamesDataset": "datasets",
+    "collate_fn": "datasets",
+    "create_dataset": "datasets",
+    "create_dataloaders": "datasets",
+    "create_seq2seq_collate_fn": "datasets",
+    "create_classification_collate_fn": "datasets",
+    "create_variable_length_collate_fn": "datasets",
+    "get_dataset_config": "datasets",
+    "CIFAR10_CLASSES": "datasets",
+    "CIFAR10_MEAN": "datasets",
+    "CIFAR10_STD": "datasets",
+    "MNIST_CLASSES": "datasets",
+    "MNIST_MEAN": "datasets",
+    "MNIST_STD": "datasets",
+    "FASHIONMNIST_CLASSES": "datasets",
+    "FASHIONMNIST_MEAN": "datasets",
+    "FASHIONMNIST_STD": "datasets",
     # DataLoader benchmarking
-    "DataLoaderConfig",
-    "BenchmarkResult",
-    "benchmark_dataloader",
-    "find_optimal_dataloader_config",
-    "quick_benchmark_dataloader",
+    "DataLoaderConfig": "dataloader_benchmark",
+    "BenchmarkResult": "dataloader_benchmark",
+    "benchmark_dataloader": "dataloader_benchmark",
+    "find_optimal_dataloader_config": "dataloader_benchmark",
+    "quick_benchmark_dataloader": "dataloader_benchmark",
     # Tokenizers
-    "CharacterTokenizer",
-    "WordTokenizer",
+    "CharacterTokenizer": "tokenizers",
+    "WordTokenizer": "tokenizers",
     # General utilities
-    "get_device",
-    "set_seed",
-    "count_parameters",
-    "print_model_summary",
+    "get_device": "utils",
+    "set_seed": "utils",
+    "count_parameters": "utils",
+    "print_model_summary": "utils",
     # Hardware detection and configuration
-    "HardwareConfig",
-    "detect_hardware",
-    "check_flash_attention",
-    "configure_cuda_optimizations",
-    "apply_torch_compile",
-    "flash_attention_func",
-    "auto_optimizer",
-    "auto_precision",
-    "auto_attention_backend",
-    "auto_compile_model",
-    "auto_pin_memory",
-    "auto_num_workers",
-    "auto_batch_size",
-    "auto_gradient_accumulation_steps",
-    "auto_learning_rate",
-    "estimate_training_memory_gb",
-    "print_memory_estimate",
-    "find_max_batch_size",
-    "free_memory",
-    "show_memory_usage",
-    # Training
-    "log_gradients",
-    "log_model_weights",
-    "log_gradient_flow",
-    "create_wandb_logger",
-    "watch_model",
-    "create_trainer",
-    "setup_papermill_params",
-    "train_epoch_classification",
-    "evaluate_classification",
-    "train_epoch_seq2seq",
-    "evaluate_seq2seq",
-    "TrainingHistory",
+    "HardwareConfig": "hardware",
+    "detect_hardware": "hardware",
+    "check_flash_attention": "hardware",
+    "configure_cuda_optimizations": "hardware",
+    "apply_torch_compile": "hardware",
+    "flash_attention_func": "hardware",
+    "auto_optimizer": "hardware",
+    "auto_precision": "hardware",
+    "auto_attention_backend": "hardware",
+    "auto_compile_model": "hardware",
+    "auto_pin_memory": "hardware",
+    "auto_num_workers": "hardware",
+    "auto_batch_size": "hardware",
+    "auto_gradient_accumulation_steps": "hardware",
+    "auto_learning_rate": "hardware",
+    "estimate_training_memory_gb": "hardware",
+    "print_memory_estimate": "hardware",
+    "find_max_batch_size": "hardware",
+    "free_memory": "hardware",
+    "show_memory_usage": "hardware",
+    # Training and logging
+    "log_gradients": "logging",
+    "log_model_weights": "logging",
+    "log_gradient_flow": "logging",
+    "create_wandb_logger": "training",
+    "watch_model": "training",
+    "create_trainer": "training",
+    "setup_papermill_params": "training",
+    "train_epoch_classification": "training",
+    "evaluate_classification": "training",
+    "train_epoch_seq2seq": "training",
+    "evaluate_seq2seq": "training",
+    "TrainingHistory": "training",
     # Visualization
-    "imshow_normalized",
-    "show_image_grid_normalized",
-    "plot_image_grid",
-    "log_images_to_wandb",
-    "plot_training_curves",
-    "plot_confusion_matrix",
-    "visualize_reconstructions",
-    "visualize_sample_predictions",
-    "plot_interpolation",
-    "plot_model_comparison",
+    "imshow_normalized": "visualization",
+    "show_image_grid_normalized": "visualization",
+    "plot_image_grid": "visualization",
+    "log_images_to_wandb": "visualization",
+    "plot_training_curves": "visualization",
+    "plot_confusion_matrix": "visualization",
+    "visualize_reconstructions": "visualization",
+    "visualize_sample_predictions": "visualization",
+    "plot_interpolation": "visualization",
+    "plot_model_comparison": "visualization",
     # Losses
-    "VAELoss",
-    "VQVAELoss",
-    "GANLoss",
-    "perplexity",
+    "VAELoss": "losses",
+    "VQVAELoss": "losses",
+    "GANLoss": "losses",
+    "perplexity": "losses",
     # Evaluation
-    "compute_classification_metrics",
-    "compute_per_class_metrics",
-    "print_classification_report",
-    "compute_top_k_accuracy",
-    "compute_confusion_matrix",
-    "compare_models",
-    "print_model_comparison",
-    "calculate_reconstruction_error",
+    "compute_classification_metrics": "evaluation",
+    "compute_per_class_metrics": "evaluation",
+    "print_classification_report": "evaluation",
+    "compute_top_k_accuracy": "evaluation",
+    "compute_confusion_matrix": "evaluation",
+    "compare_models": "evaluation",
+    "print_model_comparison": "evaluation",
+    "calculate_reconstruction_error": "evaluation",
     # Generation
-    "sample_with_temperature",
-    "sample_top_k",
-    "sample_nucleus",
-    "generate_text",
-    "interpolate_latents",
-    "spherical_interpolation",
-    "latent_arithmetic",
+    "sample_with_temperature": "generation",
+    "sample_top_k": "generation",
+    "sample_nucleus": "generation",
+    "generate_text": "generation",
+    "interpolate_latents": "generation",
+    "spherical_interpolation": "generation",
+    "latent_arithmetic": "generation",
     # Analysis
-    "extract_latent_representations",
-    "reduce_dimensions",
-    "visualize_latent_space",
-    "analyze_latent_clusters",
-    "latent_traversal",
-    "compute_latent_statistics",
+    "extract_latent_representations": "analysis",
+    "reduce_dimensions": "analysis",
+    "visualize_latent_space": "analysis",
+    "analyze_latent_clusters": "analysis",
+    "latent_traversal": "analysis",
+    "compute_latent_statistics": "analysis",
     # Preprocessing
-    "TextPreprocessor",
-    "simple_tokenize",
-    "tokenize_with_punctuation",
-    "build_vocabulary_from_texts",
-    "encode_text",
-    "decode_text",
-    "pad_sequence",
-    "batch_encode_texts",
-    "remove_stopwords",
-    "normalize_text",
+    "TextPreprocessor": "preprocessing",
+    "simple_tokenize": "preprocessing",
+    "tokenize_with_punctuation": "preprocessing",
+    "build_vocabulary_from_texts": "preprocessing",
+    "encode_text": "preprocessing",
+    "decode_text": "preprocessing",
+    "pad_sequence": "preprocessing",
+    "batch_encode_texts": "preprocessing",
+    "remove_stopwords": "preprocessing",
+    "normalize_text": "preprocessing",
     # Models
-    "MLPEncoder",
-    "ConvEncoder",
-    "RNNEncoder",
-    "MLPDecoder",
-    "ConvDecoder",
-    "RNNDecoder",
-    "VectorQuantizer",
-    "ImageClassifier",
-    "CNNArchitecture",
-    "MLPArchitecture",
-    "create_image_classifier",
+    "MLPEncoder": "models.encoders",
+    "ConvEncoder": "models.encoders",
+    "RNNEncoder": "models.encoders",
+    "MLPDecoder": "models.decoders",
+    "ConvDecoder": "models.decoders",
+    "RNNDecoder": "models.decoders",
+    "VectorQuantizer": "models.vector_quantizer",
+    "ImageClassifier": "models.image_classifiers",
+    "CNNArchitecture": "models.image_classifiers",
+    "MLPArchitecture": "models.image_classifiers",
+    "create_image_classifier": "models.image_classifiers",
     # Augmentation
-    "TextNoiser",
-    "ImageNoiser",
-    "RandomNoise",
-    "add_gaussian_noise_numpy",
-    "random_dropout_pixels",
-    "add_random_occlusion",
+    "TextNoiser": "augmentation",
+    "ImageNoiser": "augmentation",
+    "RandomNoise": "augmentation",
+    "add_gaussian_noise_numpy": "augmentation",
+    "random_dropout_pixels": "augmentation",
+    "add_random_occlusion": "augmentation",
     # Image utilities
-    "normalize_image",
-    "denormalize_image",
-    "create_standard_transforms",
-    "create_denoising_transforms",
-    "prepare_for_visualization",
-    "batch_normalize",
-    "batch_denormalize",
-    "get_dataset_stats",
+    "normalize_image": "image_utils",
+    "denormalize_image": "image_utils",
+    "create_standard_transforms": "image_utils",
+    "create_denoising_transforms": "image_utils",
+    "prepare_for_visualization": "image_utils",
+    "batch_normalize": "image_utils",
+    "batch_denormalize": "image_utils",
+    "get_dataset_stats": "image_utils",
     # Positional encoding
-    "SinusoidalPositionalEncoding",
-    "LearnablePositionalEmbedding",
-    "RelativePositionalEncoding",
-    "create_causal_mask",
-    "create_padding_mask",
-    "create_attention_mask",
-    "get_positional_encoding",
-]
+    "SinusoidalPositionalEncoding": "positional_encoding",
+    "LearnablePositionalEmbedding": "positional_encoding",
+    "RelativePositionalEncoding": "positional_encoding",
+    "create_causal_mask": "positional_encoding",
+    "create_padding_mask": "positional_encoding",
+    "create_attention_mask": "positional_encoding",
+    "get_positional_encoding": "positional_encoding",
+}
+
+__all__ = list(_SYMBOL_MODULES)
+
+
+def __getattr__(name: str) -> Any:
+    module_name = _SYMBOL_MODULES.get(name)
+    if module_name is None:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+    module = import_module(f".{module_name}", __name__)
+    value = getattr(module, name)
+    globals()[name] = value
+    return value
+
+
+def __dir__() -> list[str]:
+    return sorted([*globals(), *_SYMBOL_MODULES])

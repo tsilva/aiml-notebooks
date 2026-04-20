@@ -77,7 +77,27 @@ Place imports **in the same cell** as their first usage:
 
 Exception: Very long cells may have a separate import cell immediately before.
 
-#### **4. Shared Library**
+#### **4. Remote/Local Repo Bootstrap**
+Use the shared bootstrap before importing `aiml_notebooks` in notebooks that may run outside a checked-out repo (Colab, Runpod JupyterLab, uploaded `.ipynb`, or other remote kernels).
+
+```python
+import urllib.request
+
+exec(urllib.request.urlopen(
+    "https://raw.githubusercontent.com/tsilva/aiml-notebooks/main/scripts/bootstrap_notebook.py"
+).read().decode("utf-8"), globals())
+```
+
+This finds an existing repo checkout when local, otherwise clones into a writable remote path (`/workspace/aiml-notebooks` on Runpod or `/content/aiml-notebooks` on Colab), adds `src/` to `sys.path`, and changes the working directory to the repo root.
+
+Do **not** duplicate per-notebook clone/install cells such as `%cd /content`, `git clone ...`, or `%pip install -e .` unless the task explicitly needs a different repository source. Use environment variables instead:
+* `AIML_NOTEBOOKS_BRANCH=<branch>` to clone/fetch repo code from a non-`main` branch
+* `AIML_NOTEBOOKS_REPO=<path>` to choose the checkout directory
+* `AIML_NOTEBOOKS_UPDATE=1` to `git pull --ff-only` an existing checkout
+* `AIML_NOTEBOOKS_INSTALL=1` to run editable install after cloning
+* `AIML_NOTEBOOKS_CHDIR=0` to keep the current working directory
+
+#### **5. Shared Library**
 ```python
 from aiml_notebooks import CharacterTokenizer, create_dataset, get_device, set_seed
 
@@ -85,7 +105,7 @@ from aiml_notebooks import CharacterTokenizer, create_dataset, get_device, set_s
 %autoreload 2
 ```
 
-#### **5. Random Seed & Device**
+#### **6. Random Seed & Device**
 ```python
 set_seed(CONFIG['seed'])
 device = get_device()  # or get_device(prefer_cpu=True) for Transformers
