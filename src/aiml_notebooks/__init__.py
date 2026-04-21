@@ -46,6 +46,14 @@ _SYMBOL_MODULES = {
     "set_seed": "utils",
     "count_parameters": "utils",
     "print_model_summary": "utils",
+    # Environment checks
+    "PackageRequirement": "environment",
+    "check_package_requirements": "environment",
+    "environment_report": "environment",
+    "get_cuda_environment_info": "environment",
+    "get_python_environment_info": "environment",
+    "print_environment_report": "environment",
+    "require_environment": "environment",
     # Notebook bootstrap
     "bootstrap_notebook": "bootstrap",
     "enable_autoreload": "bootstrap",

@@ -9,6 +9,23 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RUNNER = ROOT / "scripts" / "modal_notebook_runner.py"
+DEFAULT_GPU_TYPE = "A10"
+SUPPORTED_GPU_TYPES = (
+    "T4",
+    "L4",
+    "A10",
+    "A10G",
+    "L40S",
+    "A100",
+    "A100-40GB",
+    "A100-80GB",
+    "RTX-PRO-6000",
+    "H100",
+    "H100!",
+    "H200",
+    "B200",
+    "B200+",
+)
 
 
 def default_output_path(notebook_path: pathlib.Path) -> pathlib.Path:
@@ -35,7 +52,21 @@ def parse_args() -> argparse.Namespace:
         default=3600,
         help="Per-cell execution timeout passed to nbconvert. Default: 3600.",
     )
-    parser.add_argument("--gpu", action="store_true", help="Run on the Modal A10G GPU function.")
+    parser.add_argument(
+        "--gpu",
+        action="store_true",
+        help=f"Run on a Modal GPU function. Default GPU type: {DEFAULT_GPU_TYPE}.",
+    )
+    parser.add_argument(
+        "--gpu-type",
+        choices=SUPPORTED_GPU_TYPES,
+        default=None,
+        help=(
+            "Modal GPU type to use. Implies --gpu. "
+            f"Default: {DEFAULT_GPU_TYPE}. "
+            f"Choices: {', '.join(SUPPORTED_GPU_TYPES)}."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -81,8 +112,10 @@ def main() -> int:
         "--timeout-seconds",
         str(args.timeout_seconds),
     ]
-    if args.gpu:
+    gpu_type = args.gpu_type or DEFAULT_GPU_TYPE
+    if args.gpu or args.gpu_type is not None:
         command.append("--gpu")
+        command.extend(["--gpu-type", gpu_type])
 
     print("Running on Modal:")
     print(" ".join(command))
