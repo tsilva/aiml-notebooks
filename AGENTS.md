@@ -107,6 +107,26 @@ This runs `scripts/run_modal_notebook.py` with `--gpu` and writes the executed n
 `notebooks/your-notebook.modal.ipynb` unless an explicit output path is provided. Prefer this
 for CUDA-only notebooks such as Unsloth training demos instead of adding CPU/MPS fallbacks.
 
+**Modal GPU types**:
+Modal currently accepts these `gpu=` strings: `T4`, `L4`, `A10`, `L40S`, `A100`,
+`A100-40GB`, `A100-80GB`, `RTX-PRO-6000`, `H100`, `H100!`, `H200`, `B200`, and
+`B200+`. Append a count for multi-GPU containers, for example `gpu="H100:8"`.
+`B200`, `H200`, `H100`, `A100`, `L4`, `T4`, and `L40S` support up to 8 GPUs per
+container; `A10` supports up to 4. `H100` may auto-upgrade to `H200`; use `H100!`
+to avoid that for benchmarking. `A100` may auto-upgrade from 40GB to 80GB; use
+`A100-40GB` or `A100-80GB` when memory size must be fixed. The repo's Modal
+runner accepts `--gpu-type`, defaults to `A10`, and keeps `A10G` as a backwards
+compatible alias for Modal's `A10` class. Use `./run_modal.sh
+notebooks/your-notebook.ipynb --gpu-type L40S` to request a different GPU. Check
+the Modal GPU docs before changing long-lived runner defaults because available
+GPU names and upgrade behavior can change.
+
+Practical Modal GPU selection for this repo:
+- Use `A10` for cheap CUDA smoke tests.
+- Use `L40S` for actual Unsloth QLoRA fine-tuning runs.
+- Use `A100-80GB` or `H100` only if `L40S` still hits memory limits or runtime is
+  the main concern.
+
 **Defensive programming** (testing is expensive):
 - Document expected shapes in comments
 - Assert intermediate shapes

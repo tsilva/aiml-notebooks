@@ -13,10 +13,45 @@ REMOTE_ROOT = pathlib.Path("/workspace/aiml-notebooks")
 app = modal.App("aiml-notebook-runner")
 wandb_secret = modal.Secret.from_name("wandb-secret")
 
+SUPPORTED_GPU_TYPES = (
+    "T4",
+    "L4",
+    "A10",
+    "L40S",
+    "A100",
+    "A100-40GB",
+    "A100-80GB",
+    "RTX-PRO-6000",
+    "H100",
+    "H100!",
+    "H200",
+    "B200",
+    "B200+",
+)
+DEFAULT_GPU_TYPE = "A10"
+GPU_TYPE_ALIASES = {
+    "A10G": "A10",
+}
+
 
 def default_output_path(notebook_path: str) -> str:
     path = pathlib.PurePosixPath(notebook_path)
     return str(path.with_name(f"{path.stem}.modal{path.suffix}"))
+
+
+def normalize_gpu_type(gpu_type: str) -> str:
+    normalized = gpu_type.strip().upper()
+    return GPU_TYPE_ALIASES.get(normalized, normalized)
+
+
+def gpu_function_name(gpu_type: str) -> str:
+    safe_name = (
+        gpu_type.lower()
+        .replace("-", "_")
+        .replace("+", "_plus")
+        .replace("!", "_pinned")
+    )
+    return f"run_notebook_gpu_{safe_name}"
 
 
 image = (
@@ -36,6 +71,7 @@ image = (
         {
             "MPLBACKEND": "Agg",
             "PYTHONPATH": str(REMOTE_ROOT / "src"),
+            "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
             "PYTORCH_ENABLE_MPS_FALLBACK": "1",
         }
     )
@@ -87,9 +123,23 @@ def run_notebook_cpu(notebook_path: str, timeout_seconds: int = 3600) -> bytes:
     return _execute_notebook(notebook_path, timeout_seconds)
 
 
-@app.function(image=image, secrets=[wandb_secret], gpu="A10G", timeout=4 * 60 * 60, cpu=4.0, memory=16384)
-def run_notebook_gpu(notebook_path: str, timeout_seconds: int = 3600) -> bytes:
+def run_notebook_gpu_base(notebook_path: str, timeout_seconds: int = 3600) -> bytes:
     return _execute_notebook(notebook_path, timeout_seconds)
+
+
+def create_gpu_runner(gpu_type: str) -> modal.Function:
+    return app.function(
+        image=image,
+        secrets=[wandb_secret],
+        gpu=gpu_type,
+        timeout=4 * 60 * 60,
+        cpu=4.0,
+        memory=16384,
+        name=gpu_function_name(gpu_type),
+    )(run_notebook_gpu_base)
+
+
+GPU_RUNNERS = {gpu_type: create_gpu_runner(gpu_type) for gpu_type in SUPPORTED_GPU_TYPES}
 
 
 @app.local_entrypoint()
@@ -98,8 +148,16 @@ def main(
     output_path: str = "",
     timeout_seconds: int = 3600,
     gpu: bool = False,
+    gpu_type: str = DEFAULT_GPU_TYPE,
 ):
-    runner = run_notebook_gpu if gpu else run_notebook_cpu
+    selected_gpu_type = normalize_gpu_type(gpu_type)
+    if gpu and selected_gpu_type not in GPU_RUNNERS:
+        supported = ", ".join(SUPPORTED_GPU_TYPES)
+        raise ValueError(f"Unsupported GPU type {gpu_type!r}. Supported GPU types: {supported}")
+
+    runner = GPU_RUNNERS[selected_gpu_type] if gpu else run_notebook_cpu
+    if gpu:
+        print(f"Running notebook on Modal GPU: {selected_gpu_type}")
     executed_notebook = runner.remote(notebook_path, timeout_seconds)
 
     destination = LOCAL_ROOT / (output_path or default_output_path(notebook_path))
