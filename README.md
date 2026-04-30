@@ -1,52 +1,47 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/tsilva/aiml-notebooks/main/logo.png" alt="aiml-notebooks" width="512"/>
-
-  # aiml-notebooks
-
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-  [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB.svg)](https://www.python.org/)
-  [![uv](https://img.shields.io/badge/uv-package%20manager-5C4EE5.svg)](https://docs.astral.sh/uv/)
-  [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg)](https://pytorch.org/)
+  <img src="./logo.png" alt="aiml-notebooks" width="512"/>
 
   **📚 AI/ML Jupyter notebooks for learning deep learning concepts 🧠**
-
-  [Learning Path](#-learning-path) · [Quick Start](#-quick-start) · [Learning Tracks](#-learning-tracks)
 </div>
 
----
+aiml-notebooks is a hands-on AI/ML notebook curriculum for self-study and reference. It starts with numerical computing and mathematical foundations, then moves through classical ML, deep learning, transformers, computer vision, generative models, reinforcement learning, and LLM systems.
 
-## Overview
+The notebooks are ordered by conceptual prerequisites, not alphabetically. Most examples are designed to run locally in Jupyter Lab, with shared helper code in `src/aiml_notebooks` and an optional Modal runner for CUDA-only notebooks.
 
-This repository provides **100+ hands-on Jupyter notebooks** covering machine learning and deep learning. The curriculum starts with a shared foundation, then branches into focused domains like transformers, computer vision, generative models, and reinforcement learning.
+## Install
 
-**Why this repository?**
-- **Conceptual ordering**: Core tiers are sequenced by prerequisites, then later tiers branch into domain-specific tracks
-- **Implementation-first**: Learn by building everything from scratch before using frameworks
-- **Broad coverage**: From linear algebra to transformers, diffusion, and reinforcement learning
-
-## Quick Start
-
-### Prerequisites
-
-- Python 3.11+
-- [uv](https://docs.astral.sh/uv/) package manager
-
-### Installation
+Requirements: Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 git clone https://github.com/tsilva/aiml-notebooks.git
 cd aiml-notebooks
 uv sync
 git config core.hooksPath .githooks
-```
-
-The tracked pre-commit hook strips outputs and execution counts from staged `.ipynb` files before each commit.
-
-### Run Jupyter Lab
-
-```bash
 uv run jupyter lab
 ```
+
+Jupyter Lab prints a local URL in the terminal, usually under `http://localhost:8888/lab`.
+
+## Commands
+
+```bash
+uv sync                                      # install or update the Python environment
+uv run jupyter lab                          # open the notebooks locally
+uv run jupytext --sync notebooks/unsloth-minimal-training.ipynb
+uv run jupyter nbconvert --to notebook --execute --inplace notebooks/numpy-fundamentals.ipynb
+./run_modal.sh notebooks/unsloth-minimal-training.ipynb --gpu-type L40S
+uv run --with wandb --with pyyaml python sweep.py sweeps/classification-image-mlp.yaml notebooks/image-classification-basics.ipynb --count 10
+```
+
+## Notes
+
+- Active notebooks live in `notebooks/`. Archived notebooks are reference material only.
+- The tracked pre-commit hook strips outputs and execution counts from staged `.ipynb` files.
+- The shared package exports helpers such as `create_dataset`, `create_dataloaders`, `get_device`, and `set_seed`.
+- PyTorch uses MPS on Apple Silicon when available; CUDA-focused notebooks should be validated on CUDA hardware or with `./run_modal.sh`.
+- The Modal runner writes executed notebooks beside the source as `*.modal.ipynb` by default and expects Modal credentials, including the `wandb-secret` secret used by training notebooks.
+- The sweep runner is for W&B sweeps and should be used with a config that matches the target notebook parameters.
+- Complete curriculum time is roughly 180-220 hours.
 
 ## Learning Tracks
 
@@ -242,7 +237,7 @@ Advanced transformer adaptation, inference, and deployment topics after Tier 11.
 |----------|-------------|-------|
 | [transformer-fine-tuning-basics](notebooks/transformer-fine-tuning-basics.ipynb) | Full fine-tuning vs frozen backbones, task heads, supervised fine-tuning flow, evaluation/overfitting pitfalls, and when PEFT becomes necessary | |
 | [lora-peft](notebooks/lora-peft.ipynb) | LoRA, QLoRA, and PEFT tradeoffs across full fine-tuning, adapters, and prompt tuning | |
-| [unsloth-minimal-training](notebooks/unsloth-minimal-training.ipynb) | CUDA-only Unsloth LoRA fine-tuning on `tsilva/banking77`, with stratified train/validation split, validation-loss early stopping, validation generation metrics, W&B progress/throughput/device-fit logging, and optional final test-set intent accuracy | |
+| [unsloth-minimal-training](notebooks/unsloth-minimal-training.ipynb) | CUDA-only Unsloth LoRA fine-tuning on `tsilva/banking77`, with stepwise stratified splitting, chat formatting, an L40S speed profile, validation-loss early stopping, W&B progress/ETA/throughput/device-fit logging, and optional batched generation/test-set intent accuracy | |
 | [instruction-tuning-and-alignment](notebooks/instruction-tuning-and-alignment.ipynb) | Instruction tuning, chat formatting, preference optimization concepts, and where DPO/RLHF fit | |
 | [gpu-hardware-basics](notebooks/gpu-hardware-basics.ipynb) | CUDA cores, memory hierarchy, Tensor Cores, and why hardware shapes LLM systems | |
 | [flash-attention](notebooks/flash-attention.ipynb) | Memory-efficient attention with tiling | Advanced |
@@ -365,19 +360,7 @@ Beyond standard supervised learning.
 |----------|-------------|-------|
 | [chip8-emulator](notebooks/chip8-emulator.ipynb) | CHIP-8 emulator: fetch-decode-execute | |
 
----
-
-## Advanced Usage
-
-### Hyperparameter Sweeps
-
-```bash
-uv run python sweep.py path/to/config.yaml notebooks/your-notebook.ipynb --count 10
-```
-
-Use any W&B sweep YAML that matches the parameters exposed by your notebook.
-
-### Shared Library
+## Shared Library
 
 ```python
 from aiml_notebooks import CharacterTokenizer, create_dataset, create_dataloaders, get_device, set_seed
@@ -386,14 +369,10 @@ from aiml_notebooks import CharacterTokenizer, create_dataset, create_dataloader
 %autoreload 2  # Hot reload during development
 ```
 
----
+## Architecture
+
+![aiml-notebooks architecture](./architecture.png)
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----
-
-<div align="center">
-  <sub>Total estimated time for complete curriculum: ~180-220 hours</sub>
-</div>
