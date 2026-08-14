@@ -369,6 +369,14 @@ from aiml_notebooks import CharacterTokenizer, create_dataset, create_dataloader
 %autoreload 2  # Hot reload during development
 ```
 
+## Local credentials
+
+Private local values declared in `.keyenv.toml` live in macOS Keychain. Run
+`keyenv doctor` to verify them and launch credential-dependent commands with
+`keyenv run -- <command>`. Python, Node, and their child processes receive the
+values through their normal environment APIs. Keep only public or non-secret
+configuration in dotenv files.
+
 ## Architecture
 
 ![aiml-notebooks architecture](./architecture.png)

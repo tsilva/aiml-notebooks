@@ -6,6 +6,24 @@ resolution-markers = [
     "python_full_version < '3.12'",
 ]
 
+[options]
+exclude-newer = "0001-01-01T00:00:00Z" # This has no effect and is included for backwards compatibility when using relative exclude-newer values.
+exclude-newer-span = "P7D"
+
+[options.exclude-newer-package]
+stable-retro-turbo = "2026-08-13T20:30:00Z"
+vizdoom-turbo = "2026-08-13T20:30:00Z"
+gradoom = "2026-08-13T20:30:00Z"
+supermariobrosnes-turbo = "2026-08-13T20:30:00Z"
+breakout-turbo-env = "2026-08-13T20:30:00Z"
+gradlab = false
+
+[manifest]
+constraints = [
+    { name = "guardrails-ai", specifier = "!=0.10.1" },
+    { name = "mistralai", specifier = "!=2.4.6" },
+]
+
 [[package]]
 name = "aiml-notebooks"
 version = "0.1.0"
