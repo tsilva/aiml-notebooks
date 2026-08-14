@@ -8,8 +8,8 @@ license = { text = "MIT" }
 dependencies = [
     "matplotlib>=3.10.8",
     "numpy>=2.4.4",
-    "torch>=2.11.0",
-    "torchvision>=0.26.0",
+    "torch>=2.13,<2.14",
+    "torchvision>=0.28,<0.29",
 ]
 
 [build-system]
@@ -21,6 +21,12 @@ exclude-newer = "7 days"
 constraint-dependencies = [
   "mistralai!=2.4.6",
   "guardrails-ai!=0.10.1",
+  "bleach>=6.4",
+  "mistune>=3.3",
+  "pillow>=12.3",
+  "setuptools>=83",
+  "soupsieve>=2.8.4",
+  "tornado>=6.5.7",
 ]
 # Package enabled to allow shared utilities to be imported from notebooks
 package = true
@@ -46,4 +52,6 @@ dev = [
     "ipykernel>=7.2.0",
     "jupytext>=1.19.1",
     "nbconvert>=7.17.1",
+    "pytest>=9,<10",
+    "ruff>=0.15,<0.16",
 ]
