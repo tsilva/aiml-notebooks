@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          cache: true
+      - run: uv lock --check --no-config --exclude-newer "7 days"
+      - run: uv sync --frozen --group dev --no-config
+      - run: uv audit --frozen --no-config
+      # The application library predates Ruff and carries unrelated lint debt.
+      # Keep new remediation tests clean without silently rewriting that code.
+      - run: uv run --no-sync ruff check tests
+      - run: uv run --no-sync pytest -q
