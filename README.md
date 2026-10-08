@@ -1,8 +1,10 @@
-<div align="center">
+<p align="center">
   <img src="./logo.png" alt="aiml-notebooks" width="512"/>
-
-  **📚 AI/ML Jupyter notebooks for learning deep learning concepts 🧠**
-</div>
+  <br />
+  <!-- repo-tagline:start -->
+  <strong>📚 AI/ML Jupyter notebooks for learning deep learning concepts 🧠</strong>
+  <!-- repo-tagline:end -->
+</p>
 
 aiml-notebooks is a hands-on AI/ML notebook curriculum for self-study and reference. It starts with numerical computing and mathematical foundations, then moves through classical ML, deep learning, transformers, computer vision, generative models, reinforcement learning, and LLM systems.
 
