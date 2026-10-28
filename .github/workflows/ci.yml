@@ -19,12 +19,12 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
-      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
-          cache: true
-      - run: uv lock --check --no-config --exclude-newer "7 days"
-      - run: uv sync --frozen --group dev --no-config
-      - run: uv audit --frozen --no-config
+          enable-cache: true
+      - run: uv lock --check
+      - run: uv sync --frozen --group dev
+      - run: uv audit --frozen
       # The application library predates Ruff and carries unrelated lint debt.
       # Keep new remediation tests clean without silently rewriting that code.
       - run: uv run --no-sync ruff check tests
