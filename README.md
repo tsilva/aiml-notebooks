@@ -371,6 +371,12 @@ from aiml_notebooks import CharacterTokenizer, create_dataset, create_dataloader
 %autoreload 2  # Hot reload during development
 ```
 
+## Notebook maintenance
+
+`.repoman.json` enables RepoMan's notebook-hygiene check. It reports saved error
+outputs or serialized code-cell outputs above the default 256 KiB per notebook.
+The check reads notebooks without executing them or clearing their outputs.
+
 ## Local credentials
 
 `.access.toml` declares the `wandb` access profile and its required
