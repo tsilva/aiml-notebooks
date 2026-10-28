@@ -373,11 +373,37 @@ from aiml_notebooks import CharacterTokenizer, create_dataset, create_dataloader
 
 ## Local credentials
 
-Private local values declared in `.keyenv.toml` live in macOS Keychain. Run
-`keyenv doctor` to verify them and launch credential-dependent commands with
-`keyenv run -- <command>`. Python, Node, and their child processes receive the
-values through their normal environment APIs. Keep only public or non-secret
-configuration in dotenv files.
+`.access.toml` declares the `wandb` access profile and its required
+`WANDB_API_KEY` environment variable. Each operator supplies a complete
+`[bindings.wandb]` Infisical binding in `.access.local.toml` with `version = 1`,
+`provider`, `instance`, `project_id`, `environment`, and `path`. The local file
+contains references only, is Git-ignored, and must have permissions `0600`.
+Neither file stores secret values. A local binding replaces the entire shared
+binding for that profile.
+
+Install the Infisical CLI and authenticate with `infisical login`. Resolve the
+profile's binding before running a command that needs W&B. With the placeholders
+below replaced by the corresponding binding fields, use native process-scoped
+injection:
+
+```sh
+infisical run --projectId=PROJECT_ID --env=ENVIRONMENT --path=FOLDER \
+  --domain=INSTANCE --expand=false --include-imports=false \
+  --silent --telemetry=false -- uv run YOUR_COMMAND
+```
+
+Use a dedicated folder containing only `WANDB_API_KEY`, rather than injecting
+Production's root or importing other folders. Verify the folder's variable names
+match the profile before first use. Verify injection with a child process that
+checks only whether the variable is present; never list or print secret values.
+Credentials reach only the selected command and its children. Keep only public
+or non-secret configuration in dotenv files.
+
+`.access.toml` and `.access.local.toml` are access metadata, not files that the
+Infisical CLI loads automatically. Pass their resolved binding fields explicitly
+as shown above. This workflow replaces the retired `.keyenv.toml` setup and does
+not require `.infisical.json`. The Modal runner retains its existing managed
+`wandb-secret` workflow.
 
 ## Architecture
 

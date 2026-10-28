@@ -80,3 +80,6 @@ tmp/
 var/
 wandb/
 wheels/
+
+# Operator-local credential bindings (references only).
+/.access.local.toml
