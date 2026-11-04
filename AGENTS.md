@@ -7,8 +7,8 @@ AI/ML Jupyter notebooks for learning and experimentation. Shared utilities in `s
 **Package Manager**: Use `uv` (NOT conda or pip). Always use `uv run` to execute commands.
 
 ```bash
-uv sync                    # Install/sync dependencies
-uv run jupyter lab         # Run Jupyter Lab
+uv sync --frozen --python 3.12  # Install locked dependencies with the CI Python version
+uv run --frozen jupyter lab    # Run Jupyter Lab
 uv lock --upgrade && uv sync  # Update dependencies
 ```
 
@@ -98,6 +98,11 @@ uv run jupyter nbconvert --to notebook --execute --inplace notebooks/your-notebo
 **Remote CUDA notebooks with Modal**:
 Use Modal for notebooks that intentionally require CUDA and cannot be validated locally on
 Apple Silicon or CPU-only machines.
+
+The runner is retained for historical reference. Its Modal gRPC client is not compatible
+with the approved HTTP credential proxy. Do not launch authenticated Modal runs until a
+compatible credential route has been separately reviewed; never inject raw keys as a
+fallback. Local runtime tests and the NumPy smoke test do not need service credentials.
 
 ```bash
 ./run_modal.sh notebooks/your-notebook.ipynb

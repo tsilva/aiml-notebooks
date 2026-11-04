@@ -48,6 +48,7 @@ logs/
 # >>> END MANAGED <<<
 
 # Project-specific rules
+/.internal/
 *$py.class
 *.ckpt
 *.egg
@@ -74,6 +75,7 @@ notebooks/output
 notebooks/tmp
 notebooks/wandb
 notebooks/*.py
+notebooks/*.modal.ipynb
 parts/
 sdist/
 tmp/

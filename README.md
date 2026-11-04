@@ -6,20 +6,34 @@
   <!-- repo-tagline:end -->
 </p>
 
+## Project direction
+
+New course development lives in focused repositories such as
+[course-aiml-autoencoders](https://github.com/tsilva/course-aiml-autoencoders).
+[AIgrounds](https://github.com/tsilva/aigrounds) is the home for interactive
+lessons and practice. Some AIgrounds lessons derived from this collection are
+still planned; a source mapping does not mean a replacement lesson is published.
+
+This collection remains available as historical reference and teaching source
+material. Notebook paths, archived examples, and the shared library are preserved
+so existing references and bootstrap links continue to work. The learning path
+below indexes the original collection.
+
 aiml-notebooks is a hands-on AI/ML notebook curriculum for self-study and reference. It starts with numerical computing and mathematical foundations, then moves through classical ML, deep learning, transformers, computer vision, generative models, reinforcement learning, and LLM systems.
 
 The notebooks are ordered by conceptual prerequisites, not alphabetically. Most examples are designed to run locally in Jupyter Lab, with shared helper code in `src/aiml_notebooks` and an optional Modal runner for CUDA-only notebooks.
 
 ## Install
 
-Requirements: Python 3.11+ and [uv](https://docs.astral.sh/uv/).
+Requirements: Python 3.11+ and [uv](https://docs.astral.sh/uv/). Python 3.12 is used
+by CI and is the recommended starting point.
 
 ```bash
 git clone https://github.com/tsilva/aiml-notebooks.git
 cd aiml-notebooks
-uv sync
+uv sync --frozen --python 3.12
 git config core.hooksPath .githooks
-uv run jupyter lab
+uv run --frozen jupyter lab
 ```
 
 Jupyter Lab prints a local URL in the terminal, usually under `http://localhost:8888/lab`.
@@ -27,13 +41,26 @@ Jupyter Lab prints a local URL in the terminal, usually under `http://localhost:
 ## Commands
 
 ```bash
-uv sync                                      # install or update the Python environment
-uv run jupyter lab                          # open the notebooks locally
-uv run jupytext --sync notebooks/unsloth-minimal-training.ipynb
-uv run jupyter nbconvert --to notebook --execute --inplace notebooks/numpy-fundamentals.ipynb
-./run_modal.sh notebooks/unsloth-minimal-training.ipynb --gpu-type L40S
-uv run --with wandb --with pyyaml python sweep.py sweeps/classification-image-mlp.yaml notebooks/image-classification-basics.ipynb --count 10
+uv sync --frozen --python 3.12                # install the locked environment
+uv run --frozen jupyter lab                  # open the notebooks locally
+uv run --frozen jupytext --sync notebooks/unsloth-minimal-training.ipynb
+uv run --frozen jupyter nbconvert --to notebook --execute notebooks/numpy-fundamentals.ipynb --output numpy-fundamentals.executed --output-dir /tmp
 ```
+
+The execution example writes a separate notebook to the system temporary
+directory and leaves the source unchanged. Notebook-specific dependencies,
+dataset downloads, service credentials, and CUDA requirements vary; the base
+environment does not promise that every historical example runs unchanged.
+
+Optional service commands, once compatible credentials are configured:
+
+```bash
+./run_modal.sh notebooks/unsloth-minimal-training.ipynb --gpu-type L40S
+uv run --frozen --with wandb --with pyyaml python sweep.py sweeps/classification-image-mlp.yaml notebooks/image-classification-basics.ipynb --count 10
+```
+
+These commands can start remote work. Review the service requirements below
+before using them.
 
 ## Notes
 
@@ -41,7 +68,7 @@ uv run --with wandb --with pyyaml python sweep.py sweeps/classification-image-ml
 - The tracked pre-commit hook strips outputs and execution counts from staged `.ipynb` files.
 - The shared package exports helpers such as `create_dataset`, `create_dataloaders`, `get_device`, and `set_seed`.
 - PyTorch uses MPS on Apple Silicon when available; CUDA-focused notebooks should be validated on CUDA hardware or with `./run_modal.sh`.
-- The Modal runner writes executed notebooks beside the source as `*.modal.ipynb` by default and expects Modal credentials, including the `wandb-secret` secret used by training notebooks.
+- The Modal runner writes ignored executed notebooks beside the source as `*.modal.ipynb` by default and expects Modal credentials, including the `wandb-secret` secret used by training notebooks. Its gRPC client is incompatible with the currently approved HTTP credential proxy; the managed runner is retained for reference, but proxy-based authentication is not supported.
 - The sweep runner is for W&B sweeps and should be used with a config that matches the target notebook parameters.
 - Complete curriculum time is roughly 180-220 hours.
 
@@ -377,6 +404,21 @@ from aiml_notebooks import CharacterTokenizer, create_dataset, create_dataloader
 outputs or serialized code-cell outputs above the default 256 KiB per notebook.
 The check reads notebooks without executing them or clearing their outputs.
 
+To repeat the local CI checks without running training jobs:
+
+```bash
+uv lock --check
+uv sync --frozen --python 3.12 --group dev
+uv audit --frozen
+uv run --frozen ruff check tests
+uv run --frozen pytest -q
+```
+
+CI covers the runtime tests, dependency audit, and secret scanning; it does not
+execute the complete notebook collection. The NumPy execution command above is
+a lightweight smoke test. CUDA, Modal, W&B, and full training runs require
+separate verification.
+
 ## Local credentials
 
 `.access.toml` declares the `wandb` access profile and its required
@@ -387,29 +429,19 @@ contains references only, is Git-ignored, and must have permissions `0600`.
 Neither file stores secret values. A local binding replaces the entire shared
 binding for that profile.
 
-Install the Infisical CLI and authenticate with `infisical login`. Resolve the
-profile's binding before running a command that needs W&B. With the placeholders
-below replaced by the corresponding binding fields, use native process-scoped
-injection:
+These legacy files describe credential sources; they do not configure a proxy,
+grant service permissions, or get loaded automatically by the Infisical CLI.
+There is no verified repository-scoped W&B proxy launcher in this collection.
+Before a credential-bearing run, configure and verify a compatible sandboxed
+Infisical agent-proxy route with the reviewed source binding, an explicitly
+pinned trusted HTTPS instance, and blocked unmatched hosts. Check the client
+with fake credentials before a bounded authenticated check. Do not substitute
+another project's credentials or fall back to raw key injection.
 
-```sh
-infisical run --projectId=PROJECT_ID --env=ENVIRONMENT --path=FOLDER \
-  --domain=INSTANCE --expand=false --include-imports=false \
-  --silent --telemetry=false -- uv run YOUR_COMMAND
-```
-
-Use a dedicated folder containing only `WANDB_API_KEY`, rather than injecting
-Production's root or importing other folders. Verify the folder's variable names
-match the profile before first use. Verify injection with a child process that
-checks only whether the variable is present; never list or print secret values.
-Credentials reach only the selected command and its children. Keep only public
-or non-secret configuration in dotenv files.
-
-`.access.toml` and `.access.local.toml` are access metadata, not files that the
-Infisical CLI loads automatically. Pass their resolved binding fields explicitly
-as shown above. This workflow replaces the retired `.keyenv.toml` setup and does
-not require `.infisical.json`. The Modal runner retains its existing managed
-`wandb-secret` workflow.
+The Modal runner retains its existing managed `wandb-secret` workflow, but its
+gRPC authentication needs separate compatibility review. No local service
+credentials are required for the runtime tests or the NumPy smoke test. Keep
+secret values out of notebooks, output files, and access metadata.
 
 ## Architecture
 
