@@ -1,3 +1,10 @@
+<!-- archive-repo:deprecation-notice:start -->
+> [!WARNING]
+> **Deprecated**
+>
+> New teaching work continues in focused course repositories such as [course-aiml-autoencoders](https://github.com/tsilva/course-aiml-autoencoders) and in [AIgrounds](https://github.com/tsilva/aigrounds). This collection is preserved for reference.
+<!-- archive-repo:deprecation-notice:end -->
+
 <p align="center">
   <img src="./logo.png" alt="aiml-notebooks" width="512"/>
   <br />
@@ -5,19 +12,6 @@
   <strong>📚 AI/ML Jupyter notebooks for learning deep learning concepts 🧠</strong>
   <!-- repo-tagline:end -->
 </p>
-
-## Project direction
-
-New course development lives in focused repositories such as
-[course-aiml-autoencoders](https://github.com/tsilva/course-aiml-autoencoders).
-[AIgrounds](https://github.com/tsilva/aigrounds) is the home for interactive
-lessons and practice. Some AIgrounds lessons derived from this collection are
-still planned; a source mapping does not mean a replacement lesson is published.
-
-This collection remains available as historical reference and teaching source
-material. Notebook paths, archived examples, and the shared library are preserved
-so existing references and bootstrap links continue to work. The learning path
-below indexes the original collection.
 
 aiml-notebooks is a hands-on AI/ML notebook curriculum for self-study and reference. It starts with numerical computing and mathematical foundations, then moves through classical ML, deep learning, transformers, computer vision, generative models, reinforcement learning, and LLM systems.
 
