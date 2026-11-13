@@ -413,30 +413,6 @@ execute the complete notebook collection. The NumPy execution command above is
 a lightweight smoke test. CUDA, Modal, W&B, and full training runs require
 separate verification.
 
-## Local credentials
-
-`.access.toml` declares the `wandb` access profile and its required
-`WANDB_API_KEY` environment variable. Each operator supplies a complete
-`[bindings.wandb]` Infisical binding in `.access.local.toml` with `version = 1`,
-`provider`, `instance`, `project_id`, `environment`, and `path`. The local file
-contains references only, is Git-ignored, and must have permissions `0600`.
-Neither file stores secret values. A local binding replaces the entire shared
-binding for that profile.
-
-These legacy files describe credential sources; they do not configure a proxy,
-grant service permissions, or get loaded automatically by the Infisical CLI.
-There is no verified repository-scoped W&B proxy launcher in this collection.
-Before a credential-bearing run, configure and verify a compatible sandboxed
-Infisical agent-proxy route with the reviewed source binding, an explicitly
-pinned trusted HTTPS instance, and blocked unmatched hosts. Check the client
-with fake credentials before a bounded authenticated check. Do not substitute
-another project's credentials or fall back to raw key injection.
-
-The Modal runner retains its existing managed `wandb-secret` workflow, but its
-gRPC authentication needs separate compatibility review. No local service
-credentials are required for the runtime tests or the NumPy smoke test. Keep
-secret values out of notebooks, output files, and access metadata.
-
 ## Architecture
 
 ![aiml-notebooks architecture](./architecture.png)

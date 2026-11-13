@@ -1,5 +1,0 @@
-version = 1
-
-[profiles.wandb]
-description = "Weights & Biases logging for local notebook experiments."
-variables = ["WANDB_API_KEY"]
